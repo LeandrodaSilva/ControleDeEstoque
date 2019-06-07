@@ -5,11 +5,13 @@
  */
 package model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author ld_si
  */
-public class Login {
+public class Login implements Serializable{
     private String userName;
     private String salt;
     private String hash;
@@ -24,6 +26,15 @@ public class Login {
         this.userName = "";
         this.salt = "";
         this.hash = "";
+    }
+    
+    @Override
+    public String toString() {
+        if (this != null) {
+            return (userName +"  "+salt+" "+hash);
+        } else {
+            return (null);
+        }
     }
     
     public String getUserName() {

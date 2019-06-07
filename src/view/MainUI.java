@@ -44,12 +44,25 @@ public final class MainUI extends javax.swing.JFrame {
         initComponents();
         confModelItem(dtmItem);
         confModelProvider(dtmProvider);
-        if (!Sgbd.notExist(Sgbd.DIRITEM)) {
-            try {
-                populaTabelaItem();
-            } catch (IOException ex) {
-                System.out.println("Erro ao popular a tabela itens");
-            }
+        switch (Sgbd.readSettings().getMode()) {
+            case 0:
+                if (!Sgbd.notExist(Sgbd.DIRITEM)) {
+                    try {
+                        populaTabelaItem();
+                    } catch (IOException ex) {
+                        System.out.println("Erro ao popular a tabela itens");
+                    }
+                }
+                break;
+            case 1:
+                if (!Sgbd.notExist(Sgbd.DIRITEMB)) {
+                    try {
+                        populaTabelaItem();
+                    } catch (IOException ex) {
+                        System.out.println("Erro ao popular a tabela itens");
+                    }
+                    break;
+                }
         }
     }
 
@@ -351,18 +364,24 @@ public final class MainUI extends javax.swing.JFrame {
             }
             break;
             case "Fornecedor": {
-                try {
-                    if (!Sgbd.notExist(Sgbd.DIRPROVIDER)) {
-                        populaTabelaProvider();
-                        jTable.setModel(dtmProvider);
-                    } else {
-                        dtmItem.setNumRows(0);
-                        dtmProvider.setNumRows(0);
-                        jTable.setModel(dtmProvider);
+                if (Sgbd.readSettings().getMode() == 1) {
+                    jComboBoxType.setSelectedIndex(0);
+                    JOptionPane.showMessageDialog(rootPane, "Essa tabela está inativa no modo binário", "Alerta", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    try {
+                        if (!Sgbd.notExist(Sgbd.DIRPROVIDER)) {
+                            populaTabelaProvider();
+                            jTable.setModel(dtmProvider);
+                        } else {
+                            dtmItem.setNumRows(0);
+                            dtmProvider.setNumRows(0);
+                            jTable.setModel(dtmProvider);
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } catch (IOException ex) {
-                    Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
+
             }
             break;
         }
@@ -373,9 +392,60 @@ public final class MainUI extends javax.swing.JFrame {
             jComboBoxType.setSelectedIndex(0);
         }
         if (evt.getWheelRotation() > 0) {
-            jComboBoxType.setSelectedIndex(1);
+            if (Sgbd.readSettings().getMode() == 1) {
+                JOptionPane.showMessageDialog(rootPane, "Essa tabela está inativa no modo binário", "Alerta", JOptionPane.WARNING_MESSAGE);
+            } else {
+                jComboBoxType.setSelectedIndex(1);
+            }
         }
     }//GEN-LAST:event_jComboBoxTypeMouseWheelMoved
+
+    public static void start() {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(MainUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(MainUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(MainUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MainUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new MainUI().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonClose;
+    private javax.swing.JButton jButtonEdit;
+    private javax.swing.JButton jButtonInsert;
+    private javax.swing.JButton jButtonMinimizar;
+    private javax.swing.JComboBox<String> jComboBoxType;
+    private javax.swing.JLabel jLabelBackground;
+    private javax.swing.JLabel jLabelSearch;
+    private javax.swing.JLabel jLabelShow;
+    private javax.swing.JLabel jLabelTittle;
+    private javax.swing.JScrollPane jScrollPane1;
+    public javax.swing.JTable jTable;
+    private javax.swing.JTextField jTextFieldSearch;
+    // End of variables declaration//GEN-END:variables
 
     public void populaTabelaItem() throws IOException {
         String[] linha = new String[5];
@@ -387,7 +457,7 @@ public final class MainUI extends javax.swing.JFrame {
         };
         confModelItem(dtmItem);
 
-        MainUI.itens = Sgbd.readItem();
+        MainUI.itens = (ArrayList<Item>) Sgbd.readItem();
         int size = itens.size();
         Item item;
 
@@ -421,7 +491,7 @@ public final class MainUI extends javax.swing.JFrame {
         };
         confModelProvider(dtmProvider);
 
-        MainUI.providers = Sgbd.readProvider();
+        MainUI.providers = (ArrayList<Provider>) Sgbd.readProvider();
         int size = providers.size();
         Provider provider;
 
@@ -503,50 +573,4 @@ public final class MainUI extends javax.swing.JFrame {
         dtm.addColumn("Endereço");
     }
 
-    public static void start() {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainUI().setVisible(true);
-            }
-        });
-    }
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonClose;
-    private javax.swing.JButton jButtonEdit;
-    private javax.swing.JButton jButtonInsert;
-    private javax.swing.JButton jButtonMinimizar;
-    private javax.swing.JComboBox<String> jComboBoxType;
-    private javax.swing.JLabel jLabelBackground;
-    private javax.swing.JLabel jLabelSearch;
-    private javax.swing.JLabel jLabelShow;
-    private javax.swing.JLabel jLabelTittle;
-    private javax.swing.JScrollPane jScrollPane1;
-    public javax.swing.JTable jTable;
-    private javax.swing.JTextField jTextFieldSearch;
-    // End of variables declaration//GEN-END:variables
 }

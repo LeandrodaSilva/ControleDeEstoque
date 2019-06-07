@@ -5,7 +5,7 @@
  */
 package control;
 
-import model.Settings;
+
 import view.LoginUI;
 
 /**
@@ -14,12 +14,8 @@ import view.LoginUI;
  */
 public class Main {
     public static void main(String[] args) {
-        Sgbd.makeDir();
-//        if (!Sgbd.notExist(Sgbd.DIRSETTINGS)) {
-//            Sgbd.writeSettings(new Settings(0));
-//        }
+        Sgbd.start();
         LoginUI loginUI = new LoginUI(Sgbd.readSettings().getMode());
         loginUI.start();
-       
     }
 }

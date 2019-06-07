@@ -5,11 +5,13 @@
  */
 package model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author ld_si
  */
-public class Provider {
+public class Provider implements Serializable{
     private String name;
     private String cnpj;
     private String adress;

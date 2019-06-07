@@ -13,7 +13,6 @@ import javax.swing.JOptionPane;
 import model.Login;
 import model.Settings;
 
-
 /**
  *
  * @author ld_si
@@ -23,15 +22,12 @@ public class LoginUI extends javax.swing.JFrame {
     /**
      * Creates new form LoginUI
      */
-    
     private Point point = new Point();
-    
-    
+
     public LoginUI() {
         initComponents();
     }
-    
-    
+
     public LoginUI(int mode) {
         initComponents();
         setMode(mode);
@@ -113,20 +109,17 @@ public class LoginUI extends javax.swing.JFrame {
         getContentPane().add(jButtonClose);
         jButtonClose.setBounds(760, 10, 30, 30);
 
-        jLabelUser.setForeground(new java.awt.Color(0, 0, 0));
         jLabelUser.setText("Usuário");
         jLabelUser.setFocusable(false);
         getContentPane().add(jLabelUser);
-        jLabelUser.setBounds(220, 260, 80, 15);
+        jLabelUser.setBounds(220, 260, 80, 14);
 
-        jLabelPasswd.setForeground(new java.awt.Color(0, 0, 0));
         jLabelPasswd.setText("Senha");
         jLabelPasswd.setFocusable(false);
         getContentPane().add(jLabelPasswd);
-        jLabelPasswd.setBounds(221, 320, 70, 15);
+        jLabelPasswd.setBounds(221, 320, 70, 14);
 
         jLabelTitle.setFont(jLabelTitle.getFont().deriveFont(jLabelTitle.getFont().getSize()+24f));
-        jLabelTitle.setForeground(new java.awt.Color(0, 0, 0));
         jLabelTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelTitle.setText("Controle de Estoque");
         jLabelTitle.setFocusable(false);
@@ -143,14 +136,14 @@ public class LoginUI extends javax.swing.JFrame {
         jLabelUserError.setText("Insira o usuário");
         jLabelUserError.setFocusable(false);
         getContentPane().add(jLabelUserError);
-        jLabelUserError.setBounds(510, 260, 190, 15);
+        jLabelUserError.setBounds(510, 260, 190, 14);
         jLabelUserError.setVisible(false);
 
         jLabelPasswdError.setForeground(new java.awt.Color(255, 0, 0));
         jLabelPasswdError.setText("Insira a senha");
         jLabelPasswdError.setFocusable(false);
         getContentPane().add(jLabelPasswdError);
-        jLabelPasswdError.setBounds(510, 320, 150, 15);
+        jLabelPasswdError.setBounds(510, 320, 150, 14);
         jLabelPasswdError.setVisible(false);
 
         jButtonNew.setText("Cadastrar");
@@ -183,26 +176,23 @@ public class LoginUI extends javax.swing.JFrame {
         getContentPane().add(jSliderMode);
         jSliderMode.setBounds(340, 390, 150, 30);
 
-        jLabelMode.setForeground(new java.awt.Color(0, 0, 0));
         jLabelMode.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelMode.setText("Modo de gravação");
         getContentPane().add(jLabelMode);
-        jLabelMode.setBounds(340, 370, 150, 15);
+        jLabelMode.setBounds(340, 370, 150, 14);
 
-        jLabelT.setForeground(new java.awt.Color(0, 0, 0));
         jLabelT.setText("Texto");
         getContentPane().add(jLabelT);
-        jLabelT.setBounds(270, 400, 39, 15);
+        jLabelT.setBounds(270, 400, 28, 14);
         if(Sgbd.readSettings().getMode() == 0){
             jLabelT.setVisible(true);
         }else{
             jLabelT.setVisible(false);
         }
 
-        jLabelB.setForeground(new java.awt.Color(0, 0, 0));
         jLabelB.setText("Binário");
         getContentPane().add(jLabelB);
-        jLabelB.setBounds(510, 400, 50, 15);
+        jLabelB.setBounds(510, 400, 32, 14);
         jLabelB.setVisible(false);
 
         if(Sgbd.readSettings().getMode() == 1){
@@ -232,28 +222,34 @@ public class LoginUI extends javax.swing.JFrame {
     }//GEN-LAST:event_formMouseDragged
 
     private void jButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCloseActionPerformed
-        if (JOptionPane.showConfirmDialog(rootPane, 
-                "Deseja realmente sair?", "Confirmação", 
-                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) 
+        if (JOptionPane.showConfirmDialog(rootPane,
+                "Deseja realmente sair?", "Confirmação",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
             System.exit(0);
+        }
     }//GEN-LAST:event_jButtonCloseActionPerformed
 
     private void jButtonEnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnterActionPerformed
         Login user;
         try {
-            user = Sgbd.readUser();
-            if (checkBox()&&Security.loginCheck(jTextFieldUser.getText(), jPasswordFieldPasswd.getText(), user)) {
-                System.out.println("Acesso permitido");
-                this.setVisible(false);
-                MainUI mainUI = new MainUI();
-                mainUI.start();
-            }else{
-                jLabelLoginError.setVisible(true);
+            if (!Sgbd.notExist(Sgbd.DIRUSERB)) {
+                user = (Login) Sgbd.readUser();
+                if (checkBox() && Security.loginCheck(jTextFieldUser.getText(), jPasswordFieldPasswd.getText(), user)) {
+                    System.out.println("Acesso permitido");
+                    this.setVisible(false);
+                    MainUI mainUI = new MainUI();
+                    mainUI.start();
+                } else {
+                    jLabelLoginError.setVisible(true);
+                }
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Cadastre um usuário", "Alerta", JOptionPane.WARNING_MESSAGE);
             }
+
         } catch (IOException ex) {
             jLabelLoginError.setVisible(true);
             JOptionPane.showMessageDialog(rootPane, "Cadastre um usuário", "Alerta", JOptionPane.WARNING_MESSAGE);
-        }   
+        }
     }//GEN-LAST:event_jButtonEnterActionPerformed
 
     private void jButtonNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewActionPerformed
@@ -261,11 +257,11 @@ public class LoginUI extends javax.swing.JFrame {
         insertUserUI.setVisible(true);
         insertUserUI.loginUI = this;
         this.setEnabled(false);
-        
+
     }//GEN-LAST:event_jButtonNewActionPerformed
 
     private void jSliderModeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderModeStateChanged
-        switch(jSliderMode.getValue()){
+        switch (jSliderMode.getValue()) {
             case 1:
                 jLabelT.setVisible(false);
                 jLabelB.setVisible(true);
@@ -277,7 +273,7 @@ public class LoginUI extends javax.swing.JFrame {
         }
         Sgbd.writeSettings(new Settings(jSliderMode.getValue()));
     }//GEN-LAST:event_jSliderModeStateChanged
-    
+
     public static void start() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -329,27 +325,27 @@ public class LoginUI extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldUser;
     // End of variables declaration//GEN-END:variables
 
-    private Boolean checkBox(){
+    private Boolean checkBox() {
         int i = 0;
         if (jTextFieldUser.getText().equals("")) {
             i++;
             jLabelUserError.setVisible(true);
             jTextFieldUser.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
-        }else{
+        } else {
             jLabelUserError.setVisible(false);
             jTextFieldUser.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         }
-        if(jPasswordFieldPasswd.getText().equals("")){
+        if (jPasswordFieldPasswd.getText().equals("")) {
             i++;
             jLabelPasswdError.setVisible(true);
             jPasswordFieldPasswd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
-        }else{
+        } else {
             jLabelPasswdError.setVisible(false);
             jPasswordFieldPasswd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         }
         return i <= 0;
     }
-    
+
     private void setMode(int mode) {
         jSliderMode.setValue(mode);
     }

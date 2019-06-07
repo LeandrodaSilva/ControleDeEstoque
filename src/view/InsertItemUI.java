@@ -27,7 +27,7 @@ public class InsertItemUI extends javax.swing.JFrame {
     public Item item;
     private static ArrayList<Item> itens;
     public String option;
-    
+
     public InsertItemUI() {
         this.item = new Item();
         initComponents();
@@ -215,20 +215,51 @@ public class InsertItemUI extends javax.swing.JFrame {
                         break;
                     }
                 }
-                Sgbd.deleteData(Sgbd.DIRITEM);
-                for (int i = 0; i < itens.size(); i++) {
-                    Sgbd.writeItem(itens.get(i));
+                if (Sgbd.readSettings().getMode() == 0) {
+                    Sgbd.deleteData(Sgbd.DIRITEM);
+                    for (int i = 0; i < itens.size(); i++) {
+                        Sgbd.writeItem(itens.get(i));
+                    }
+                } else {
+                    Sgbd.deleteData(Sgbd.DIRITEMB);
+                    Sgbd.writeItem(itens);
                 }
+
             } else {
                 setItemCode();
-                Sgbd.writeItem(item);
+
+                switch (Sgbd.readSettings().getMode()) {
+                    case 0:
+                        Sgbd.writeItem(item);
+                        break;
+                    case 1:
+                        ArrayList<Item> itens = Sgbd.readItem();
+                        if (itens == null) {
+                            itens = new ArrayList();
+                        }
+                        itens.add(item);
+                        Sgbd.writeItem(itens);
+                        break;
+
+                }
             }
-            
-            if (Sgbd.notExist(Sgbd.DIRITEM)) {
-                mainUI.populaTabelaItem(item);
-            } else {
-                mainUI.populaTabelaItem();
+            switch (Sgbd.readSettings().getMode()) {
+                case 0:
+                    if (Sgbd.notExist(Sgbd.DIRITEM)) {
+                        mainUI.populaTabelaItem(item);
+                    } else {
+                        mainUI.populaTabelaItem();
+                    }
+                    break;
+                case 1:
+                    if (Sgbd.notExist(Sgbd.DIRITEMB)) {
+                        mainUI.populaTabelaItem(item);
+                    } else {
+                        mainUI.populaTabelaItem();
+                    }
+                    break;
             }
+
             mainUI.setEnabled(true);
             JOptionPane.showMessageDialog(rootPane, "Item cadastrado com sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
@@ -237,24 +268,24 @@ public class InsertItemUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonSaveActionPerformed
-    
+
     private void setItem() {
         item.setItemQuantity(Integer.parseInt(jTextFieldQuantity.getText()));
         item.setItemName(jTextFieldName.getText());
         item.setItemDescription(jTextAreaDescription.getText());
         item.setItemPrice(Double.parseDouble(jTextFieldPrice.getText()));
     }
-    
+
     private void setItemCode() {
         Calendar data = Calendar.getInstance();
         String time = Integer.toString(data.get(Calendar.HOUR_OF_DAY))
                 + Integer.toString(data.get(Calendar.MINUTE))
                 + Integer.toString(data.get(Calendar.SECOND));
         Random gerador = new Random(Long.parseLong(time));
-        
+
         item.setItemCode(Math.abs(gerador.nextInt()));
     }
-    
+
     private void setFormData() {
         jTextFieldQuantity.setText(Integer.toString(item.getItemQuantity()));
         jTextFieldPrice.setText(Double.toString(item.getItemPrice()));
@@ -281,7 +312,7 @@ public class InsertItemUI extends javax.swing.JFrame {
         }
         try {
             setItem();
-            
+
             int index = 0;
             for (int i = 0; i < itens.size(); i++) {
                 if (itens.get(i).getItemCode() == item.getItemCode()) {
@@ -290,19 +321,36 @@ public class InsertItemUI extends javax.swing.JFrame {
                     break;
                 }
             }
-            
+
             if (itens.isEmpty()) {
-                Sgbd.deleteData(Sgbd.DIRITEM);
+                switch (Sgbd.readSettings().getMode()) {
+                    case 0:
+                        Sgbd.deleteData(Sgbd.DIRITEM);
+                        break;
+                    case 1:
+                        Sgbd.deleteData(Sgbd.DIRITEMB);
+                        break;
+                }
+
                 DefaultTableModel dtm = (DefaultTableModel) mainUI.jTable.getModel();
                 dtm.removeRow(index);
             } else {
-                Sgbd.deleteData(Sgbd.DIRITEM);
-                for (int i = 0; i < itens.size(); i++) {
-                    Sgbd.writeItem(itens.get(i));
+                switch (Sgbd.readSettings().getMode()) {
+                    case 0:
+                        Sgbd.deleteData(Sgbd.DIRITEM);
+                        for (int i = 0; i < itens.size(); i++) {
+                            Sgbd.writeItem(itens.get(i));
+                        }
+                        break;
+                    case 1:
+                        Sgbd.deleteData(Sgbd.DIRITEMB);
+                        Sgbd.writeItem(itens);
+                        break;
                 }
+
                 mainUI.populaTabelaItem();
             }
-            
+
             mainUI.setEnabled(true);
             JOptionPane.showMessageDialog(rootPane, "Item deletado com sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
@@ -313,7 +361,7 @@ public class InsertItemUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonDeleteActionPerformed
 
     private void jTextFieldQuantityCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextFieldQuantityCaretUpdate
-        
+
     }//GEN-LAST:event_jTextFieldQuantityCaretUpdate
     public boolean isValidData() {
         try {

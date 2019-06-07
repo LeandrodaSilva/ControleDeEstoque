@@ -102,9 +102,6 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelUser">
       <Properties>
-        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="0" green="0" red="0" type="rgb"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Usu&#xe1;rio"/>
         <Property name="focusable" type="boolean" value="false"/>
       </Properties>
@@ -116,9 +113,6 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelPasswd">
       <Properties>
-        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="0" green="0" red="0" type="rgb"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Senha"/>
         <Property name="focusable" type="boolean" value="false"/>
       </Properties>
@@ -134,9 +128,6 @@
           <FontInfo relative="true">
             <Font component="jLabelTitle" property="font" relativeSize="true" size="24"/>
           </FontInfo>
-        </Property>
-        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="0" green="0" red="0" type="rgb"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="Controle de Estoque"/>
@@ -256,9 +247,6 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelMode">
       <Properties>
-        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="0" green="0" red="0" type="rgb"/>
-        </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="Modo de grava&#xe7;&#xe3;o"/>
       </Properties>
@@ -270,9 +258,6 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelT">
       <Properties>
-        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="0" green="0" red="0" type="rgb"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Texto"/>
       </Properties>
       <AuxValues>
@@ -286,9 +271,6 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelB">
       <Properties>
-        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="0" green="0" red="0" type="rgb"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Bin&#xe1;rio"/>
       </Properties>
       <AuxValues>
