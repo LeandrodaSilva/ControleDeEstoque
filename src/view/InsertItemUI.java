@@ -5,20 +5,20 @@
  */
 package view;
 
+import control.CodeGenerator;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Random;
 import control.Sgbd;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Item;
+import model.Operations;
 
 /**
  *
  * @author ld_si
  */
-public class InsertItemUI extends javax.swing.JFrame {
+public class InsertItemUI extends javax.swing.JFrame implements Operations{
 
     /**
      * Creates new form InsertUI
@@ -59,7 +59,7 @@ public class InsertItemUI extends javax.swing.JFrame {
         InsertItemUI.itens = itens;
         initComponents();
         jButtonDelete.setVisible(true);
-        setFormData();
+        getData();
     }
 
     /**
@@ -201,11 +201,11 @@ public class InsertItemUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed
-        if (!isValidData()) {
+        if (!checkData()) {
             return;
         }
         try {
-            setItem();
+            setData();
             if (option.equals("edit")) {
                 int index = 0;
                 for (int i = 0; i < itens.size(); i++) {
@@ -226,7 +226,7 @@ public class InsertItemUI extends javax.swing.JFrame {
                 }
 
             } else {
-                setItemCode();
+                setDataCode();
 
                 switch (Sgbd.readSettings().getMode()) {
                     case 0:
@@ -269,37 +269,12 @@ public class InsertItemUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonSaveActionPerformed
 
-    private void setItem() {
-        item.setItemQuantity(Integer.parseInt(jTextFieldQuantity.getText()));
-        item.setItemName(jTextFieldName.getText());
-        item.setItemDescription(jTextAreaDescription.getText());
-        item.setItemPrice(Double.parseDouble(jTextFieldPrice.getText()));
-    }
-
-    private void setItemCode() {
-        Calendar data = Calendar.getInstance();
-        String time = Integer.toString(data.get(Calendar.HOUR_OF_DAY))
-                + Integer.toString(data.get(Calendar.MINUTE))
-                + Integer.toString(data.get(Calendar.SECOND));
-        Random gerador = new Random(Long.parseLong(time));
-
-        item.setItemCode(Math.abs(gerador.nextInt()));
-    }
-
-    private void setFormData() {
-        jTextFieldQuantity.setText(Integer.toString(item.getItemQuantity()));
-        jTextFieldPrice.setText(Double.toString(item.getItemPrice()));
-        jTextAreaDescription.setText(item.getItemDescription());
-        jTextFieldName.setText(item.getItemName());
-    }
+    
 
     private void jButtonClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearActionPerformed
-        jTextFieldPrice.setText("");
-        jTextFieldQuantity.setText("");
-        jTextFieldName.setText("");
-        jTextAreaDescription.setText("");
+        cleanData();
     }//GEN-LAST:event_jButtonClearActionPerformed
-
+   
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         mainUI.setEnabled(true);
     }//GEN-LAST:event_formWindowClosing
@@ -311,7 +286,7 @@ public class InsertItemUI extends javax.swing.JFrame {
             return;
         }
         try {
-            setItem();
+            setData();
 
             int index = 0;
             for (int i = 0; i < itens.size(); i++) {
@@ -363,27 +338,7 @@ public class InsertItemUI extends javax.swing.JFrame {
     private void jTextFieldQuantityCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextFieldQuantityCaretUpdate
 
     }//GEN-LAST:event_jTextFieldQuantityCaretUpdate
-    public boolean isValidData() {
-        try {
-            Integer.parseInt(jTextFieldQuantity.getText());
-            jTextFieldQuantity.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, "Somente números na quantidade", "Alerta", JOptionPane.WARNING_MESSAGE);
-            jTextFieldQuantity.setText("");
-            jTextFieldQuantity.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
-            return false;
-        }
-        try {
-            Double.parseDouble(jTextFieldPrice.getText());
-            jTextFieldPrice.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, "Somente números de ponto flutuante no preço", "Alerta", JOptionPane.WARNING_MESSAGE);
-            jTextFieldPrice.setText("");
-            jTextFieldPrice.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
-            return false;
-        }
-        return true;
-    }
+    
 
     /**
      * @param args the command line arguments
@@ -435,4 +390,67 @@ public class InsertItemUI extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldPrice;
     private javax.swing.JTextField jTextFieldQuantity;
     // End of variables declaration//GEN-END:variables
+    
+    @Override
+    public void setData() {
+        item.setItemQuantity(Integer.parseInt(jTextFieldQuantity.getText()));
+        item.setItemName(jTextFieldName.getText());
+        item.setItemDescription(jTextAreaDescription.getText());
+        item.setItemPrice(Double.parseDouble(jTextFieldPrice.getText()));
+    }
+    
+    @Override
+    public void deleteData(){
+        
+    }
+    
+    @Override
+    public void saveData(){
+        
+    }
+    
+    @Override
+    public void setDataCode() {
+        item.setItemCode(CodeGenerator.getRandomCode());
+    }
+    
+    @Override
+    public void getData() {
+        jTextFieldQuantity.setText(Integer.toString(item.getItemQuantity()));
+        jTextFieldPrice.setText(Double.toString(item.getItemPrice()));
+        jTextAreaDescription.setText(item.getItemDescription());
+        jTextFieldName.setText(item.getItemName());
+    }
+    
+    @Override
+    public boolean checkData() {
+        try {
+            Integer.parseInt(jTextFieldQuantity.getText());
+            jTextFieldQuantity.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Somente números na quantidade", "Alerta", JOptionPane.WARNING_MESSAGE);
+            jTextFieldQuantity.setText("");
+            jTextFieldQuantity.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
+            return false;
+        }
+        try {
+            Double.parseDouble(jTextFieldPrice.getText());
+            jTextFieldPrice.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Somente números de ponto flutuante no preço", "Alerta", JOptionPane.WARNING_MESSAGE);
+            jTextFieldPrice.setText("");
+            jTextFieldPrice.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
+            return false;
+        }
+        return true;
+    }
+    
+    @Override
+    public void cleanData(){
+        jTextFieldPrice.setText("");
+        jTextFieldQuantity.setText("");
+        jTextFieldName.setText("");
+        jTextAreaDescription.setText("");
+    }
+
 }

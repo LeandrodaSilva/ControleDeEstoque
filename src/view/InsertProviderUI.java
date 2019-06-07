@@ -10,13 +10,14 @@ import control.Sgbd;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.Operations;
 import model.Provider;
 
 /**
  *
  * @author ld_si
  */
-public class InsertProviderUI extends javax.swing.JFrame {
+public class InsertProviderUI extends javax.swing.JFrame implements Operations{
 
     /**
      * Creates new form InsertUI
@@ -45,7 +46,7 @@ public class InsertProviderUI extends javax.swing.JFrame {
         InsertProviderUI.providers = providers;
         initComponents();
         jButtonDelete.setVisible(true);
-        setFormData();
+        getData();
     }
 
     /**
@@ -164,11 +165,11 @@ public class InsertProviderUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed
-        if (!isValidData()) {
+        if (!checkData()) {
             return;
         }
         try {
-            setProvider();
+            setData();
             if (option.equals("edit")) {
                 int index = 0;
                 for (int i = 0; i < providers.size(); i++) {
@@ -213,35 +214,14 @@ public class InsertProviderUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonSaveActionPerformed
     
-    public boolean isValidData() {
-        try {
-            Integer.parseInt(jTextFieldCnpj.getText());
-            jTextFieldCnpj.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, "Somente números no CNPJ", "Alerta", JOptionPane.WARNING_MESSAGE);
-            jTextFieldCnpj.setText("");
-            jTextFieldCnpj.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
-            return false;
-        }
-        return true;
-    }
+  
     
-    private void setProvider() {
-        provider.setName(jTextFieldName.getText());
-        provider.setCnpj(jTextFieldCnpj.getText());
-        provider.setAdress(jTextAreaAdress.getText());
-    }
+    
 
-    private void setFormData() {
-        jTextFieldName.setText(provider.getName());
-        jTextFieldCnpj.setText(provider.getCnpj());
-        jTextAreaAdress.setText(provider.getAdress());
-    }
+ 
 
     private void jButtonClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearActionPerformed
-        jTextFieldCnpj.setText("");
-        jTextFieldName.setText("");
-        jTextAreaAdress.setText("");
+        cleanData();
     }//GEN-LAST:event_jButtonClearActionPerformed
 
 
@@ -256,7 +236,7 @@ public class InsertProviderUI extends javax.swing.JFrame {
             return;
         }
         try {
-            setProvider();
+            setData();
 
             int index = 0;
             for (int i = 0; i < providers.size(); i++) {
@@ -336,4 +316,54 @@ public class InsertProviderUI extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldCnpj;
     private javax.swing.JTextField jTextFieldName;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public boolean checkData() {
+        try {
+            Integer.parseInt(jTextFieldCnpj.getText());
+            jTextFieldCnpj.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Somente números no CNPJ", "Alerta", JOptionPane.WARNING_MESSAGE);
+            jTextFieldCnpj.setText("");
+            jTextFieldCnpj.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
+            return false;
+        }
+        return true;
+    }
+    
+    @Override
+    public void setData() {
+        provider.setName(jTextFieldName.getText());
+        provider.setCnpj(jTextFieldCnpj.getText());
+        provider.setAdress(jTextAreaAdress.getText());
+    }
+    
+    @Override
+    public void getData() {
+        jTextFieldName.setText(provider.getName());
+        jTextFieldCnpj.setText(provider.getCnpj());
+        jTextAreaAdress.setText(provider.getAdress());
+    }
+
+    @Override
+    public void saveData() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteData() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setDataCode() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void cleanData() {
+        jTextFieldCnpj.setText("");
+        jTextFieldName.setText("");
+        jTextAreaAdress.setText("");
+    }
 }
