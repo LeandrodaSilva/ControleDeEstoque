@@ -237,12 +237,11 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations{
                     case 1:
                         ArrayList<Item> itens = ItemDAO.readItem();
                         if (itens == null) {
-                            itens = new ArrayList();
+                            itens = new ArrayList<Item>();
                         }
                         itens.add(item);
                         ItemDAO.writeItem(itens);
                         break;
-
                 }
             }
             switch (SettingsDAO.readSettings().getMode()) {
@@ -263,7 +262,9 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations{
             }
 
             mainUI.setEnabled(true);
+            
             JOptionPane.showMessageDialog(rootPane, "Item cadastrado com sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+            
             this.dispose();
         } catch (IOException ex) {
             System.out.println("Erro na inserção");

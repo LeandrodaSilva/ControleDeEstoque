@@ -7,7 +7,6 @@ package view;
 
 import model.businessObject.Hash;
 import model.businessObject.RandomValue;
-import model.businessObject.Security;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import model.dataAcessObject.UserDAO;

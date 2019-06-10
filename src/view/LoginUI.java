@@ -5,6 +5,7 @@
  */
 package view;
 
+import control.ControllerSettings;
 import java.awt.Point;
 import java.io.IOException;
 import model.dataAcessObject.DirDAO;
@@ -27,12 +28,10 @@ public class LoginUI extends javax.swing.JFrame {
 
     public LoginUI() {
         initComponents();
-        setMode(SettingsDAO.readSettings().getMode());
     }
 
     public LoginUI(int mode) {
         initComponents();
-        setMode(mode);
     }
 
     /**
@@ -55,8 +54,7 @@ public class LoginUI extends javax.swing.JFrame {
         jLabelPasswdError = new javax.swing.JLabel();
         jButtonNew = new javax.swing.JButton();
         jLabelLoginError = new javax.swing.JLabel();
-        jLabelMode = new javax.swing.JLabel();
-        jComboBoxMode = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
         jLabelBackground = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -169,20 +167,14 @@ public class LoginUI extends javax.swing.JFrame {
         jLabelLoginError.setBounds(250, 430, 360, 30);
         jLabelLoginError.setVisible(false);
 
-        jLabelMode.setForeground(new java.awt.Color(0, 0, 0));
-        jLabelMode.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelMode.setText("Modo de operação");
-        getContentPane().add(jLabelMode);
-        jLabelMode.setBounds(340, 370, 150, 16);
-
-        jComboBoxMode.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Texto", "Binário", "Banco" }));
-        jComboBoxMode.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("Modo de operação");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxModeActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jComboBoxMode);
-        jComboBoxMode.setBounds(340, 400, 150, 26);
+        getContentPane().add(jButton1);
+        jButton1.setBounds(340, 380, 150, 32);
 
         jLabelBackground.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelBackground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/white-wallpapers.jpeg"))); // NOI18N
@@ -205,8 +197,9 @@ public class LoginUI extends javax.swing.JFrame {
     private void jButtonEnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnterActionPerformed
         User user;
         try {
-            if (!DirDAO.notExist(DirDAO.dir.getDirUserBinary())) {
-                user = (User) UserDAO.readUser();
+            
+            user = (User) UserDAO.readUser(jTextFieldUser.getText());
+                
                 if (checkBox() && Security.loginCheck(jTextFieldUser.getText(), jPasswordFieldPasswd.getText(), user)) {
                     System.out.println("Acesso permitido");
                     this.setVisible(false);
@@ -215,9 +208,7 @@ public class LoginUI extends javax.swing.JFrame {
                 } else {
                     jLabelLoginError.setVisible(true);
                 }
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "Cadastre um usuário", "Alerta", JOptionPane.WARNING_MESSAGE);
-            }
+           
 
         } catch (IOException ex) {
             jLabelLoginError.setVisible(true);
@@ -243,10 +234,11 @@ public class LoginUI extends javax.swing.JFrame {
         this.setLocation(p.x + evt.getX() - point.x, p.y + evt.getY() - point.y);
     }//GEN-LAST:event_formMouseDragged
 
-    private void jComboBoxModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxModeActionPerformed
-        System.out.println("Ca "+jComboBoxMode.getSelectedIndex());
-        SettingsDAO.writeSettings(new Settings(jComboBoxMode.getSelectedIndex()));
-    }//GEN-LAST:event_jComboBoxModeActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        SettingsUI settingsUI = new SettingsUI();
+        new ControllerSettings(settingsUI, SettingsDAO.readSettings().getMode());
+        settingsUI.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void start() {
         /* Set the Nimbus look and feel */
@@ -281,13 +273,12 @@ public class LoginUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonClose;
     public javax.swing.JButton jButtonEnter;
     private javax.swing.JButton jButtonNew;
-    private javax.swing.JComboBox<String> jComboBoxMode;
     public javax.swing.JLabel jLabelBackground;
     private javax.swing.JLabel jLabelLoginError;
-    private javax.swing.JLabel jLabelMode;
     private javax.swing.JLabel jLabelPasswd;
     private javax.swing.JLabel jLabelPasswdError;
     private javax.swing.JLabel jLabelTitle;
@@ -317,10 +308,4 @@ public class LoginUI extends javax.swing.JFrame {
         }
         return i <= 0;
     }
-
-    private void setMode(int mode) {
-        System.out.println("selecionado: "+mode);
-        jComboBoxMode.setSelectedIndex(mode);
-    }
-
 }

@@ -12,12 +12,10 @@ package model.valueObject;
 public class Settings {
     private int mode;
 
-    public Settings(int mode) throws IndexOutOfBoundsException {
-        if (mode < 0 || mode > 1) {
-            throw new IndexOutOfBoundsException("Valor X fora do intervalo 0 <= X <= 1 ");
-        }else{
-            this.mode = mode;
-        }
+    public Settings(int mode) {
+        
+        this.mode = mode;
+        
     }
     
     
@@ -27,11 +25,9 @@ public class Settings {
     }
 
     public void setMode(int mode) throws IndexOutOfBoundsException {
-         if (mode < 0 || mode > 1) {
-            throw new IndexOutOfBoundsException("Valor X fora do intervalo 0 <= X <= 1 ");
-        }else{
-            this.mode = mode;
-        }
+        
+        this.mode = mode;
+        
     }
     
 }

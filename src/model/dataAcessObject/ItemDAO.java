@@ -5,7 +5,6 @@
  */
 package model.dataAcessObject;
 
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,13 +16,12 @@ import model.valueObject.Item;
  *
  * @author ld_si
  */
-public class ItemDAO extends DirDAO{
+public class ItemDAO extends DirDAO {
 
     public ItemDAO(Dir dir) {
         super(dir);
     }
 
-    
     /**
      *
      * @param item
@@ -38,12 +36,18 @@ public class ItemDAO extends DirDAO{
                 dir.getDir(), dir.getDirItem(), true);
 
     }
-    
-    
+
     public static void writeItem(ArrayList<Item> item) throws IOException {
-        BinaryDAO.writeBinary(dir.getDir()+dir.getDirItemBinary(), item, false);
+        switch (SettingsDAO.readSettings().getMode()) {
+            case 1:
+                BinaryDAO.writeBinary(dir.getDir() + dir.getDirItemBinary(), item, false);
+                break;
+            case 2:
+                
+                break;
+        }
     }
-    
+
     /**
      *
      * @return ArrayList
@@ -82,8 +86,13 @@ public class ItemDAO extends DirDAO{
                 }
 
                 return itens;
-            case 1:
-                return (ArrayList) BinaryDAO.readBinary(dir.getDir() + dir.getDirItemBinary());
+            case 1: {
+                try {
+                    return (ArrayList) BinaryDAO.readBinary(dir.getDir() + dir.getDirItemBinary());
+                } catch (ClassNotFoundException ex) {
+                    System.out.println("Erro: " + ex.getMessage());
+                }
+            }
             default:
                 return null;
         }
