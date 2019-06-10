@@ -11,18 +11,24 @@ package model.interfaces;
  */
 public interface Operations {
     
-    public boolean checkData();
+    public boolean verifyFrameElements();
     
-    public void getData();
+    public void getFrameElements();
     
-    public void setData();
+    public void setFrameElements();
     
-    public void saveData();
+    public void removeFrameElements();
     
-    public void deleteData();
+    public void save();
+    
+    public void delete();
+    
+    public void edit(); 
+    
+    public void read();
     
     public void setDataCode();
     
-    public void cleanData();
+    
     
 }

@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.valueObject.Dir;
 import model.valueObject.User;
 
@@ -61,6 +59,7 @@ public class UserDAO extends DirDAO {
      * @throws IOException
      */
     public static User readUser(String username) throws FileNotFoundException, IOException {
+        User userOnStorage;
         switch (SettingsDAO.readSettings().getMode()) {
             case 0:
                 ArrayList<String> lido = TextDAO.readText(dir.getDir() + dir.getDirUser());
@@ -71,13 +70,16 @@ public class UserDAO extends DirDAO {
                 v1 = line.indexOf(",");
                 v2 = line.indexOf(",", v1 + 1);
 
-                User user = new User(line.substring(0, v1),
+                userOnStorage = new User(line.substring(0, v1),
                         line.substring(v1 + 1, v2),
                         line.substring(v2 + 1, line.indexOf(";")));
-                return user;
+                System.out.println("Texto - usuário recuperado: "+userOnStorage.getUserName());
+                return userOnStorage;
             case 1: {
                 try {
-                    return (User) BinaryDAO.readBinary(dir.getDir() + dir.getDirUserBinary());
+                    userOnStorage = (User) BinaryDAO.readBinary(dir.getDir() + dir.getDirUserBinary());
+                    System.out.println("Binário - usuário recuperado: "+userOnStorage.getUserName());
+                    return  userOnStorage;
                 } catch (ClassNotFoundException ex) {
                     System.out.println("Erro: " + ex.getMessage());
                 }
@@ -88,19 +90,20 @@ public class UserDAO extends DirDAO {
 
                 ResultSet rs = cdao.readCloud("SELECT * FROM public.\"user\" "
                         + "where username like '" + username + "';");
-
+                if (rs == null) {
+                    return null;
+                }
                 try {
-                    System.out.println("RS: " + rs.getObject(1).toString());
-                    User userlido = new User(
+                    System.out.println("ResultSet usuario: " + rs.getObject(1).toString());
+                    userOnStorage = new User(
                             rs.getObject(1).toString(),
                             rs.getObject(2).toString(),
                             rs.getObject(3).toString());
-                    System.out.println("UserDAO: " + userlido.getUserName());
-                    return userlido;
+                    System.out.println("Cloud - usuário recuperado: "+userOnStorage.getUserName());
+                    return userOnStorage;
                 } catch (SQLException ex) {
-                    Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("ResultSet Erro - usuário: "+ex.getMessage());
                 }
-
             default:
                 return null;
         }

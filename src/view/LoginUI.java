@@ -8,19 +8,23 @@ package view;
 import control.ControllerSettings;
 import java.awt.Point;
 import java.io.IOException;
-import model.dataAcessObject.DirDAO;
 import model.businessObject.Security;
 import javax.swing.JOptionPane;
 import model.dataAcessObject.SettingsDAO;
 import model.dataAcessObject.UserDAO;
+import model.interfaces.Operations;
 import model.valueObject.User;
-import model.valueObject.Settings;
+
 
 /**
  *
  * @author ld_si
  */
-public class LoginUI extends javax.swing.JFrame {
+public class LoginUI extends javax.swing.JFrame implements Operations{
+    private User userOnStorage;
+    private String userName;
+    private String userPassword;
+    
     private Point point = new Point();
     /**
      * Creates new form LoginUI
@@ -54,7 +58,7 @@ public class LoginUI extends javax.swing.JFrame {
         jLabelPasswdError = new javax.swing.JLabel();
         jButtonNew = new javax.swing.JButton();
         jLabelLoginError = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jButtonSettings = new javax.swing.JButton();
         jLabelBackground = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -167,14 +171,14 @@ public class LoginUI extends javax.swing.JFrame {
         jLabelLoginError.setBounds(250, 430, 360, 30);
         jLabelLoginError.setVisible(false);
 
-        jButton1.setText("Modo de operação");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonSettings.setText("Modo de operação");
+        jButtonSettings.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonSettingsActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1);
-        jButton1.setBounds(340, 380, 150, 32);
+        getContentPane().add(jButtonSettings);
+        jButtonSettings.setBounds(340, 380, 150, 32);
 
         jLabelBackground.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelBackground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/white-wallpapers.jpeg"))); // NOI18N
@@ -195,25 +199,7 @@ public class LoginUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonCloseActionPerformed
 
     private void jButtonEnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnterActionPerformed
-        User user;
-        try {
-            
-            user = (User) UserDAO.readUser(jTextFieldUser.getText());
-                
-                if (checkBox() && Security.loginCheck(jTextFieldUser.getText(), jPasswordFieldPasswd.getText(), user)) {
-                    System.out.println("Acesso permitido");
-                    this.setVisible(false);
-                    MainUI mainUI = new MainUI();
-                    mainUI.start();
-                } else {
-                    jLabelLoginError.setVisible(true);
-                }
-           
-
-        } catch (IOException ex) {
-            jLabelLoginError.setVisible(true);
-            JOptionPane.showMessageDialog(rootPane, "Cadastre um usuário", "Alerta", JOptionPane.WARNING_MESSAGE);
-        }
+       save();
     }//GEN-LAST:event_jButtonEnterActionPerformed
 
     private void jButtonNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewActionPerformed
@@ -221,7 +207,6 @@ public class LoginUI extends javax.swing.JFrame {
         insertUserUI.setVisible(true);
         insertUserUI.loginUI = this;
         this.setEnabled(false);
-
     }//GEN-LAST:event_jButtonNewActionPerformed
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
@@ -234,11 +219,11 @@ public class LoginUI extends javax.swing.JFrame {
         this.setLocation(p.x + evt.getX() - point.x, p.y + evt.getY() - point.y);
     }//GEN-LAST:event_formMouseDragged
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSettingsActionPerformed
         SettingsUI settingsUI = new SettingsUI();
         new ControllerSettings(settingsUI, SettingsDAO.readSettings().getMode());
         settingsUI.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonSettingsActionPerformed
 
     public static void start() {
         /* Set the Nimbus look and feel */
@@ -273,10 +258,10 @@ public class LoginUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonClose;
     public javax.swing.JButton jButtonEnter;
     private javax.swing.JButton jButtonNew;
+    private javax.swing.JButton jButtonSettings;
     public javax.swing.JLabel jLabelBackground;
     private javax.swing.JLabel jLabelLoginError;
     private javax.swing.JLabel jLabelPasswd;
@@ -288,10 +273,12 @@ public class LoginUI extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldUser;
     // End of variables declaration//GEN-END:variables
 
-    private Boolean checkBox() {
-        int i = 0;
+
+    @Override
+    public boolean verifyFrameElements() {
+        boolean result = true;
         if (jTextFieldUser.getText().equals("")) {
-            i++;
+            result = false;
             jLabelUserError.setVisible(true);
             jTextFieldUser.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
         } else {
@@ -299,13 +286,74 @@ public class LoginUI extends javax.swing.JFrame {
             jTextFieldUser.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         }
         if (jPasswordFieldPasswd.getText().equals("")) {
-            i++;
+            result  = false;
             jLabelPasswdError.setVisible(true);
             jPasswordFieldPasswd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
         } else {
             jLabelPasswdError.setVisible(false);
             jPasswordFieldPasswd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         }
-        return i <= 0;
+        return result;
+    }
+
+    @Override
+    public void getFrameElements() {
+        if (verifyFrameElements()) {
+           this.userName = jTextFieldUser.getText();
+           this.userPassword = jPasswordFieldPasswd.getText();
+            System.out.println("getFrameElements: "+userName+"\n"+userPassword);
+        }else{
+            System.out.println("Há campos não preenchidos");
+        }
+    }
+
+    @Override
+    public void setFrameElements() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void removeFrameElements() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void save() {
+        getFrameElements();
+        try {
+            this.userOnStorage = UserDAO.readUser(this.userName);
+            if (Security.loginCheck(userName, userPassword, userOnStorage) &&  userOnStorage != null) {
+                System.out.println("Login autorizado");
+                this.setVisible(false);
+                MainUI mainUI = new MainUI();
+                //mainUI.start();
+                mainUI.setVisible(true);
+            }else{
+                jLabelLoginError.setVisible(true);
+            }
+        } catch (IOException ex) {
+            jLabelLoginError.setVisible(true);
+            JOptionPane.showMessageDialog(rootPane, "Cadastre um usuário", "Alerta", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    @Override
+    public void delete() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void edit() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void read() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setDataCode() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

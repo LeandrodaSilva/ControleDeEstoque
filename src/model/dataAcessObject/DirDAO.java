@@ -22,7 +22,7 @@ public abstract class DirDAO {
     public DirDAO(Dir dir) {
         this.dir = dir;
         write();
-        if (notExist(dir.getDirSettings())) {
+        if (!exist(dir.getDirSettings())) {
             SettingsDAO.writeSettings(new Settings(0));
         }
     }
@@ -74,57 +74,57 @@ public abstract class DirDAO {
      * passando "data" ou "user"
      * @return Boolean - Retorna true se não existir e false se existir
      */
-    public static Boolean notExist(String type) {
+    public static Boolean exist(String type) {
         if (type.equals(dir.getDir())) {
             File item = new File(dir.getDir() + dir.getDirItem());
 
                 if (item.exists()) {
-                    return false;
+                    return true;
                 }
         }
         if (type.equals(dir.getDirItemBinary())) {
             File item = new File(dir.getDir() + dir.getDirItemBinary());
 
                 if (item.exists()) {
-                    return false;
+                    return true;
                 }
         }
         if (type.equals(dir.getDirProvider())) {
             File item = new File(dir.getDir() + dir.getDirProvider());
 
                 if (item.exists()) {
-                    return false;
+                    return true;
                 }
         }
         if (type.equals(dir.getDirProviderBinary())) {
             File item = new File(dir.getDir() + dir.getDirProviderBinary());
 
                 if (item.exists()) {
-                    return false;
+                    return true;
                 }
         }
         if (type.equals(dir.getDirUser())) {
             File item = new File(dir.getDir() + dir.getDirUser());
 
                 if (item.exists()) {
-                    return false;
+                    return true;
                 }
         }
         if (type.equals(dir.getDirUserBinary())) {
             File item = new File(dir.getDir() + dir.getDirUserBinary());
 
                 if (item.exists()) {
-                    return false;
+                    return true;
                 }
         }
         if (type.equals(dir.getDirSettings())) {
             File item = new File(dir.getDir() + dir.getDirSettings());
 
                 if (item.exists()) {
-                    return false;
+                    return true;
                 }
         }
-        return true;
+        return false;
     }
 
 

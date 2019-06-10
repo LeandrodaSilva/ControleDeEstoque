@@ -139,11 +139,11 @@ public class InsertUserUI extends javax.swing.JFrame implements Operations {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed
-       saveData();
+       save();
     }//GEN-LAST:event_jButtonSaveActionPerformed
 
     private void jButtonClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearActionPerformed
-        cleanData(); 
+        removeFrameElements(); 
     }//GEN-LAST:event_jButtonClearActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -202,22 +202,22 @@ public class InsertUserUI extends javax.swing.JFrame implements Operations {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public boolean checkData() {
+    public boolean verifyFrameElements() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void getData() {
+    public void getFrameElements() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void setData() {
+    public void setFrameElements() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void saveData() {
+    public void save() {
         String salt = RandomValue.getRandomSalt();
         try {
             UserDAO.writeUser(new User(
@@ -236,7 +236,7 @@ public class InsertUserUI extends javax.swing.JFrame implements Operations {
     }
 
     @Override
-    public void deleteData() {
+    public void delete() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -246,8 +246,18 @@ public class InsertUserUI extends javax.swing.JFrame implements Operations {
     }
 
     @Override
-    public void cleanData() {
+    public void removeFrameElements() {
         jPasswordField.setText("");
         jTextFieldName.setText(""); 
+    }
+
+    @Override
+    public void edit() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void read() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

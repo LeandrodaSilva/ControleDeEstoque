@@ -61,7 +61,7 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations{
         InsertItemUI.itens = itens;
         initComponents();
         jButtonDelete.setVisible(true);
-        getData();
+        getFrameElements();
     }
 
     /**
@@ -203,11 +203,11 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations{
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed
-        if (!checkData()) {
+        if (!verifyFrameElements()) {
             return;
         }
         try {
-            setData();
+            setFrameElements();
             if (option.equals("edit")) {
                 int index = 0;
                 for (int i = 0; i < itens.size(); i++) {
@@ -246,17 +246,17 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations{
             }
             switch (SettingsDAO.readSettings().getMode()) {
                 case 0:
-                    if (DirDAO.notExist(DirDAO.dir.getDirItem())) {
+                    if (!DirDAO.exist(DirDAO.dir.getDirItem())) {
                         mainUI.populaTabelaItem(item);
                     } else {
-                        mainUI.populaTabelaItem();
+                        mainUI.reloadTableItem();
                     }
                     break;
                 case 1:
-                    if (DirDAO.notExist(DirDAO.dir.getDirItemBinary())) {
+                    if (!DirDAO.exist(DirDAO.dir.getDirItemBinary())) {
                         mainUI.populaTabelaItem(item);
                     } else {
-                        mainUI.populaTabelaItem();
+                        mainUI.reloadTableItem();
                     }
                     break;
             }
@@ -275,7 +275,7 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations{
     
 
     private void jButtonClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearActionPerformed
-        cleanData();
+        removeFrameElements();
     }//GEN-LAST:event_jButtonClearActionPerformed
    
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -289,7 +289,7 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations{
             return;
         }
         try {
-            setData();
+            setFrameElements();
 
             int index = 0;
             for (int i = 0; i < itens.size(); i++) {
@@ -326,7 +326,7 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations{
                         break;
                 }
 
-                mainUI.populaTabelaItem();
+                mainUI.reloadTableItem();
             }
 
             mainUI.setEnabled(true);
@@ -395,7 +395,7 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations{
     // End of variables declaration//GEN-END:variables
     
     @Override
-    public void setData() {
+    public void setFrameElements() {
         item.setItemQuantity(Integer.parseInt(jTextFieldQuantity.getText()));
         item.setItemName(jTextFieldName.getText());
         item.setItemDescription(jTextAreaDescription.getText());
@@ -403,12 +403,12 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations{
     }
     
     @Override
-    public void deleteData(){
+    public void delete(){
         
     }
     
     @Override
-    public void saveData(){
+    public void save(){
         
     }
     
@@ -418,7 +418,7 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations{
     }
     
     @Override
-    public void getData() {
+    public void getFrameElements() {
         jTextFieldQuantity.setText(Integer.toString(item.getItemQuantity()));
         jTextFieldPrice.setText(Double.toString(item.getItemPrice()));
         jTextAreaDescription.setText(item.getItemDescription());
@@ -426,7 +426,7 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations{
     }
     
     @Override
-    public boolean checkData() {
+    public boolean verifyFrameElements() {
         try {
             Integer.parseInt(jTextFieldQuantity.getText());
             jTextFieldQuantity.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
@@ -449,11 +449,21 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations{
     }
     
     @Override
-    public void cleanData(){
+    public void removeFrameElements(){
         jTextFieldPrice.setText("");
         jTextFieldQuantity.setText("");
         jTextFieldName.setText("");
         jTextAreaDescription.setText("");
+    }
+
+    @Override
+    public void edit() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void read() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -1,6 +1,7 @@
 
 import model.businessObject.AcessaBD;
 import model.businessObject.Conect;
+import model.businessObject.Hash;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -14,9 +15,14 @@ import model.businessObject.Conect;
  */
 public class Test {
     public static void main(String[] args) {
-        Conect bd = new Conect();
-        bd.AcessaBD();
-        
-        System.out.println(bd.executeQuery("select * from login;").toString());
+        System.out.println("Hash: "+Hash.getHash("admin"+"1810880519"));
     }
+    
+    
+    
+    
+    
+    
+    
+    
 }

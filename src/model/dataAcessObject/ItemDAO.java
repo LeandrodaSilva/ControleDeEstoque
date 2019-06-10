@@ -7,10 +7,13 @@ package model.dataAcessObject;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import model.valueObject.Dir;
 
 import model.valueObject.Item;
+import model.valueObject.Provider;
 
 /**
  *
@@ -37,13 +40,29 @@ public class ItemDAO extends DirDAO {
 
     }
 
-    public static void writeItem(ArrayList<Item> item) throws IOException {
+    public static void writeItem(ArrayList<Item> itens) throws IOException {
         switch (SettingsDAO.readSettings().getMode()) {
             case 1:
-                BinaryDAO.writeBinary(dir.getDir() + dir.getDirItemBinary(), item, false);
+                BinaryDAO.writeBinary(dir.getDir() + dir.getDirItemBinary(), itens, false);
                 break;
             case 2:
-                
+                CloudDAO cdao = new CloudDAO();
+                cdao.createConection();
+                for (int i = 0; itens.isEmpty(); i++) {
+                    Item item = (Item) itens.get(i);
+                    cdao.writeCloud("INSERT INTO public.item("
+                            + "itemcode, "
+                            + "itemquantity, "
+                            + "itemname, "
+                            + "itemdescription, "
+                            + "itemprice) "
+                            + "VALUES ("+item.getItemCode()+","
+                            + ""+item.getItemQuantity()+" , "
+                            + ""+item.getItemName()+", "
+                            + ""+item.getItemDescription()+", "
+                            + ""+item.getItemPrice()+");");
+                }
+                cdao.closeConection();
                 break;
         }
     }
@@ -56,10 +75,10 @@ public class ItemDAO extends DirDAO {
      */
     public static ArrayList<Item> readItem()
             throws FileNotFoundException, IOException {
+        ArrayList<Item> itens = new ArrayList<Item>();
         switch (SettingsDAO.readSettings().getMode()) {
             case 0:
                 ArrayList<String> lido = TextDAO.readText(dir.getDir() + dir.getDirItem());
-                ArrayList<Item> itens = new ArrayList<>();
 
                 int code = 0,
                  qtd = 0,
@@ -86,13 +105,42 @@ public class ItemDAO extends DirDAO {
                 }
 
                 return itens;
-            case 1: {
+            case 1:
                 try {
                     return (ArrayList) BinaryDAO.readBinary(dir.getDir() + dir.getDirItemBinary());
                 } catch (ClassNotFoundException ex) {
                     System.out.println("Erro: " + ex.getMessage());
                 }
-            }
+            case 2:
+                CloudDAO cdao = new CloudDAO();
+                cdao.createConection();
+
+                ResultSet rs = cdao.readCloud("SELECT itemcode, "
+                        + "itemquantity, "
+                        + "itemname, "
+                        + "itemdescription, "
+                        + "itemprice "
+                        + "FROM public.item;");
+
+                if (rs == null) {
+                    return null;
+                }
+                try {
+
+                    System.out.println("ResultSet item: " + rs.getObject(1).toString());
+                    while (rs.next()) {
+                        itens.add(new Item(Integer.parseInt(rs.getString(1)),
+                                Integer.parseInt(rs.getString(2)),
+                                rs.getString(3),
+                                rs.getString(4),
+                                Double.parseDouble(rs.getString(5))));
+                    }
+                    System.out.println("Cloud - provider recuperado: ");
+                    return itens;
+                } catch (SQLException ex) {
+                    System.out.println("ResultSet Erro - provider: " + ex.getMessage());
+                }
+
             default:
                 return null;
         }

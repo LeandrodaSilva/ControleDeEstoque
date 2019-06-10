@@ -74,11 +74,13 @@ public class CloudDAO {
             stdados = connection.createStatement(tipo, concorrencia);
             
             rsdados = stdados.executeQuery(sql);
-            rsdados.first();
+            if (!rsdados.first()) {
+                return null;
+            }
            
             return rsdados;
         } catch (SQLException erro) {
-            System.out.println("Erro: "+ erro.getMessage());
+            System.out.println("readCloud - Erro: "+ erro.getMessage());
             return null;
         }
     }

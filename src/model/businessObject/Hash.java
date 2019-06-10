@@ -27,7 +27,7 @@ public class Hash {
             algorithm = MessageDigest.getInstance("MD5");
             String hash = Base64.getEncoder().encodeToString(algorithm.digest(passwd.getBytes("UTF-8")));
 
-            System.out.println("Hash: "+hash);
+            System.out.println("Hash gerado: "+hash);
             return hash;
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);

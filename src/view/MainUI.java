@@ -28,12 +28,12 @@ import model.valueObject.Provider;
  *
  * @author ld_si
  */
-public class MainUI extends javax.swing.JFrame{
+public class MainUI extends javax.swing.JFrame {
 
     /**
      * Creates new form MainUI
      */
-    protected static Point point;
+    protected static Point point  = new Point();
     protected static ArrayList providers;
     public static ArrayList itens;
     public static DefaultTableModel dtmItem;
@@ -41,30 +41,39 @@ public class MainUI extends javax.swing.JFrame{
     public static int selected;
 
     public MainUI() {
-        MainUI.point = new Point();
-        MainUI.dtmItem = new DefaultTableModel();
-        MainUI.dtmProvider = new DefaultTableModel();
+        this.dtmItem = myTableModel("item");
+        this.dtmProvider = myTableModel("provider");
+        
         initComponents();
-        confModelItem(dtmItem);
-        confModelProvider(dtmProvider);
+        
         switch (SettingsDAO.readSettings().getMode()) {
             case 0:
-                if (!DirDAO.notExist(SettingsDAO.dir.getDirItem())) {
+                if (DirDAO.exist(SettingsDAO.dir.getDirItem())) {
                     try {
-                        populaTabelaItem();
+                        reloadTableItem();
+                        System.out.println("Itens carregados");
                     } catch (IOException ex) {
                         System.out.println("Erro ao popular a tabela itens");
                     }
                 }
                 break;
             case 1:
-                if (!DirDAO.notExist(DirDAO.dir.getDirItemBinary())) {
+                if (DirDAO.exist(DirDAO.dir.getDirItemBinary())) {
                     try {
-                        populaTabelaItem();
+                        reloadTableItem();
                     } catch (IOException ex) {
                         System.out.println("Erro ao popular a tabela itens");
                     }
                     break;
+                }
+            default:
+                if (DirDAO.exist(SettingsDAO.dir.getDirItem())) {
+                    try {
+                        reloadTableItem();
+                        System.out.println("Itens carregados");
+                    } catch (IOException ex) {
+                        System.out.println("Erro ao popular a tabela itens");
+                    }
                 }
         }
     }
@@ -350,8 +359,8 @@ public class MainUI extends javax.swing.JFrame{
         switch (jComboBoxType.getSelectedItem().toString()) {
             case "Produtos": {
                 try {
-                    if (!DirDAO.notExist(DirDAO.dir.getDirItem())) {
-                        populaTabelaItem();
+                    if (DirDAO.exist(DirDAO.dir.getDirItem())) {
+                        reloadTableItem();
                         jTable.setModel(dtmItem);
                     } else {
                         dtmProvider.setNumRows(0);
@@ -372,8 +381,8 @@ public class MainUI extends javax.swing.JFrame{
                     JOptionPane.showMessageDialog(rootPane, "Essa tabela está inativa no modo binário", "Alerta", JOptionPane.WARNING_MESSAGE);
                 } else {
                     try {
-                        if (!DirDAO.notExist(DirDAO.dir.getDirProvider())) {
-                            populaTabelaProvider();
+                        if (DirDAO.exist(DirDAO.dir.getDirProvider())) {
+                            reloadTableProvider();
                             jTable.setModel(dtmProvider);
                         } else {
                             dtmItem.setNumRows(0);
@@ -450,77 +459,36 @@ public class MainUI extends javax.swing.JFrame{
     private javax.swing.JTextField jTextFieldSearch;
     // End of variables declaration//GEN-END:variables
 
-    public void populaTabelaItem() throws IOException {
-        String[] linha = new String[5];
-        dtmItem = new DefaultTableModel() {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-        confModelItem(dtmItem);
-
-        MainUI.itens = (ArrayList<Item>) ItemDAO.readItem();
-        int size = itens.size();
-        Item item;
-
-        for (int i = 0; i < size; i++) {
-            item = (Item) itens.get(i);
-            linha[0] = Integer.toString(item.getItemCode());
-            linha[1] = Integer.toString(item.getItemQuantity());
-            linha[2] = item.getItemName();
-            linha[3] = item.getItemDescription();
-            linha[4] = Double.toString(item.getItemPrice());
-            dtmItem.addRow(linha);
-        }
-
-        jTable.setModel(dtmItem);
-
-        jTable.getColumn("Descrição").setMinWidth(0);
-        jTable.getColumn("Descrição").setPreferredWidth(0);
-        jTable.getColumn("Descrição").setMaxWidth(0);
-
-        RowSorter<TableModel> sorter = new TableRowSorter<>(dtmItem);
+    public void setSorter(DefaultTableModel dtm) {
+        RowSorter<TableModel> sorter = new TableRowSorter<>(dtm);
         jTable.setRowSorter(sorter);
     }
 
-    public void populaTabelaProvider() throws IOException {
-        String[] linha = new String[3];
-        dtmProvider = new DefaultTableModel() {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-        confModelProvider(dtmProvider);
+    public void reloadTableItem() throws IOException {
+        this.dtmItem = myTableModel("item");
 
-        MainUI.providers = (ArrayList<Provider>) ProviderDAO.readProvider();
-        int size = providers.size();
-        Provider provider;
+        setTableModelRowsValues("item");
 
-        for (int i = 0; i < size; i++) {
-            provider = (Provider) providers.get(i);
-            linha[0] = provider.getName();
-            linha[1] = provider.getCnpj();
-            linha[2] = provider.getAdress();
-            dtmProvider.addRow(linha);
-        }
+        jTable.setModel(dtmItem);
 
+        hideColumn("Descrição");
+
+        setSorter(dtmItem);
+    }
+
+    public void reloadTableProvider() throws IOException {
+        this.dtmProvider = myTableModel("provider");
+
+        setTableModelRowsValues("provider");
+        
         jTable.setModel(dtmProvider);
 
-        RowSorter<TableModel> sorter = new TableRowSorter<>(dtmProvider);
-        jTable.setRowSorter(sorter);
+        setSorter(dtmProvider);
     }
 
     public void populaTabelaItem(Item item) throws IOException {
         String[] linha = new String[5];
-        dtmItem = new DefaultTableModel() {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-        confModelItem(dtmItem);
+        dtmItem = myTableModel("item");
 
         linha[0] = Integer.toString(item.getItemCode());
         linha[1] = Integer.toString(item.getItemQuantity());
@@ -542,13 +510,7 @@ public class MainUI extends javax.swing.JFrame{
 
     public void populaTabelaProvider(Provider provider) throws IOException {
         String[] linha = new String[3];
-        dtmProvider = new DefaultTableModel() {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-        confModelProvider(dtmProvider);
+        dtmProvider = myTableModel("provider");
 
         linha[0] = provider.getName();
         linha[1] = provider.getCnpj();
@@ -562,18 +524,88 @@ public class MainUI extends javax.swing.JFrame{
         jTable.setRowSorter(sorter);
     }
 
-    public void confModelItem(DefaultTableModel dtm) {
-        dtm.addColumn("Código");
-        dtm.addColumn("Quantidade");
-        dtm.addColumn("Nome");
-        dtm.addColumn("Descrição");
-        dtm.addColumn("Preço");
+    public DefaultTableModel myTableModel(String mode) {
+        DefaultTableModel dtm = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        switch (mode) {
+            case "item":
+                dtm.addColumn("Código");
+                dtm.addColumn("Quantidade");
+                dtm.addColumn("Nome");
+                dtm.addColumn("Descrição");
+                dtm.addColumn("Preço");
+                return dtm;
+            case "provider":
+                dtm.addColumn("Nome da Empresa");
+                dtm.addColumn("CNPJ");
+                dtm.addColumn("Endereço");
+                return dtm;
+            default:
+                return dtm;
+        }
     }
 
-    public void confModelProvider(DefaultTableModel dtm) {
-        dtm.addColumn("Nome da Empresa");
-        dtm.addColumn("CNPJ");
-        dtm.addColumn("Endereço");
+    public void setTableModelRowsValues(String tableName) {
+        switch (tableName) {
+            case "item":
+                try {
+                    String[] lines = new String[5];
+                    this.itens = (ArrayList<Item>) ItemDAO.readItem();
+                    int size = this.itens.size();
+
+                    Item item;
+
+                    for (int i = 0; i < size; i++) {
+                        item = (Item) this.itens.get(i);
+                        lines[0] = Integer.toString(item.getItemCode());
+                        lines[1] = Integer.toString(item.getItemQuantity());
+                        lines[2] = item.getItemName();
+                        lines[3] = item.getItemDescription();
+                        lines[4] = Double.toString(item.getItemPrice());
+                        dtmItem.addRow(lines);
+                    }
+                    System.out.println("setTableModelItemRowsValues - ok");
+                } catch (IOException ex) {
+                    System.out.println("setTableModelItemRowsValues - Erro: " + ex.getMessage());
+                }
+                break;
+            case "provider":
+                try {
+                    String[] linha = new String[3];
+                    
+                    this.providers = (ArrayList<Provider>) ProviderDAO.readProvider();
+                    int size = this.providers.size();
+                   
+                    Provider provider;
+
+                    for (int i = 0; i < size; i++) {
+                        provider = (Provider) providers.get(i);
+                        linha[0] = provider.getName();
+                        linha[1] = provider.getCnpj();
+                        linha[2] = provider.getAdress();
+                        dtmProvider.addRow(linha);
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                break;
+
+        }
+
     }
 
+    public void hideColumn(String columnName) {
+        switch (columnName) {
+            case "Descrição":
+                jTable.getColumn("Descrição").setMinWidth(0);
+                jTable.getColumn("Descrição").setPreferredWidth(0);
+                jTable.getColumn("Descrição").setMaxWidth(0);
+                break;
+        }
+    }
 }

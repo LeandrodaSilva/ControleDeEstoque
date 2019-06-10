@@ -47,7 +47,7 @@ public class InsertProviderUI extends javax.swing.JFrame implements Operations{
         InsertProviderUI.providers = providers;
         initComponents();
         jButtonDelete.setVisible(true);
-        getData();
+        getFrameElements();
     }
 
     /**
@@ -166,11 +166,11 @@ public class InsertProviderUI extends javax.swing.JFrame implements Operations{
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed
-        if (!checkData()) {
+        if (!verifyFrameElements()) {
             return;
         }
         try {
-            setData();
+            setFrameElements();
             if (option.equals("edit")) {
                 int index = 0;
                 for (int i = 0; i < providers.size(); i++) {
@@ -201,10 +201,10 @@ public class InsertProviderUI extends javax.swing.JFrame implements Operations{
                 ProviderDAO.writeProvider(provider);
             }
 
-            if (DirDAO.notExist(DirDAO.dir.getDirProvider())) {
+            if (!DirDAO.exist(DirDAO.dir.getDirProvider())) {
                 mainUI.populaTabelaProvider(provider);
             } else {
-                mainUI.populaTabelaProvider();
+                mainUI.reloadTableProvider();
             }
             mainUI.setEnabled(true);
             JOptionPane.showMessageDialog(rootPane, "Fornecedor cadastrado com sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
@@ -222,7 +222,7 @@ public class InsertProviderUI extends javax.swing.JFrame implements Operations{
  
 
     private void jButtonClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearActionPerformed
-        cleanData();
+        removeFrameElements();
     }//GEN-LAST:event_jButtonClearActionPerformed
 
 
@@ -237,7 +237,7 @@ public class InsertProviderUI extends javax.swing.JFrame implements Operations{
             return;
         }
         try {
-            setData();
+            setFrameElements();
 
             int index = 0;
             for (int i = 0; i < providers.size(); i++) {
@@ -257,7 +257,7 @@ public class InsertProviderUI extends javax.swing.JFrame implements Operations{
                 for (int i = 0; i < providers.size(); i++) {
                     ProviderDAO.writeProvider(providers.get(i));
                 }
-                mainUI.populaTabelaProvider();
+                mainUI.reloadTableProvider();
             }
 
             mainUI.setEnabled(true);
@@ -319,7 +319,7 @@ public class InsertProviderUI extends javax.swing.JFrame implements Operations{
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public boolean checkData() {
+    public boolean verifyFrameElements() {
         try {
             Integer.parseInt(jTextFieldCnpj.getText());
             jTextFieldCnpj.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
@@ -333,26 +333,26 @@ public class InsertProviderUI extends javax.swing.JFrame implements Operations{
     }
     
     @Override
-    public void setData() {
+    public void setFrameElements() {
         provider.setName(jTextFieldName.getText());
         provider.setCnpj(jTextFieldCnpj.getText());
         provider.setAdress(jTextAreaAdress.getText());
     }
     
     @Override
-    public void getData() {
+    public void getFrameElements() {
         jTextFieldName.setText(provider.getName());
         jTextFieldCnpj.setText(provider.getCnpj());
         jTextAreaAdress.setText(provider.getAdress());
     }
 
     @Override
-    public void saveData() {
+    public void save() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void deleteData() {
+    public void delete() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -362,9 +362,19 @@ public class InsertProviderUI extends javax.swing.JFrame implements Operations{
     }
 
     @Override
-    public void cleanData() {
+    public void removeFrameElements() {
         jTextFieldCnpj.setText("");
         jTextFieldName.setText("");
         jTextAreaAdress.setText("");
+    }
+
+    @Override
+    public void edit() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void read() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

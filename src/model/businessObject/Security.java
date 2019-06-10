@@ -27,9 +27,18 @@ public class Security {
      * @return Boolean - Retorna true caso passe na verificação ou false caso falhe
      */
     public static Boolean loginCheck(String userName, String passwd, User user) {
-        if (Hash.getHash(passwd+user.getSalt()).equals(user.getHash()) && userName.equals(user.getUserName()))
+        if (user == null) return false;
+
+        String hash = Hash.getHash(passwd+user.getSalt());
+        
+        System.out.println("Security - "+hash+" = "+user.getHash());
+        System.out.println(userName+" = "+user.getUserName());
+        
+        if (hash.equals(user.getHash()) && 
+                userName.equals(user.getUserName()))
             return true;
         return false;
     }
+    
     
 }
