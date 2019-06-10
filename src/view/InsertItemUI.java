@@ -5,7 +5,7 @@
  */
 package view;
 
-import control.RandomValue;
+import model.businessObject.RandomValue;
 import java.io.IOException;
 import model.dataAcessObject.DirDAO;
 import java.util.ArrayList;

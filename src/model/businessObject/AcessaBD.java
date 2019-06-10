@@ -3,7 +3,7 @@
  * Created on 30 de Maio de 2005
  * @author  fabricio@utfpr.edu.br
  */
-package control;
+package model.businessObject;
 
 import java.sql.*;
 import javax.swing.*;

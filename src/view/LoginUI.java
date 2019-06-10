@@ -8,7 +8,7 @@ package view;
 import java.awt.Point;
 import java.io.IOException;
 import model.dataAcessObject.DirDAO;
-import control.Security;
+import model.businessObject.Security;
 import javax.swing.JOptionPane;
 import model.dataAcessObject.SettingsDAO;
 import model.dataAcessObject.UserDAO;
