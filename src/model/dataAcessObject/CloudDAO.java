@@ -9,6 +9,6 @@ package model.dataAcessObject;
  *
  * @author ld_si
  */
-public class BancoDAO {
+public class CloudDAO {
     
 }
