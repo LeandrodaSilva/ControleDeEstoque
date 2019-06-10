@@ -5,11 +5,14 @@
  */
 package view;
 
+import control.Hash;
+import control.RandomValue;
 import control.Security;
-import control.Sgbd;
 import java.io.IOException;
 import javax.swing.JOptionPane;
-import model.Login;
+import model.dataAcessObject.UserDAO;
+import model.valueObject.User;
+import model.interfaces.Operations;
 
 
 
@@ -18,7 +21,7 @@ import model.Login;
  *
  * @author ld_si
  */
-public class InsertUserUI extends javax.swing.JFrame {
+public class InsertUserUI extends javax.swing.JFrame implements Operations {
 
     /**
      * Creates new form InsertUI
@@ -137,26 +140,11 @@ public class InsertUserUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed
-       String salt = Security.saltGerator();
-        try {
-            Sgbd.writeUser(new Login(
-                    jTextFieldName.getText(),
-                    salt,
-                    Security.hashGerator(new String(jPasswordField.getPassword()) + salt)
-            ));
-            System.out.println("Criado novo usuário");
-            JOptionPane.showMessageDialog(rootPane, "Usuário criado com sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
-            loginUI.setEnabled(true);
-            this.dispose();
-        } catch (IOException ex) {
-            System.out.println("Erro na criação do usuário");
-            JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-        }
+       saveData();
     }//GEN-LAST:event_jButtonSaveActionPerformed
 
     private void jButtonClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearActionPerformed
-        jPasswordField.setText("");
-        jTextFieldName.setText("");  
+        cleanData(); 
     }//GEN-LAST:event_jButtonClearActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -213,4 +201,54 @@ public class InsertUserUI extends javax.swing.JFrame {
     private javax.swing.JProgressBar jProgressBar;
     private javax.swing.JTextField jTextFieldName;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public boolean checkData() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void getData() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setData() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void saveData() {
+        String salt = RandomValue.getRandomSalt();
+        try {
+            UserDAO.writeUser(new User(
+                    jTextFieldName.getText(),
+                    salt,
+                    Hash.getHash(new String(jPasswordField.getPassword()) + salt)
+            ));
+            System.out.println("Criado novo usuário");
+            JOptionPane.showMessageDialog(rootPane, "Usuário criado com sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+            loginUI.setEnabled(true);
+            this.dispose();
+        } catch (IOException ex) {
+            System.out.println("Erro na criação do usuário");
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public void deleteData() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setDataCode() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void cleanData() {
+        jPasswordField.setText("");
+        jTextFieldName.setText(""); 
+    }
 }

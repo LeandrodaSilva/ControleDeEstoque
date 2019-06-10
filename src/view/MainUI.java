@@ -5,7 +5,7 @@
  */
 package view;
 
-import control.Sgbd;
+import model.dataAcessObject.DirDAO;
 import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,21 +18,24 @@ import javax.swing.RowSorter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import model.Item;
-import model.Provider;
+import model.dataAcessObject.ItemDAO;
+import model.dataAcessObject.ProviderDAO;
+import model.dataAcessObject.SettingsDAO;
+import model.valueObject.Item;
+import model.valueObject.Provider;
 
 /**
  *
  * @author ld_si
  */
-public final class MainUI extends javax.swing.JFrame {
+public class MainUI extends javax.swing.JFrame{
 
     /**
      * Creates new form MainUI
      */
-    private static Point point;
-    private static ArrayList providers;
-    private static ArrayList itens;
+    protected static Point point;
+    protected static ArrayList providers;
+    public static ArrayList itens;
     public static DefaultTableModel dtmItem;
     public static DefaultTableModel dtmProvider;
     public static int selected;
@@ -44,9 +47,9 @@ public final class MainUI extends javax.swing.JFrame {
         initComponents();
         confModelItem(dtmItem);
         confModelProvider(dtmProvider);
-        switch (Sgbd.readSettings().getMode()) {
+        switch (SettingsDAO.readSettings().getMode()) {
             case 0:
-                if (!Sgbd.notExist(Sgbd.DIRITEM)) {
+                if (!DirDAO.notExist(SettingsDAO.dir.getDirItem())) {
                     try {
                         populaTabelaItem();
                     } catch (IOException ex) {
@@ -55,7 +58,7 @@ public final class MainUI extends javax.swing.JFrame {
                 }
                 break;
             case 1:
-                if (!Sgbd.notExist(Sgbd.DIRITEMB)) {
+                if (!DirDAO.notExist(DirDAO.dir.getDirItemBinary())) {
                     try {
                         populaTabelaItem();
                     } catch (IOException ex) {
@@ -197,7 +200,7 @@ public final class MainUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jComboBoxType);
-        jComboBoxType.setBounds(70, 70, 110, 25);
+        jComboBoxType.setBounds(70, 70, 110, 26);
 
         jLabelTittle.setFont(jLabelTittle.getFont().deriveFont(jLabelTittle.getFont().getSize()+24f));
         jLabelTittle.setForeground(new java.awt.Color(0, 0, 0));
@@ -210,7 +213,7 @@ public final class MainUI extends javax.swing.JFrame {
         jLabelShow.setText("Mostrar");
         jLabelShow.setFocusable(false);
         getContentPane().add(jLabelShow);
-        jLabelShow.setBounds(10, 70, 60, 15);
+        jLabelShow.setBounds(10, 70, 60, 16);
 
         jButtonEdit.setText("Editar");
         jButtonEdit.setFocusable(false);
@@ -220,7 +223,7 @@ public final class MainUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButtonEdit);
-        jButtonEdit.setBounds(310, 70, 110, 31);
+        jButtonEdit.setBounds(310, 70, 110, 32);
 
         jLabelBackground.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelBackground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/white-wallpapers.jpeg"))); // NOI18N
@@ -347,7 +350,7 @@ public final class MainUI extends javax.swing.JFrame {
         switch (jComboBoxType.getSelectedItem().toString()) {
             case "Produtos": {
                 try {
-                    if (!Sgbd.notExist(Sgbd.DIRITEM)) {
+                    if (!DirDAO.notExist(DirDAO.dir.getDirItem())) {
                         populaTabelaItem();
                         jTable.setModel(dtmItem);
                     } else {
@@ -364,12 +367,12 @@ public final class MainUI extends javax.swing.JFrame {
             }
             break;
             case "Fornecedor": {
-                if (Sgbd.readSettings().getMode() == 1) {
+                if (SettingsDAO.readSettings().getMode() == 1) {
                     jComboBoxType.setSelectedIndex(0);
                     JOptionPane.showMessageDialog(rootPane, "Essa tabela está inativa no modo binário", "Alerta", JOptionPane.WARNING_MESSAGE);
                 } else {
                     try {
-                        if (!Sgbd.notExist(Sgbd.DIRPROVIDER)) {
+                        if (!DirDAO.notExist(DirDAO.dir.getDirProvider())) {
                             populaTabelaProvider();
                             jTable.setModel(dtmProvider);
                         } else {
@@ -392,7 +395,7 @@ public final class MainUI extends javax.swing.JFrame {
             jComboBoxType.setSelectedIndex(0);
         }
         if (evt.getWheelRotation() > 0) {
-            if (Sgbd.readSettings().getMode() == 1) {
+            if (SettingsDAO.readSettings().getMode() == 1) {
                 JOptionPane.showMessageDialog(rootPane, "Essa tabela está inativa no modo binário", "Alerta", JOptionPane.WARNING_MESSAGE);
             } else {
                 jComboBoxType.setSelectedIndex(1);
@@ -457,7 +460,7 @@ public final class MainUI extends javax.swing.JFrame {
         };
         confModelItem(dtmItem);
 
-        MainUI.itens = (ArrayList<Item>) Sgbd.readItem();
+        MainUI.itens = (ArrayList<Item>) ItemDAO.readItem();
         int size = itens.size();
         Item item;
 
@@ -491,7 +494,7 @@ public final class MainUI extends javax.swing.JFrame {
         };
         confModelProvider(dtmProvider);
 
-        MainUI.providers = (ArrayList<Provider>) Sgbd.readProvider();
+        MainUI.providers = (ArrayList<Provider>) ProviderDAO.readProvider();
         int size = providers.size();
         Provider provider;
 

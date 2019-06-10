@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.valueObject;
 
 import java.io.Serializable;
 
@@ -11,18 +11,18 @@ import java.io.Serializable;
  *
  * @author ld_si
  */
-public class Login implements Serializable{
+public class User implements Serializable{
     private String userName;
     private String salt;
     private String hash;
 
-    public Login(String userName, String salt, String hash) {
+    public User(String userName, String salt, String hash) {
         this.userName = userName;
         this.salt = salt;
         this.hash = hash;
     }
     
-    public Login() {
+    public User() {
         this.userName = "";
         this.salt = "";
         this.hash = "";

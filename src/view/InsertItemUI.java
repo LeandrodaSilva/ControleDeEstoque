@@ -5,14 +5,16 @@
  */
 package view;
 
-import control.CodeGenerator;
+import control.RandomValue;
 import java.io.IOException;
-import control.Sgbd;
+import model.dataAcessObject.DirDAO;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import model.Item;
-import model.Operations;
+import model.dataAcessObject.ItemDAO;
+import model.dataAcessObject.SettingsDAO;
+import model.valueObject.Item;
+import model.interfaces.Operations;
 
 /**
  *
@@ -215,44 +217,44 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations{
                         break;
                     }
                 }
-                if (Sgbd.readSettings().getMode() == 0) {
-                    Sgbd.deleteData(Sgbd.DIRITEM);
+                if (SettingsDAO.readSettings().getMode() == 0) {
+                    DirDAO.delete(DirDAO.dir.getDirItem());
                     for (int i = 0; i < itens.size(); i++) {
-                        Sgbd.writeItem(itens.get(i));
+                        ItemDAO.writeItem(itens.get(i));
                     }
                 } else {
-                    Sgbd.deleteData(Sgbd.DIRITEMB);
-                    Sgbd.writeItem(itens);
+                    DirDAO.delete(DirDAO.dir.getDirItemBinary());
+                    ItemDAO.writeItem(itens);
                 }
 
             } else {
                 setDataCode();
 
-                switch (Sgbd.readSettings().getMode()) {
+                switch (SettingsDAO.readSettings().getMode()) {
                     case 0:
-                        Sgbd.writeItem(item);
+                        ItemDAO.writeItem(item);
                         break;
                     case 1:
-                        ArrayList<Item> itens = Sgbd.readItem();
+                        ArrayList<Item> itens = ItemDAO.readItem();
                         if (itens == null) {
                             itens = new ArrayList();
                         }
                         itens.add(item);
-                        Sgbd.writeItem(itens);
+                        ItemDAO.writeItem(itens);
                         break;
 
                 }
             }
-            switch (Sgbd.readSettings().getMode()) {
+            switch (SettingsDAO.readSettings().getMode()) {
                 case 0:
-                    if (Sgbd.notExist(Sgbd.DIRITEM)) {
+                    if (DirDAO.notExist(DirDAO.dir.getDirItem())) {
                         mainUI.populaTabelaItem(item);
                     } else {
                         mainUI.populaTabelaItem();
                     }
                     break;
                 case 1:
-                    if (Sgbd.notExist(Sgbd.DIRITEMB)) {
+                    if (DirDAO.notExist(DirDAO.dir.getDirItemBinary())) {
                         mainUI.populaTabelaItem(item);
                     } else {
                         mainUI.populaTabelaItem();
@@ -298,28 +300,28 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations{
             }
 
             if (itens.isEmpty()) {
-                switch (Sgbd.readSettings().getMode()) {
+                switch (SettingsDAO.readSettings().getMode()) {
                     case 0:
-                        Sgbd.deleteData(Sgbd.DIRITEM);
+                        DirDAO.delete(DirDAO.dir.getDirItem());
                         break;
                     case 1:
-                        Sgbd.deleteData(Sgbd.DIRITEMB);
+                        DirDAO.delete(DirDAO.dir.getDirItemBinary());
                         break;
                 }
 
                 DefaultTableModel dtm = (DefaultTableModel) mainUI.jTable.getModel();
                 dtm.removeRow(index);
             } else {
-                switch (Sgbd.readSettings().getMode()) {
+                switch (SettingsDAO.readSettings().getMode()) {
                     case 0:
-                        Sgbd.deleteData(Sgbd.DIRITEM);
+                        DirDAO.delete(DirDAO.dir.getDirItem());
                         for (int i = 0; i < itens.size(); i++) {
-                            Sgbd.writeItem(itens.get(i));
+                            ItemDAO.writeItem(itens.get(i));
                         }
                         break;
                     case 1:
-                        Sgbd.deleteData(Sgbd.DIRITEMB);
-                        Sgbd.writeItem(itens);
+                        DirDAO.delete(DirDAO.dir.getDirItemBinary());
+                        ItemDAO.writeItem(itens);
                         break;
                 }
 
@@ -411,7 +413,7 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations{
     
     @Override
     public void setDataCode() {
-        item.setItemCode(CodeGenerator.getRandomCode());
+        item.setItemCode(RandomValue.getRandomCode());
     }
     
     @Override

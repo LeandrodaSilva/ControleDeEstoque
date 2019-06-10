@@ -7,25 +7,27 @@ package view;
 
 import java.awt.Point;
 import java.io.IOException;
-import control.Sgbd;
+import model.dataAcessObject.DirDAO;
 import control.Security;
 import javax.swing.JOptionPane;
-import model.Login;
-import model.Settings;
+import model.dataAcessObject.SettingsDAO;
+import model.dataAcessObject.UserDAO;
+import model.valueObject.User;
+import model.valueObject.Settings;
 
 /**
  *
  * @author ld_si
  */
 public class LoginUI extends javax.swing.JFrame {
-
+    private Point point = new Point();
     /**
      * Creates new form LoginUI
      */
-    private Point point = new Point();
 
     public LoginUI() {
         initComponents();
+        setMode(SettingsDAO.readSettings().getMode());
     }
 
     public LoginUI(int mode) {
@@ -53,10 +55,8 @@ public class LoginUI extends javax.swing.JFrame {
         jLabelPasswdError = new javax.swing.JLabel();
         jButtonNew = new javax.swing.JButton();
         jLabelLoginError = new javax.swing.JLabel();
-        jSliderMode = new javax.swing.JSlider();
         jLabelMode = new javax.swing.JLabel();
-        jLabelT = new javax.swing.JLabel();
-        jLabelB = new javax.swing.JLabel();
+        jComboBoxMode = new javax.swing.JComboBox<>();
         jLabelBackground = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -169,43 +169,20 @@ public class LoginUI extends javax.swing.JFrame {
         jLabelLoginError.setBounds(250, 430, 360, 30);
         jLabelLoginError.setVisible(false);
 
-        jSliderMode.setMaximum(1);
-        jSliderMode.setValue(Sgbd.readSettings().getMode());
-        jSliderMode.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSliderModeStateChanged(evt);
-            }
-        });
-        getContentPane().add(jSliderMode);
-        jSliderMode.setBounds(340, 390, 150, 30);
-
         jLabelMode.setForeground(new java.awt.Color(0, 0, 0));
         jLabelMode.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelMode.setText("Modo de gravação");
+        jLabelMode.setText("Modo de operação");
         getContentPane().add(jLabelMode);
         jLabelMode.setBounds(340, 370, 150, 16);
 
-        jLabelT.setForeground(new java.awt.Color(0, 0, 0));
-        jLabelT.setText("Texto");
-        getContentPane().add(jLabelT);
-        jLabelT.setBounds(270, 400, 32, 16);
-        if(Sgbd.readSettings().getMode() == 0){
-            jLabelT.setVisible(true);
-        }else{
-            jLabelT.setVisible(false);
-        }
-
-        jLabelB.setForeground(new java.awt.Color(0, 0, 0));
-        jLabelB.setText("Binário");
-        getContentPane().add(jLabelB);
-        jLabelB.setBounds(510, 400, 40, 16);
-        jLabelB.setVisible(false);
-
-        if(Sgbd.readSettings().getMode() == 1){
-            jLabelB.setVisible(true);
-        }else{
-            jLabelB.setVisible(false);
-        }
+        jComboBoxMode.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Texto", "Binário", "Banco" }));
+        jComboBoxMode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxModeActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jComboBoxMode);
+        jComboBoxMode.setBounds(340, 400, 150, 26);
 
         jLabelBackground.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelBackground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/white-wallpapers.jpeg"))); // NOI18N
@@ -217,16 +194,6 @@ public class LoginUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
-        this.point.x = evt.getX();
-        this.point.y = evt.getY();
-    }//GEN-LAST:event_formMousePressed
-
-    private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
-        Point p = this.getLocation();
-        this.setLocation(p.x + evt.getX() - point.x, p.y + evt.getY() - point.y);
-    }//GEN-LAST:event_formMouseDragged
-
     private void jButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCloseActionPerformed
         if (JOptionPane.showConfirmDialog(rootPane,
                 "Deseja realmente sair?", "Confirmação",
@@ -236,10 +203,10 @@ public class LoginUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonCloseActionPerformed
 
     private void jButtonEnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnterActionPerformed
-        Login user;
+        User user;
         try {
-            if (!Sgbd.notExist(Sgbd.DIRUSERB)) {
-                user = (Login) Sgbd.readUser();
+            if (!DirDAO.notExist(DirDAO.dir.getDirUserBinary())) {
+                user = (User) UserDAO.readUser();
                 if (checkBox() && Security.loginCheck(jTextFieldUser.getText(), jPasswordFieldPasswd.getText(), user)) {
                     System.out.println("Acesso permitido");
                     this.setVisible(false);
@@ -266,19 +233,20 @@ public class LoginUI extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButtonNewActionPerformed
 
-    private void jSliderModeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderModeStateChanged
-        switch (jSliderMode.getValue()) {
-            case 1:
-                jLabelT.setVisible(false);
-                jLabelB.setVisible(true);
-                break;
-            case 0:
-                jLabelT.setVisible(true);
-                jLabelB.setVisible(false);
-                break;
-        }
-        Sgbd.writeSettings(new Settings(jSliderMode.getValue()));
-    }//GEN-LAST:event_jSliderModeStateChanged
+    private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
+        this.point.x = evt.getX();
+        this.point.y = evt.getY();
+    }//GEN-LAST:event_formMousePressed
+
+    private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
+        Point p = this.getLocation();
+        this.setLocation(p.x + evt.getX() - point.x, p.y + evt.getY() - point.y);
+    }//GEN-LAST:event_formMouseDragged
+
+    private void jComboBoxModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxModeActionPerformed
+        System.out.println("Ca "+jComboBoxMode.getSelectedIndex());
+        SettingsDAO.writeSettings(new Settings(jComboBoxMode.getSelectedIndex()));
+    }//GEN-LAST:event_jComboBoxModeActionPerformed
 
     public static void start() {
         /* Set the Nimbus look and feel */
@@ -314,20 +282,18 @@ public class LoginUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonClose;
-    private javax.swing.JButton jButtonEnter;
+    public javax.swing.JButton jButtonEnter;
     private javax.swing.JButton jButtonNew;
-    private javax.swing.JLabel jLabelB;
-    private javax.swing.JLabel jLabelBackground;
+    private javax.swing.JComboBox<String> jComboBoxMode;
+    public javax.swing.JLabel jLabelBackground;
     private javax.swing.JLabel jLabelLoginError;
     private javax.swing.JLabel jLabelMode;
     private javax.swing.JLabel jLabelPasswd;
     private javax.swing.JLabel jLabelPasswdError;
-    private javax.swing.JLabel jLabelT;
     private javax.swing.JLabel jLabelTitle;
     private javax.swing.JLabel jLabelUser;
     private javax.swing.JLabel jLabelUserError;
     private javax.swing.JPasswordField jPasswordFieldPasswd;
-    private javax.swing.JSlider jSliderMode;
     private javax.swing.JTextField jTextFieldUser;
     // End of variables declaration//GEN-END:variables
 
@@ -353,7 +319,8 @@ public class LoginUI extends javax.swing.JFrame {
     }
 
     private void setMode(int mode) {
-        jSliderMode.setValue(mode);
+        System.out.println("selecionado: "+mode);
+        jComboBoxMode.setSelectedIndex(mode);
     }
 
 }

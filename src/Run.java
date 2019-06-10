@@ -3,19 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package control;
 
 
+
+import model.dataAcessObject.DirDAO;
+import model.dataAcessObject.SettingsDAO;
+import model.valueObject.Dir;
 import view.LoginUI;
 
 /**
  *
  * @author ld_si
  */
-public class Main {
+public class Run {
+    
+    private static SettingsDAO settingsDAO = new SettingsDAO(new Dir());
+    
     public static void main(String[] args) {
-        Sgbd.start();
-        LoginUI loginUI = new LoginUI(Sgbd.readSettings().getMode());
+        LoginUI loginUI = new LoginUI(settingsDAO.readSettings().getMode());
         loginUI.start();
     }
 }

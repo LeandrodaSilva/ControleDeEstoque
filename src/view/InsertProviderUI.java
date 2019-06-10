@@ -6,12 +6,13 @@
 package view;
 
 import java.io.IOException;
-import control.Sgbd;
+import model.dataAcessObject.DirDAO;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import model.Operations;
-import model.Provider;
+import model.dataAcessObject.ProviderDAO;
+import model.interfaces.Operations;
+import model.valueObject.Provider;
 
 /**
  *
@@ -179,12 +180,12 @@ public class InsertProviderUI extends javax.swing.JFrame implements Operations{
                         break;
                     }
                 }
-                Sgbd.deleteData(Sgbd.DIRPROVIDER);
+                DirDAO.delete(DirDAO.dir.getDirProvider());
                 for (int i = 0; i < providers.size(); i++) {
-                    Sgbd.writeProvider(providers.get(i));
+                    ProviderDAO.writeProvider(providers.get(i));
                 }
             } else {
-                providers = Sgbd.readProvider();
+                providers = ProviderDAO.readProvider();
                 int duplicated = 0;
                 for (int i = 0; i < providers.size(); i++) {
                     if (providers.get(i).getCnpj().equals(provider.getCnpj())) {
@@ -197,10 +198,10 @@ public class InsertProviderUI extends javax.swing.JFrame implements Operations{
                     return;
                 }
                 jTextFieldCnpj.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-                Sgbd.writeProvider(provider);
+                ProviderDAO.writeProvider(provider);
             }
 
-            if (Sgbd.notExist(Sgbd.DIRPROVIDER)) {
+            if (DirDAO.notExist(DirDAO.dir.getDirProvider())) {
                 mainUI.populaTabelaProvider(provider);
             } else {
                 mainUI.populaTabelaProvider();
@@ -248,13 +249,13 @@ public class InsertProviderUI extends javax.swing.JFrame implements Operations{
             }
 
             if (providers.isEmpty()) {
-                Sgbd.deleteData(Sgbd.DIRPROVIDER);
+                DirDAO.delete(DirDAO.dir.getDirProvider());
                 DefaultTableModel dtm = (DefaultTableModel) mainUI.jTable.getModel();
                 dtm.removeRow(index);
             } else {
-                Sgbd.deleteData(Sgbd.DIRPROVIDER);
+                DirDAO.delete(DirDAO.dir.getDirProvider());
                 for (int i = 0; i < providers.size(); i++) {
-                    Sgbd.writeProvider(providers.get(i));
+                    ProviderDAO.writeProvider(providers.get(i));
                 }
                 mainUI.populaTabelaProvider();
             }
