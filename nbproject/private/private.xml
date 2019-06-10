@@ -5,10 +5,11 @@
         <group>
             <file>file:/C:/Users/ld_si/ControledeEstoque/src/model/dataAcessObject/UserDAO.java</file>
             <file>file:/C:/Users/ld_si/ControledeEstoque/src/model/dataAcessObject/ItemDAO.java</file>
+            <file>file:/C:/Users/ld_si/ControledeEstoque/src/model/dataAcessObject/ProviderDAO.java</file>
             <file>file:/C:/Users/ld_si/ControledeEstoque/src/model/valueObject/Item.java</file>
-            <file>file:/C:/Users/ld_si/ControledeEstoque/src/view/InsertItemUI.java</file>
+            <file>file:/C:/Users/ld_si/ControledeEstoque/src/view/MainUI.java</file>
             <file>file:/C:/Users/ld_si/ControledeEstoque/src/model/dataAcessObject/CloudDAO.java</file>
-            <file>file:/C:/Users/ld_si/ControledeEstoque/src/model/dataAcessObject/DirDAO.java</file>
+            <file>file:/C:/Users/ld_si/ControledeEstoque/src/Test.java</file>
         </group>
     </open-files>
 </project-private>
