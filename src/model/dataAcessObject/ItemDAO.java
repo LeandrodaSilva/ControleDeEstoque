@@ -47,19 +47,12 @@ public class ItemDAO extends DirDAO {
             case 2:
                 CloudDAO cdao = new CloudDAO();
                 cdao.createConection();
-                for (int i = 0; itens.isEmpty(); i++) {
+
+                for (int i = 0; i < itens.size(); i++) {
                     Item item = (Item) itens.get(i);
-                    cdao.writeCloud("INSERT INTO public.item("
-                            + "itemcode, "
-                            + "itemquantity, "
-                            + "itemname, "
-                            + "itemdescription, "
-                            + "itemprice) "
-                            + "VALUES ("+item.getItemCode()+","
-                            + ""+item.getItemQuantity()+" , "
-                            + ""+item.getItemName()+", "
-                            + ""+item.getItemDescription()+", "
-                            + ""+item.getItemPrice()+");");
+                    cdao.writeCloud("INSERT INTO public.item(\n"
+                            + "	itemcode, itemquantity, itemname, itemdescription, itemprice)\n"
+                            + "	VALUES (" + item.getItemCode() + ", " + item.getItemQuantity() + ", '" + item.getItemName() + "', '" + item.getItemDescription() + "', " + item.getItemPrice() + ");");
                 }
                 cdao.closeConection();
                 break;
@@ -108,7 +101,7 @@ public class ItemDAO extends DirDAO {
                 try {
                     return (ArrayList) BinaryDAO.readBinary(dir.getDir() + dir.getDirItemBinary());
                 } catch (ClassNotFoundException ex) {
-                    System.out.println("Erro: " + ex.getMessage()+" retornado null");
+                    System.out.println("Erro: " + ex.getMessage() + " retornado null");
                     return null;
                 }
             case 2:

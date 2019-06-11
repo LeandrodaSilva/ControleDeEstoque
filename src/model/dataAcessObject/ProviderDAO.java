@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import model.valueObject.Dir;
 import model.valueObject.Provider;
-import model.valueObject.User;
+
 
 /**
  *
@@ -56,65 +56,63 @@ public class ProviderDAO extends DirDAO {
         
     }
 
-    /**
-     *
-     * @return @throws FileNotFoundException
-     * @throws IOException
-     */
-    public static ArrayList readProvider()
-            throws FileNotFoundException, IOException {        
-        ArrayList<Provider> providers = new ArrayList<Provider>();
-        switch (SettingsDAO.readSettings().getMode()) {
-            case 0:
-                ArrayList<String> lido = TextDAO.readText(dir.getDir() + dir.getDirProvider());
-                
-                String name,
-                 cnpj,
-                 adress;
-                int v1,
-                 v2;
-                
-                for (String line : lido) {
-                    v1 = line.indexOf(",");
-                    v2 = line.indexOf(",", v1 + 1);
+
+    public static ArrayList readProvider(){        
+        try {
+            ArrayList<Provider> providers = new ArrayList<Provider>();
+            switch (SettingsDAO.readSettings().getMode()) {
+                case 0:
+                    ArrayList<String> lido = TextDAO.readText(dir.getDir() + dir.getDirProvider());
                     
-                    name = line.substring(0, v1);
-                    cnpj = line.substring(v1 + 1, v2);
-                    adress = line.substring(v2 + 1, line.indexOf(";"));
+                    String name,
+                            cnpj,
+                            adress;
+                    int v1,
+                            v2;
                     
-                    providers.add(new Provider(name, cnpj, adress));
-                }
-                return providers;
-            case 1:
-                try {
-                    return (ArrayList) BinaryDAO.readBinary(dir.getDir() + dir.getDirProviderBinary());
-                } catch (ClassNotFoundException ex) {
-                    System.out.println("Erro: " + ex.getMessage());
-                }
-            case 2:
-                CloudDAO cdao = new CloudDAO();
-                cdao.createConection();
-                
-                ResultSet rs = cdao.readCloud("SELECT name, cnpj, adress FROM public.provider;");
-                if (rs == null) {
-                    return null;
-                }
-                try {
-                    
-                    System.out.println("ResultSet provider: " + rs.getObject(1).toString());
-                    while (rs.next()) {
-                        providers.add(new Provider(rs.getString(1),
-                                rs.getString(2),
-                                rs.getString(3)));
+                    for (String line : lido) {
+                        v1 = line.indexOf(",");
+                        v2 = line.indexOf(",", v1 + 1);
+                        
+                        name = line.substring(0, v1);
+                        cnpj = line.substring(v1 + 1, v2);
+                        adress = line.substring(v2 + 1, line.indexOf(";"));
+                        
+                        providers.add(new Provider(name, cnpj, adress));
                     }
-                    System.out.println("Cloud - provider recuperado: ");
                     return providers;
-                } catch (SQLException ex) {
-                    System.out.println("ResultSet Erro - provider: " + ex.getMessage());
-                }
-            default:
-                return null;
+                case 1:
+                    try {
+                        return (ArrayList) BinaryDAO.readBinary(dir.getDir() + dir.getDirProviderBinary());
+                    } catch (ClassNotFoundException ex) {
+                        System.out.println("Erro: " + ex.getMessage());
+                    }
+                case 2:
+                    CloudDAO cdao = new CloudDAO();
+                    cdao.createConection();
+                    
+                    ResultSet rs = cdao.readCloud("SELECT name, cnpj, adress FROM public.provider;");
+                    if (rs == null) {
+                        return null;
+                    }
+                    try {
+                        
+                        System.out.println("ResultSet provider: " + rs.getObject(1).toString());
+                        while (rs.next()) {
+                            providers.add(new Provider(rs.getString(1),
+                                    rs.getString(2),
+                                    rs.getString(3)));
+                        }
+                        System.out.println("Cloud - provider recuperado: ");
+                        return providers;
+                    } catch (SQLException ex) {
+                        System.out.println("ResultSet Erro - provider: " + ex.getMessage());
+                    }
+            }
+        } catch (IOException ex) {
+            System.out.println("readProvider - Erro: "+ex.getMessage());
+            return null;
         }
-        
+        return null;
     }    
 }

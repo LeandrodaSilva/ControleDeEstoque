@@ -33,7 +33,7 @@ public class MainUI extends javax.swing.JFrame {
     /**
      * Creates new form MainUI
      */
-    protected static Point point  = new Point();
+    protected static Point point = new Point();
     protected static ArrayList providers;
     public static ArrayList itens;
     public static DefaultTableModel dtmItem;
@@ -43,9 +43,9 @@ public class MainUI extends javax.swing.JFrame {
     public MainUI() {
         this.dtmItem = myTableModel("item");
         this.dtmProvider = myTableModel("provider");
-        
+
         initComponents();
-        
+
         switch (SettingsDAO.readSettings().getMode()) {
             case 0:
                 if (!DirDAO.exist(SettingsDAO.dir.getDirItem())) {
@@ -66,6 +66,21 @@ public class MainUI extends javax.swing.JFrame {
                     }
                     break;
                 }
+            case 2:
+
+                try {
+                    if (ItemDAO.readItem() != null) {
+                        try {
+                            reloadTableItem();
+                        } catch (IOException ex) {
+                            System.out.println("Erro ao popular a tabela itens");
+                        }
+                        break;
+                    }
+                } catch (IOException ex) {
+                    System.out.println("Erro ao popular a tabela itens: " + ex.getMessage());
+                }
+
         }
     }
 
@@ -352,17 +367,14 @@ public class MainUI extends javax.swing.JFrame {
                 try {
                     if (!DirDAO.exist(DirDAO.dir.getDirItem())) {
                         reloadTableItem();
-                        jTable.setModel(dtmItem);
                     } else {
                         dtmProvider.setNumRows(0);
                         dtmItem.setNumRows(0);
                         jTable.setModel(dtmItem);
-                        jTable.getColumn("Descrição").setMinWidth(0);
-                        jTable.getColumn("Descrição").setPreferredWidth(0);
-                        jTable.getColumn("Descrição").setMaxWidth(0);
+                        hideColumn("Descrição");
                     }
                 } catch (IOException ex) {
-                    Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("jComboBoxTypeActionPerformed - Erro: " + ex.getMessage());
                 }
             }
             break;
@@ -381,7 +393,7 @@ public class MainUI extends javax.swing.JFrame {
                             jTable.setModel(dtmProvider);
                         }
                     } catch (IOException ex) {
-                        Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
+                        System.out.println("jComboBoxTypeActionPerformed - Erro: " + ex.getMessage());
                     }
                 }
 
@@ -395,11 +407,9 @@ public class MainUI extends javax.swing.JFrame {
             jComboBoxType.setSelectedIndex(0);
         }
         if (evt.getWheelRotation() > 0) {
-            if (SettingsDAO.readSettings().getMode() == 1) {
-                JOptionPane.showMessageDialog(rootPane, "Essa tabela está inativa no modo binário", "Alerta", JOptionPane.WARNING_MESSAGE);
-            } else {
-                jComboBoxType.setSelectedIndex(1);
-            }
+
+            jComboBoxType.setSelectedIndex(1);
+
         }
     }//GEN-LAST:event_jComboBoxTypeMouseWheelMoved
 
@@ -471,7 +481,7 @@ public class MainUI extends javax.swing.JFrame {
         this.dtmProvider = myTableModel("provider");
 
         setTableModelRowsValues("provider");
-        
+
         jTable.setModel(dtmProvider);
 
         setSorter(dtmProvider);
@@ -565,25 +575,29 @@ public class MainUI extends javax.swing.JFrame {
                 }
                 break;
             case "provider":
-                try {
-                    String[] linha = new String[3];
-                    
-                    this.providers = (ArrayList<Provider>) ProviderDAO.readProvider();
-                    int size = this.providers.size();
-                   
-                    Provider provider;
 
-                    for (int i = 0; i < size; i++) {
-                        provider = (Provider) providers.get(i);
-                        linha[0] = provider.getName();
-                        linha[1] = provider.getCnpj();
-                        linha[2] = provider.getAdress();
-                        dtmProvider.addRow(linha);
-                    }
-                } catch (IOException ex) {
-                    Logger.getLogger(MainUI.class.getName()).log(Level.SEVERE, null, ex);
+                String[] linha = new String[3];
+
+                this.providers = (ArrayList<Provider>) ProviderDAO.readProvider();
+
+                if (providers == null) {
+                    System.out.println("provider nulo");
+                    dtmProvider.setNumRows(0);
+                    jTable.setModel(dtmProvider);
+                    return;
                 }
+                int size = this.providers.size();
 
+                Provider provider;
+
+                for (int i = 0; i < size; i++) {
+                    provider = (Provider) providers.get(i);
+                    linha[0] = provider.getName();
+                    linha[1] = provider.getCnpj();
+                    linha[2] = provider.getAdress();
+                    dtmProvider.addRow(linha);
+                }
+                jTable.setModel(dtmProvider);
                 break;
 
         }

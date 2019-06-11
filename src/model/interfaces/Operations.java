@@ -21,14 +21,5 @@ public interface Operations {
     
     public void save();
     
-    public void delete();
-    
-    public void edit(); 
-    
-    public void read();
-    
-    public void setDataCode();
-    
-    
-    
+    public void delete();   
 }

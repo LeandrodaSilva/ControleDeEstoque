@@ -5,9 +5,12 @@
  */
 package view;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import model.dataAcessObject.DirDAO;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.dataAcessObject.ProviderDAO;
@@ -18,7 +21,7 @@ import model.valueObject.Provider;
  *
  * @author ld_si
  */
-public class InsertProviderUI extends javax.swing.JFrame implements Operations{
+public class InsertProviderUI extends javax.swing.JFrame implements Operations {
 
     /**
      * Creates new form InsertUI
@@ -47,7 +50,7 @@ public class InsertProviderUI extends javax.swing.JFrame implements Operations{
         InsertProviderUI.providers = providers;
         initComponents();
         jButtonDelete.setVisible(true);
-        getFrameElements();
+        setFrameElements();
     }
 
     /**
@@ -166,60 +169,9 @@ public class InsertProviderUI extends javax.swing.JFrame implements Operations{
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed
-        if (!verifyFrameElements()) {
-            return;
-        }
-        try {
-            setFrameElements();
-            if (option.equals("edit")) {
-                int index = 0;
-                for (int i = 0; i < providers.size(); i++) {
-                    if (providers.get(i).getCnpj().equals(provider.getCnpj())) {
-                        index = i;
-                        providers.set(index, provider);
-                        break;
-                    }
-                }
-                DirDAO.delete(DirDAO.dir.getDirProvider());
-                for (int i = 0; i < providers.size(); i++) {
-                    ProviderDAO.writeProvider(providers.get(i));
-                }
-            } else {
-                providers = ProviderDAO.readProvider();
-                int duplicated = 0;
-                for (int i = 0; i < providers.size(); i++) {
-                    if (providers.get(i).getCnpj().equals(provider.getCnpj())) {
-                        duplicated++;
-                    }
-                }
-                if (duplicated >= 1) {
-                    jTextFieldCnpj.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
-                    JOptionPane.showMessageDialog(rootPane, "CNPJ já cadastrado", "Alerta", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-                jTextFieldCnpj.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-                ProviderDAO.writeProvider(provider);
-            }
-
-            if (DirDAO.exist(DirDAO.dir.getDirProvider())) {
-                mainUI.populaTabelaProvider(provider);
-            } else {
-                mainUI.reloadTableProvider();
-            }
-            mainUI.setEnabled(true);
-            JOptionPane.showMessageDialog(rootPane, "Fornecedor cadastrado com sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
-            this.dispose();
-        } catch (IOException ex) {
-            System.out.println("Erro na inserção");
-            JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-        }
+        save();
     }//GEN-LAST:event_jButtonSaveActionPerformed
-    
-  
-    
-    
 
- 
 
     private void jButtonClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearActionPerformed
         removeFrameElements();
@@ -231,42 +183,7 @@ public class InsertProviderUI extends javax.swing.JFrame implements Operations{
     }//GEN-LAST:event_formWindowClosing
 
     private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
-        if (JOptionPane.showConfirmDialog(rootPane,
-                "Deseja realmente excluir?", "Confirmação",
-                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.NO_OPTION) {
-            return;
-        }
-        try {
-            setFrameElements();
-
-            int index = 0;
-            for (int i = 0; i < providers.size(); i++) {
-                if (providers.get(i).getCnpj().equals(provider.getCnpj())) {
-                    index = i;
-                    providers.remove(index);
-                    break;
-                }
-            }
-
-            if (providers.isEmpty()) {
-                DirDAO.delete(DirDAO.dir.getDirProvider());
-                DefaultTableModel dtm = (DefaultTableModel) mainUI.jTable.getModel();
-                dtm.removeRow(index);
-            } else {
-                DirDAO.delete(DirDAO.dir.getDirProvider());
-                for (int i = 0; i < providers.size(); i++) {
-                    ProviderDAO.writeProvider(providers.get(i));
-                }
-                mainUI.reloadTableProvider();
-            }
-
-            mainUI.setEnabled(true);
-            JOptionPane.showMessageDialog(rootPane, "Fornecedor deletado com sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
-            this.dispose();
-        } catch (IOException ex) {
-            System.out.println("Erro na remoção");
-            JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-        }
+        delete();
     }//GEN-LAST:event_jButtonDeleteActionPerformed
 
     /**
@@ -331,34 +248,128 @@ public class InsertProviderUI extends javax.swing.JFrame implements Operations{
         }
         return true;
     }
-    
+
     @Override
     public void setFrameElements() {
-        provider.setName(jTextFieldName.getText());
-        provider.setCnpj(jTextFieldCnpj.getText());
-        provider.setAdress(jTextAreaAdress.getText());
-    }
-    
-    @Override
-    public void getFrameElements() {
         jTextFieldName.setText(provider.getName());
         jTextFieldCnpj.setText(provider.getCnpj());
         jTextAreaAdress.setText(provider.getAdress());
     }
 
     @Override
+    public void getFrameElements() {
+        provider.setName(jTextFieldName.getText());
+        provider.setCnpj(jTextFieldCnpj.getText());
+        provider.setAdress(jTextAreaAdress.getText());
+    }
+
+    public void edit() {
+        try {
+            int index = 0;
+            for (int i = 0; i < providers.size(); i++) {
+                if (providers.get(i).getCnpj().equals(provider.getCnpj())) {
+                    index = i;
+                    providers.set(index, provider);
+                    break;
+                }
+            }
+            DirDAO.delete(DirDAO.dir.getDirProvider());
+            for (int i = 0; i < providers.size(); i++) {
+                ProviderDAO.writeProvider(providers.get(i));
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(InsertProviderUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(InsertProviderUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
     public void save() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (!verifyFrameElements()) {
+            System.out.println("Erro - Campos incompletos");
+            return;
+        }
+        try {
+            getFrameElements();
+            if (option.equals("edit")) {
+                edit();
+                return;
+            }
+
+            providers = ProviderDAO.readProvider();
+            
+            if (providers != null) {
+                int duplicated = 0;
+                for (int i = 0; i < providers.size(); i++) {
+                    if (providers.get(i).getCnpj().equals(provider.getCnpj())) {
+                        duplicated++;
+                    }
+                }
+                if (duplicated >= 1) {
+                    jTextFieldCnpj.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
+                    JOptionPane.showMessageDialog(rootPane, "CNPJ já cadastrado", "Alerta", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+            }
+
+            jTextFieldCnpj.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+            
+            ProviderDAO.writeProvider(provider);
+
+            if (DirDAO.exist(DirDAO.dir.getDirProvider())) {
+                mainUI.populaTabelaProvider(provider);
+            } else {
+                mainUI.reloadTableProvider();
+            }
+            
+            mainUI.setEnabled(true);
+            JOptionPane.showMessageDialog(rootPane, "Fornecedor cadastrado com sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+        } catch (IOException ex) {
+            System.out.println("Erro na inserção");
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     @Override
     public void delete() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+        if (JOptionPane.showConfirmDialog(rootPane,
+                "Deseja realmente excluir?", "Confirmação",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.NO_OPTION) {
+            return;
+        }
+        try {
+            getFrameElements();
 
-    @Override
-    public void setDataCode() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            int index = 0;
+            for (int i = 0; i < providers.size(); i++) {
+                if (providers.get(i).getCnpj().equals(provider.getCnpj())) {
+                    index = i;
+                    providers.remove(index);
+                    break;
+                }
+            }
+
+            if (providers.isEmpty()) {
+                DirDAO.delete(DirDAO.dir.getDirProvider());
+                DefaultTableModel dtm = (DefaultTableModel) mainUI.jTable.getModel();
+                dtm.removeRow(index);
+            } else {
+                DirDAO.delete(DirDAO.dir.getDirProvider());
+                for (int i = 0; i < providers.size(); i++) {
+                    ProviderDAO.writeProvider(providers.get(i));
+                }
+                mainUI.reloadTableProvider();
+            }
+
+            mainUI.setEnabled(true);
+            JOptionPane.showMessageDialog(rootPane, "Fornecedor deletado com sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+        } catch (IOException ex) {
+            System.out.println("Erro na remoção");
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     @Override
@@ -368,13 +379,4 @@ public class InsertProviderUI extends javax.swing.JFrame implements Operations{
         jTextAreaAdress.setText("");
     }
 
-    @Override
-    public void edit() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void read() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

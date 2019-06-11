@@ -10,8 +10,6 @@ import model.businessObject.RandomValue;
 import java.io.IOException;
 import model.dataAcessObject.DirDAO;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.dataAcessObject.ItemDAO;
@@ -334,11 +332,13 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations {
 
     @Override
     public void save() {
+        
         if (!verifyFrameElements()) {
             System.out.println("Erro - Campos incompletos");
             return;
         }
         try {
+            ArrayList<Item> itens = ItemDAO.readItem();
             getFrameElements();
 
             if (option.equals("edit")) {
@@ -352,13 +352,15 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations {
                 case 0:
                     ItemDAO.writeItem(item);
                     break;
-                default:
-                    ArrayList<Item> itens = ItemDAO.readItem();
+                case 1:
                     if (itens == null) {
                         itens = new ArrayList<Item>();
                     }
                     itens.add(item);
                     ItemDAO.writeItem(itens);
+                    break;
+                case 2:
+                    ItemDAO.writeItem(item);
                     break;
             }
 
@@ -390,9 +392,9 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations {
         }
     }
 
-    @Override
     public void setDataCode() {
-        item.setItemCode(RandomValue.getRandomCode());
+        RandomValue rv = new RandomValue();
+        item.setItemCode(rv.getRandomCode());
     }
 
     @Override
@@ -434,7 +436,6 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations {
         jTextAreaDescription.setText("");
     }
 
-    @Override
     public void edit() {
         try {
             int index = 0;
@@ -456,6 +457,12 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations {
                     DirDAO.delete(DirDAO.dir.getDirItemBinary());
                     ItemDAO.writeItem(itens);
             }
+            mainUI.reloadTableItem();
+            mainUI.setEnabled(true);
+
+            JOptionPane.showMessageDialog(rootPane, "Item cadastrado com sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+
+            this.dispose();
 
         } catch (FileNotFoundException ex) {
             System.out.println("edit - Erro: "+ex.getMessage());
@@ -465,9 +472,6 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations {
 
     }
 
-    @Override
-    public void read() {
-        
-    }
+   
 
 }

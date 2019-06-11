@@ -218,7 +218,8 @@ public class InsertUserUI extends javax.swing.JFrame implements Operations {
 
     @Override
     public void save() {
-        String salt = RandomValue.getRandomSalt();
+        RandomValue rv = new RandomValue();
+        String salt = rv.getRandomSalt();
         try {
             UserDAO.writeUser(new User(
                     jTextFieldName.getText(),
@@ -241,23 +242,9 @@ public class InsertUserUI extends javax.swing.JFrame implements Operations {
     }
 
     @Override
-    public void setDataCode() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void removeFrameElements() {
         jPasswordField.setText("");
         jTextFieldName.setText(""); 
     }
-
-    @Override
-    public void edit() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void read() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+ 
 }

@@ -53,7 +53,7 @@ public class CloudDAO {
             connection.commit();
             System.out.println("Inserido em Cloud com sucesso");
         } catch (SQLException erro) {
-            System.out.println("Update - Erro:" + erro);
+            System.out.println("writeCloud - Erro:" + erro);
         }
     }
     

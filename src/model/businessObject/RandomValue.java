@@ -13,21 +13,23 @@ import java.util.Random;
  * @author Aluno
  */
 public class RandomValue {
-    private static final Calendar data = Calendar.getInstance();
+    private final Calendar data = Calendar.getInstance();
     
-    public static int getRandomCode(){
+    public int getRandomCode(){
         String time = Integer.toString(data.get(Calendar.HOUR_OF_DAY))
                 + Integer.toString(data.get(Calendar.MINUTE))
                 + Integer.toString(data.get(Calendar.SECOND));
         Random gerador = new Random(Long.parseLong(time));
-        return Math.abs(gerador.nextInt());
+        int result = Math.abs(gerador.nextInt());
+        System.out.println("getRandomCode: "+result);
+        return result;
     }
     
     /** 
      * Método utilizado para geral um salt aleatório com base no relógio da máquina
      * @return String - Com o salt gerado
      */
-    public static String getRandomSalt(){
+    public String getRandomSalt(){
         Calendar data = Calendar.getInstance();
         String time = Integer.toString(data.get(Calendar.HOUR_OF_DAY))+
                 Integer.toString(data.get(Calendar.MINUTE))+
