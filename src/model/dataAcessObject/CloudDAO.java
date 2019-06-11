@@ -19,8 +19,8 @@ import java.sql.Statement;
 public class CloudDAO {
     
     private static Connection connection = null;
-    private static Statement stdados = null;
-    private static ResultSet rsdados = null;
+    private static Statement stDados = null;
+    private static ResultSet rsDados = null;
     
     public boolean createConection() {
   
@@ -35,11 +35,8 @@ public class CloudDAO {
             connection = DriverManager.getConnection(urlconexao, usuario, senha);
             connection.setAutoCommit(false);
 
-        } catch (ClassNotFoundException erro) {
-            System.out.println("Falha ao carregar o driver JDBC/ODBC." + erro);
-            return false;
-        } catch (SQLException erro) {
-            System.out.println("Falha na conexao, comando sql = " + erro);
+        } catch (ClassNotFoundException | SQLException erro) {
+            System.out.println("createConection - Erro:" + erro);
             return false;
         }
         return true;
@@ -49,36 +46,30 @@ public class CloudDAO {
         try {
 
             int tipo = ResultSet.TYPE_SCROLL_SENSITIVE;
-           
             int concorrencia = ResultSet.CONCUR_UPDATABLE;
-           
-
-            stdados = connection.createStatement(tipo, concorrencia);
+            stDados = connection.createStatement(tipo, concorrencia);
             
-            int resposta = stdados.executeUpdate(sql);
+            stDados.executeUpdate(sql);
             connection.commit();
-           
-            System.out.println("Resposta do Update = " + resposta);
+            System.out.println("Inserido em Cloud com sucesso");
         } catch (SQLException erro) {
-            System.out.println("Erro Executa Update = " + erro);
+            System.out.println("Update - Erro:" + erro);
         }
     }
     
     public static ResultSet readCloud(String sql){
         try {
-           
             int tipo = ResultSet.TYPE_SCROLL_SENSITIVE;
-           
             int concorrencia = ResultSet.CONCUR_READ_ONLY;
             
-            stdados = connection.createStatement(tipo, concorrencia);
+            stDados = connection.createStatement(tipo, concorrencia);
             
-            rsdados = stdados.executeQuery(sql);
-            if (!rsdados.first()) {
+            rsDados = stDados.executeQuery(sql);
+            if (!rsDados.first()) {
                 return null;
             }
            
-            return rsdados;
+            return rsDados;
         } catch (SQLException erro) {
             System.out.println("readCloud - Erro: "+ erro.getMessage());
             return null;
@@ -88,13 +79,13 @@ public class CloudDAO {
     
      public void closeConection() {
         try {
-            if (rsdados != null) {
-                rsdados.close();
-                stdados.close();
+            if (rsDados != null) {
+                rsDados.close();
+                stDados.close();
                 connection.close();
             }
         } catch (SQLException erro) {
-            System.out.println("Nao foi possivel a desconexao." + erro);
+            System.out.println("closeConection - Erro:" + erro);
         }
     }
 }

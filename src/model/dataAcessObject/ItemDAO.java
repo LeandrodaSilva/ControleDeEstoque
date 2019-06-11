@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import model.valueObject.Dir;
 
 import model.valueObject.Item;
-import model.valueObject.Provider;
 
 /**
  *
@@ -109,7 +108,8 @@ public class ItemDAO extends DirDAO {
                 try {
                     return (ArrayList) BinaryDAO.readBinary(dir.getDir() + dir.getDirItemBinary());
                 } catch (ClassNotFoundException ex) {
-                    System.out.println("Erro: " + ex.getMessage());
+                    System.out.println("Erro: " + ex.getMessage()+" retornado null");
+                    return null;
                 }
             case 2:
                 CloudDAO cdao = new CloudDAO();

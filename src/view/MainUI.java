@@ -48,7 +48,7 @@ public class MainUI extends javax.swing.JFrame {
         
         switch (SettingsDAO.readSettings().getMode()) {
             case 0:
-                if (DirDAO.exist(SettingsDAO.dir.getDirItem())) {
+                if (!DirDAO.exist(SettingsDAO.dir.getDirItem())) {
                     try {
                         reloadTableItem();
                         System.out.println("Itens carregados");
@@ -58,22 +58,13 @@ public class MainUI extends javax.swing.JFrame {
                 }
                 break;
             case 1:
-                if (DirDAO.exist(DirDAO.dir.getDirItemBinary())) {
+                if (!DirDAO.exist(DirDAO.dir.getDirItemBinary())) {
                     try {
                         reloadTableItem();
                     } catch (IOException ex) {
                         System.out.println("Erro ao popular a tabela itens");
                     }
                     break;
-                }
-            default:
-                if (DirDAO.exist(SettingsDAO.dir.getDirItem())) {
-                    try {
-                        reloadTableItem();
-                        System.out.println("Itens carregados");
-                    } catch (IOException ex) {
-                        System.out.println("Erro ao popular a tabela itens");
-                    }
                 }
         }
     }
@@ -359,7 +350,7 @@ public class MainUI extends javax.swing.JFrame {
         switch (jComboBoxType.getSelectedItem().toString()) {
             case "Produtos": {
                 try {
-                    if (DirDAO.exist(DirDAO.dir.getDirItem())) {
+                    if (!DirDAO.exist(DirDAO.dir.getDirItem())) {
                         reloadTableItem();
                         jTable.setModel(dtmItem);
                     } else {
@@ -381,7 +372,7 @@ public class MainUI extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(rootPane, "Essa tabela está inativa no modo binário", "Alerta", JOptionPane.WARNING_MESSAGE);
                 } else {
                     try {
-                        if (DirDAO.exist(DirDAO.dir.getDirProvider())) {
+                        if (!DirDAO.exist(DirDAO.dir.getDirProvider())) {
                             reloadTableProvider();
                             jTable.setModel(dtmProvider);
                         } else {

@@ -201,7 +201,7 @@ public class InsertProviderUI extends javax.swing.JFrame implements Operations{
                 ProviderDAO.writeProvider(provider);
             }
 
-            if (!DirDAO.exist(DirDAO.dir.getDirProvider())) {
+            if (DirDAO.exist(DirDAO.dir.getDirProvider())) {
                 mainUI.populaTabelaProvider(provider);
             } else {
                 mainUI.reloadTableProvider();

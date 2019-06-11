@@ -5,10 +5,13 @@
  */
 package view;
 
+import java.io.FileNotFoundException;
 import model.businessObject.RandomValue;
 import java.io.IOException;
 import model.dataAcessObject.DirDAO;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.dataAcessObject.ItemDAO;
@@ -20,7 +23,7 @@ import model.interfaces.Operations;
  *
  * @author ld_si
  */
-public class InsertItemUI extends javax.swing.JFrame implements Operations{
+public class InsertItemUI extends javax.swing.JFrame implements Operations {
 
     /**
      * Creates new form InsertUI
@@ -61,7 +64,7 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations{
         InsertItemUI.itens = itens;
         initComponents();
         jButtonDelete.setVisible(true);
-        getFrameElements();
+        setFrameElements();
     }
 
     /**
@@ -111,11 +114,6 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations{
         jTextFieldPrice.setText("0.00");
 
         jTextFieldQuantity.setText("0");
-        jTextFieldQuantity.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                jTextFieldQuantityCaretUpdate(evt);
-            }
-        });
 
         jButtonSave.setText("Salvar");
         jButtonSave.addActionListener(new java.awt.event.ActionListener() {
@@ -203,145 +201,20 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations{
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed
-        if (!verifyFrameElements()) {
-            return;
-        }
-        try {
-            setFrameElements();
-            if (option.equals("edit")) {
-                int index = 0;
-                for (int i = 0; i < itens.size(); i++) {
-                    if (itens.get(i).getItemCode() == item.getItemCode()) {
-                        index = i;
-                        itens.set(index, item);
-                        break;
-                    }
-                }
-                if (SettingsDAO.readSettings().getMode() == 0) {
-                    DirDAO.delete(DirDAO.dir.getDirItem());
-                    for (int i = 0; i < itens.size(); i++) {
-                        ItemDAO.writeItem(itens.get(i));
-                    }
-                } else {
-                    DirDAO.delete(DirDAO.dir.getDirItemBinary());
-                    ItemDAO.writeItem(itens);
-                }
-
-            } else {
-                setDataCode();
-
-                switch (SettingsDAO.readSettings().getMode()) {
-                    case 0:
-                        ItemDAO.writeItem(item);
-                        break;
-                    case 1:
-                        ArrayList<Item> itens = ItemDAO.readItem();
-                        if (itens == null) {
-                            itens = new ArrayList<Item>();
-                        }
-                        itens.add(item);
-                        ItemDAO.writeItem(itens);
-                        break;
-                }
-            }
-            switch (SettingsDAO.readSettings().getMode()) {
-                case 0:
-                    if (!DirDAO.exist(DirDAO.dir.getDirItem())) {
-                        mainUI.populaTabelaItem(item);
-                    } else {
-                        mainUI.reloadTableItem();
-                    }
-                    break;
-                case 1:
-                    if (!DirDAO.exist(DirDAO.dir.getDirItemBinary())) {
-                        mainUI.populaTabelaItem(item);
-                    } else {
-                        mainUI.reloadTableItem();
-                    }
-                    break;
-            }
-
-            mainUI.setEnabled(true);
-            
-            JOptionPane.showMessageDialog(rootPane, "Item cadastrado com sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
-            
-            this.dispose();
-        } catch (IOException ex) {
-            System.out.println("Erro na inserção");
-            JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-        }
+        save();
     }//GEN-LAST:event_jButtonSaveActionPerformed
-
-    
 
     private void jButtonClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearActionPerformed
         removeFrameElements();
     }//GEN-LAST:event_jButtonClearActionPerformed
-   
+
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         mainUI.setEnabled(true);
     }//GEN-LAST:event_formWindowClosing
 
     private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
-        if (JOptionPane.showConfirmDialog(rootPane,
-                "Deseja realmente excluir?", "Confirmação",
-                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.NO_OPTION) {
-            return;
-        }
-        try {
-            setFrameElements();
-
-            int index = 0;
-            for (int i = 0; i < itens.size(); i++) {
-                if (itens.get(i).getItemCode() == item.getItemCode()) {
-                    index = i;
-                    itens.remove(index);
-                    break;
-                }
-            }
-
-            if (itens.isEmpty()) {
-                switch (SettingsDAO.readSettings().getMode()) {
-                    case 0:
-                        DirDAO.delete(DirDAO.dir.getDirItem());
-                        break;
-                    case 1:
-                        DirDAO.delete(DirDAO.dir.getDirItemBinary());
-                        break;
-                }
-
-                DefaultTableModel dtm = (DefaultTableModel) mainUI.jTable.getModel();
-                dtm.removeRow(index);
-            } else {
-                switch (SettingsDAO.readSettings().getMode()) {
-                    case 0:
-                        DirDAO.delete(DirDAO.dir.getDirItem());
-                        for (int i = 0; i < itens.size(); i++) {
-                            ItemDAO.writeItem(itens.get(i));
-                        }
-                        break;
-                    case 1:
-                        DirDAO.delete(DirDAO.dir.getDirItemBinary());
-                        ItemDAO.writeItem(itens);
-                        break;
-                }
-
-                mainUI.reloadTableItem();
-            }
-
-            mainUI.setEnabled(true);
-            JOptionPane.showMessageDialog(rootPane, "Item deletado com sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
-            this.dispose();
-        } catch (IOException ex) {
-            System.out.println("Erro na remoção");
-            JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-        }
+        delete();
     }//GEN-LAST:event_jButtonDeleteActionPerformed
-
-    private void jTextFieldQuantityCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextFieldQuantityCaretUpdate
-
-    }//GEN-LAST:event_jTextFieldQuantityCaretUpdate
-    
 
     /**
      * @param args the command line arguments
@@ -393,38 +266,143 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations{
     private javax.swing.JTextField jTextFieldPrice;
     private javax.swing.JTextField jTextFieldQuantity;
     // End of variables declaration//GEN-END:variables
-    
+
     @Override
     public void setFrameElements() {
-        item.setItemQuantity(Integer.parseInt(jTextFieldQuantity.getText()));
-        item.setItemName(jTextFieldName.getText());
-        item.setItemDescription(jTextAreaDescription.getText());
-        item.setItemPrice(Double.parseDouble(jTextFieldPrice.getText()));
-    }
-    
-    @Override
-    public void delete(){
-        
-    }
-    
-    @Override
-    public void save(){
-        
-    }
-    
-    @Override
-    public void setDataCode() {
-        item.setItemCode(RandomValue.getRandomCode());
-    }
-    
-    @Override
-    public void getFrameElements() {
         jTextFieldQuantity.setText(Integer.toString(item.getItemQuantity()));
         jTextFieldPrice.setText(Double.toString(item.getItemPrice()));
         jTextAreaDescription.setText(item.getItemDescription());
         jTextFieldName.setText(item.getItemName());
     }
-    
+
+    @Override
+    public void delete() {
+        if (JOptionPane.showConfirmDialog(rootPane,
+                "Deseja realmente excluir?", "Confirmação",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.NO_OPTION) {
+            return;
+        }
+        try {
+            getFrameElements();
+
+            int index = 0;
+            for (int i = 0; i < itens.size(); i++) {
+                if (itens.get(i).getItemCode() == item.getItemCode()) {
+                    index = i;
+                    itens.remove(index);
+                    break;
+                }
+            }
+
+            if (itens.isEmpty()) {
+                switch (SettingsDAO.readSettings().getMode()) {
+                    case 0:
+                        DirDAO.delete(DirDAO.dir.getDirItem());
+                        break;
+                    case 1:
+                        DirDAO.delete(DirDAO.dir.getDirItemBinary());
+                        break;
+                }
+
+                DefaultTableModel dtm = (DefaultTableModel) mainUI.jTable.getModel();
+                dtm.removeRow(index);
+            } else {
+                switch (SettingsDAO.readSettings().getMode()) {
+                    case 0:
+                        DirDAO.delete(DirDAO.dir.getDirItem());
+                        for (int i = 0; i < itens.size(); i++) {
+                            ItemDAO.writeItem(itens.get(i));
+                        }
+                        break;
+                    case 1:
+                        DirDAO.delete(DirDAO.dir.getDirItemBinary());
+                        ItemDAO.writeItem(itens);
+                        break;
+                }
+
+                mainUI.reloadTableItem();
+            }
+
+            mainUI.setEnabled(true);
+            JOptionPane.showMessageDialog(rootPane, "Item deletado com sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+        } catch (IOException ex) {
+            System.out.println("Erro na remoção");
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public void save() {
+        if (!verifyFrameElements()) {
+            System.out.println("Erro - Campos incompletos");
+            return;
+        }
+        try {
+            getFrameElements();
+
+            if (option.equals("edit")) {
+                edit();
+                return;
+            }
+
+            setDataCode();
+
+            switch (SettingsDAO.readSettings().getMode()) {
+                case 0:
+                    ItemDAO.writeItem(item);
+                    break;
+                default:
+                    ArrayList<Item> itens = ItemDAO.readItem();
+                    if (itens == null) {
+                        itens = new ArrayList<Item>();
+                    }
+                    itens.add(item);
+                    ItemDAO.writeItem(itens);
+                    break;
+            }
+
+            switch (SettingsDAO.readSettings().getMode()) {
+                case 0:
+                    if (DirDAO.exist(DirDAO.dir.getDirItem())) {
+                        mainUI.populaTabelaItem(item);
+                    } else {
+                        mainUI.reloadTableItem();
+                    }
+                    break;
+                default:
+                    if (DirDAO.exist(DirDAO.dir.getDirItemBinary())) {
+                        mainUI.populaTabelaItem(item);
+                    } else {
+                        mainUI.reloadTableItem();
+                    }
+                    break;
+            }
+
+            mainUI.setEnabled(true);
+
+            JOptionPane.showMessageDialog(rootPane, "Item cadastrado com sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+
+            this.dispose();
+        } catch (IOException ex) {
+            System.out.println("Erro na inserção");
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public void setDataCode() {
+        item.setItemCode(RandomValue.getRandomCode());
+    }
+
+    @Override
+    public void getFrameElements() {
+        item.setItemQuantity(Integer.parseInt(jTextFieldQuantity.getText()));
+        item.setItemName(jTextFieldName.getText());
+        item.setItemDescription(jTextAreaDescription.getText());
+        item.setItemPrice(Double.parseDouble(jTextFieldPrice.getText()));
+    }
+
     @Override
     public boolean verifyFrameElements() {
         try {
@@ -447,9 +425,9 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations{
         }
         return true;
     }
-    
+
     @Override
-    public void removeFrameElements(){
+    public void removeFrameElements() {
         jTextFieldPrice.setText("");
         jTextFieldQuantity.setText("");
         jTextFieldName.setText("");
@@ -458,12 +436,38 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations{
 
     @Override
     public void edit() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            int index = 0;
+            for (int i = 0; i < itens.size(); i++) {
+                if (itens.get(i).getItemCode() == item.getItemCode()) {
+                    index = i;
+                    itens.set(index, item);
+                    break;
+                }
+            }
+            switch (SettingsDAO.readSettings().getMode()) {
+                case 0:
+                    DirDAO.delete(DirDAO.dir.getDirItem());
+                    for (int i = 0; i < itens.size(); i++) {
+                        ItemDAO.writeItem(itens.get(i));
+                    }
+                    break;
+                default:
+                    DirDAO.delete(DirDAO.dir.getDirItemBinary());
+                    ItemDAO.writeItem(itens);
+            }
+
+        } catch (FileNotFoundException ex) {
+            System.out.println("edit - Erro: "+ex.getMessage());
+        } catch (IOException ex) {
+            System.out.println("edit - Erro: "+ex.getMessage());
+        }
+
     }
 
     @Override
     public void read() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
 }

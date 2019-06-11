@@ -47,7 +47,7 @@ public class BinaryDAO {
             oos.flush();
 
         } catch (IOException erro) {
-            System.out.println("Erro ao criar arquivo. " + erro);
+            System.out.println("writeBinary - Erro ao criar arquivo. " + erro);
         }
     }
 
