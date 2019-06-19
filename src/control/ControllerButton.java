@@ -37,12 +37,12 @@ public class ControllerButton implements MouseListener{
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        this.button.setBorder(this.button.getBorderBlue());
+        this.button.setBorder(this.button.borderBlue);
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        this.button.setBorder(this.button.getBorderBlack());
+        this.button.setBorder(this.button.borderBlack);
     }
     
 }

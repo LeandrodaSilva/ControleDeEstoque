@@ -18,8 +18,9 @@ import javax.swing.border.LineBorder;
 public class Button extends javax.swing.JButton{
     private Border line;
     private Border margin;
-    private Border borderBlack;
-    private Border borderBlue;
+    public Border borderBlack;
+    public Border borderBlue;
+    public Border borderGrey;
     
     public Button(String tittle) {
         this.setText(tittle);
@@ -31,27 +32,12 @@ public class Button extends javax.swing.JButton{
         this.borderBlack = new CompoundBorder(line, margin);
         
         this.line = new LineBorder(new java.awt.Color(51, 153, 255), 4, true);
-        this.margin = new EmptyBorder(5, 15, 5, 15);
         this.borderBlue = new CompoundBorder(line, margin);
+        
+        this.line = new LineBorder(new java.awt.Color(153, 153, 153), 4, true);
+        this.borderGrey = new CompoundBorder(line, margin);
         
         this.setBorder(borderBlack);
         this.setFocusable(false);
     }
-
-    public Border getBorderBlack() {
-        return borderBlack;
-    }
-
-    public void setBorderBlack(Border borderBlack) {
-        this.borderBlack = borderBlack;
-    }
-
-    public Border getBorderBlue() {
-        return borderBlue;
-    }
-
-    public void setBorderBlue(Border borderBlue) {
-        this.borderBlue = borderBlue;
-    }
-
 }

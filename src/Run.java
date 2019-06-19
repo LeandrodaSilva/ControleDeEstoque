@@ -4,23 +4,19 @@
  * and open the template in the editor.
  */
 
-
-
-import model.dataAcessObject.DirDAO;
+import control.ControllerLogin;
 import model.dataAcessObject.SettingsDAO;
 import model.valueObject.Dir;
-import view.LoginUI;
+import view.Login;
 
 /**
  *
  * @author ld_si
  */
 public class Run {
-    
-    private static SettingsDAO settingsDAO = new SettingsDAO(new Dir());
-    
+
     public static void main(String[] args) {
-        LoginUI loginUI = new LoginUI(settingsDAO.readSettings().getMode());
-        loginUI.start();
+        new SettingsDAO(new Dir());
+        new ControllerLogin(new Login());
     }
 }

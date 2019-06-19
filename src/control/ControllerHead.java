@@ -22,12 +22,26 @@ public class ControllerHead implements ActionListener, MouseListener, MouseMotio
     private Head head;
     private Point point = new Point();
     private JFrame frame;
+    private JFrame mainFrame;
     private int op = 0;
     
     public ControllerHead(Head head, JFrame frame) {
         this.head = head;
         this.frame = frame;
         
+        this.head.getbClose().addActionListener(this);
+        this.head.getbClose().addMouseListener(this);
+        this.head.getbMinimize().addActionListener(this);
+        this.head.getbMinimize().addMouseListener(this);
+        this.head.addMouseMotionListener(this);
+        this.head.addMouseListener(this);
+    }
+    
+    public ControllerHead(Head head, JFrame frame, JFrame mainFrame, int op) {
+        this.head = head;
+        this.frame = frame;
+        this.mainFrame = mainFrame;
+        this.op = op;
         this.head.getbClose().addActionListener(this);
         this.head.getbClose().addMouseListener(this);
         this.head.getbMinimize().addActionListener(this);
@@ -54,7 +68,8 @@ public class ControllerHead implements ActionListener, MouseListener, MouseMotio
             if (this.op != 1) {
                 System.exit(0);
             }else{
-                this.frame.dispose();
+                this.mainFrame.setEnabled(true);
+                this.frame.dispose(); 
             }
         }
         if (e.getSource() == this.head.getbMinimize()) {

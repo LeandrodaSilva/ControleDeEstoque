@@ -9,6 +9,7 @@ import java.awt.Color;
 import javax.swing.JButton;
 import view.basic.Head;
 import javax.swing.JLabel;
+import model.valueObject.User;
 import view.basic.Button;
 import view.basic.PasswordField;
 import view.basic.TextField;
@@ -18,7 +19,11 @@ import view.basic.TextField;
  * @author Aluno
  */
 public class Login extends javax.swing.JFrame {
-
+    private User userOnStorage;
+    private String userName;
+    private String userPassword;
+    
+    
     private Button bEnter;
     private Button bRegister;
     private JButton bConfig;
@@ -28,6 +33,7 @@ public class Login extends javax.swing.JFrame {
     private final JLabel background;
     private JLabel lUser;
     private JLabel lPasswd;
+    private JLabel lErro;
 
     public Login() {
         this.setTitle("Login");
@@ -47,7 +53,11 @@ public class Login extends javax.swing.JFrame {
         this.background = new JLabel("back");
         this.lUser = new JLabel("Usuário");
         this.lPasswd = new JLabel("Senha");
+        this.lErro = new JLabel("Usuário não cadastrado ou dados incorretos.");
         
+        this.lErro.setBounds(270, 380, 300, 35);
+        this.lErro.setForeground(Color.red);
+        this.lErro.setVisible(false);
         this.tbHead.setBounds(0, 0, 800, 50);
         this.lUser.setBounds(200, 210, 100, 35);
         this.tfUser.setBounds(300, 210, 200, 35);
@@ -70,12 +80,47 @@ public class Login extends javax.swing.JFrame {
         this.add(bRegister);
         this.add(bConfig);
         this.add(lUser);
+        this.add(lErro);
         this.add(tfUser);
         this.add(lPasswd);
         this.add(pfPasswd);
         this.add(tbHead);
         this.add(background);
     }
+
+    public User getUserOnStorage() {
+        return userOnStorage;
+    }
+
+    public void setUserOnStorage(User userOnStorage) {
+        this.userOnStorage = userOnStorage;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
+
+    public JLabel getlErro() {
+        return lErro;
+    }
+
+    public void setlErro(JLabel lErro) {
+        this.lErro = lErro;
+    }
+    
+    
 
     public Button getbEnter() {
         return bEnter;

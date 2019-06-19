@@ -5,16 +5,20 @@
  */
 package view.basic;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.border.LineBorder;
 
 /**
  *
  * @author ld_si
  */
-public class TextField extends javax.swing.JTextField{
-    public  LineBorder borderBlack;
-    public  LineBorder borderBlue;
-    public  LineBorder borderRed;
+public class TextField extends javax.swing.JTextField {
+
+    public LineBorder borderBlack;
+    public LineBorder borderBlue;
+    public LineBorder borderRed;
+
     public TextField() {
         this.borderBlack = new javax.swing.border.LineBorder(
                 new java.awt.Color(0, 0, 0), 2, true);
@@ -24,5 +28,17 @@ public class TextField extends javax.swing.JTextField{
                 new java.awt.Color(255, 0, 0), 2, true);
         setBorder(borderBlack);
     }
-    
+
+    public String getVerifiedText() throws Exception{
+        if (this.getText() != null && this.getText().length() > 0) {
+            String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+            Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(this.getText());
+            if (matcher.matches()) {
+                return this.getText();
+            }
+        }
+        throw new Exception("Erro- texto possui caracteres não aceitos");
+    }
+
 }

@@ -8,6 +8,7 @@ package view;
 import model.businessObject.Hash;
 import model.businessObject.RandomValue;
 import java.io.IOException;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import model.dataAcessObject.UserDAO;
 import model.valueObject.User;
@@ -26,7 +27,7 @@ public class InsertUserUI extends javax.swing.JFrame implements Operations {
      * Creates new form InsertUI
      */
     
-    public LoginUI loginUI;
+    public JFrame loginUI;
     
     public InsertUserUI() {
         initComponents();
