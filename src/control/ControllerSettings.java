@@ -29,6 +29,9 @@ public class ControllerSettings implements ActionListener, ChangeListener{
         this.settingsUI.getJcBinary().addActionListener(this);
         this.settingsUI.getJcCloud().addActionListener(this);
         
+        new ControllerButton(this.settingsUI.getJbSave());
+        new ControllerHead(this.settingsUI.getHead(), this.settingsUI, 1);
+        
         this.settingsUI.getJcText().addChangeListener(this);
         this.settingsUI.getJcBinary().addChangeListener(this);
         this.settingsUI.getJcCloud().addChangeListener(this);

@@ -8,6 +8,8 @@ package view;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import view.basic.Button;
+import view.basic.Head;
 
 /**
  *
@@ -21,7 +23,9 @@ public class SettingsUI extends javax.swing.JFrame{
     private JCheckBox jcText;
     private JCheckBox jcBinary;
     private JCheckBox jcCloud;
-    private JButton jbSave;
+    private Button jbSave;
+    private final JLabel  background;
+    private Head head;
 
     public SettingsUI() {
         
@@ -31,6 +35,8 @@ public class SettingsUI extends javax.swing.JFrame{
         this.setLayout(null);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
+        this.setUndecorated(true);
+        
         
         this.jlMode = new JLabel("Selecione o modo");
         this.jlText = new JLabel("Texto");
@@ -39,7 +45,9 @@ public class SettingsUI extends javax.swing.JFrame{
         this.jcText = new JCheckBox();
         this.jcBinary = new JCheckBox();
         this.jcCloud = new JCheckBox();
-        this.jbSave = new JButton("Salvar");
+        this.jbSave = new Button("Salvar");
+        this.background = new JLabel("back");
+        this.head = new Head("Configurações");
        
         
         this.jlMode.setBounds(150, 25, 150, 25);
@@ -50,7 +58,9 @@ public class SettingsUI extends javax.swing.JFrame{
         this.jcBinary.setBounds(150, 90, 25, 25);
         this.jcCloud.setBounds(150, 120, 25, 25);
         this.jbSave.setBounds(150, 200, 100, 25);
-        
+        this.background.setBounds(0, 0, 400, 300);
+        this.background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/back.png")));
+        this.head.setBounds(0, 0, 400, 50);
         
         this.add(jlMode);
         this.add(jlText);
@@ -60,8 +70,19 @@ public class SettingsUI extends javax.swing.JFrame{
         this.add(jcBinary);
         this.add(jcCloud);
         this.add(jbSave);
+        this.add(head);
+        this.add(background);
     }
 
+    public Head getHead() {
+        return head;
+    }
+
+    public void setHead(Head head) {
+        this.head = head;
+    }
+
+    
     public JLabel getJlMode() {
         return jlMode;
     }
@@ -118,11 +139,11 @@ public class SettingsUI extends javax.swing.JFrame{
         this.jcCloud = jcCloud;
     }
 
-    public JButton getJbSave() {
+    public Button getJbSave() {
         return jbSave;
     }
 
-    public void setJbSave(JButton jbSave) {
+    public void setJbSave(Button jbSave) {
         this.jbSave = jbSave;
     }
     
