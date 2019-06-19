@@ -5,14 +5,11 @@
  */
 package view;
 
-import java.awt.Color;
-import javax.swing.JButton;
+import view.basic.Head;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
+import view.basic.Button;
+import view.basic.TextField;
 
 /**
  *
@@ -20,12 +17,14 @@ import javax.swing.border.LineBorder;
  */
 public class Login extends javax.swing.JFrame {
 
-    private JButton bEnter;
-    private JButton bRegister;
-    private JTextField tfUser;
-    private JTextField tfPasswd;
+    private Button bEnter;
+    private Button bRegister;
+    private TextField tfUser;
+    private TextField tfPasswd;
     private Head tbHead;
     private JLabel background;
+    private JLabel lUser;
+    private JLabel lPasswd;
 
     public Login() {
         this.setTitle("Login");
@@ -37,65 +36,65 @@ public class Login extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setUndecorated(true);
 
-        this.bEnter = createSimpleButton("Logar");
-        this.bRegister = createSimpleButton("Cadastrar");
-        this.tfUser = new JTextField();
-        this.tfPasswd = new JTextField();
-        this.tbHead = new Head("Login");
+        this.bEnter = new Button("Logar");
+        this.bRegister = new Button("Cadastrar");
+        this.tfUser = new TextField();
+        this.tfPasswd = new TextField();
+        this.tbHead = new Head("Tela de Login");
         this.background = new JLabel("back");
-
-        this.bEnter.setBounds(420, 480, 110, 35);
-        this.bRegister.setBounds(300, 480, 110, 35);
+        this.lUser = new JLabel("Usuário");
+        this.lPasswd = new JLabel("Senha");
+        
         this.tbHead.setBounds(0, 0, 800, 50);
+        this.lUser.setBounds(200, 210, 100, 35);
+        this.tfUser.setBounds(300, 210, 200, 35);
+        this.lPasswd.setBounds(200, 270, 100, 35);
+        this.tfPasswd.setBounds(300, 270, 200, 35);
+        this.bEnter.setBounds(410, 480, 100, 35);
+        this.bRegister.setBounds(290, 480, 100, 35);
         this.background.setBounds(0, 50, 800, 550);
         this.background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/back.png")));
-
+        
         this.add(bEnter);
         this.add(bRegister);
+        this.add(lUser);
+        this.add(tfUser);
+        this.add(lPasswd);
+        this.add(tfPasswd);
         this.add(tbHead);
         this.add(background);
     }
 
-    private static JButton createSimpleButton(String text) {
-        JButton button = new JButton(text);
-        button.setForeground(Color.BLACK);
-        button.setBackground(Color.WHITE);
-        Border line = new LineBorder(Color.BLACK);
-        Border margin = new EmptyBorder(5, 15, 5, 15);
-        Border compound = new CompoundBorder(line, margin);
-        button.setBorder(compound);
-        return button;
-    }
 
-    public JButton getbEnter() {
+    public Button getbEnter() {
         return bEnter;
     }
 
-    public void setbEnter(JButton bEnter) {
+    public void setbEnter(Button bEnter) {
         this.bEnter = bEnter;
     }
 
-    public JButton getbRegister() {
+    public Button getbRegister() {
         return bRegister;
     }
 
-    public void setbRegister(JButton bRegister) {
+    public void setbRegister(Button bRegister) {
         this.bRegister = bRegister;
     }
 
-    public JTextField getTfUser() {
+    public TextField getTfUser() {
         return tfUser;
     }
 
-    public void setTfUser(JTextField tfUser) {
+    public void setTfUser(TextField tfUser) {
         this.tfUser = tfUser;
     }
 
-    public JTextField getTfPasswd() {
+    public TextField getTfPasswd() {
         return tfPasswd;
     }
 
-    public void setTfPasswd(JTextField tfPasswd) {
+    public void setTfPasswd(TextField tfPasswd) {
         this.tfPasswd = tfPasswd;
     }
 

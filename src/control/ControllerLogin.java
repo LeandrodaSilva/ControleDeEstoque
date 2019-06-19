@@ -20,7 +20,13 @@ public class ControllerLogin implements ActionListener{
         
         this.login.getbEnter().addActionListener(this);
         this.login.getbRegister().addActionListener(this);
+        this.login.getTfUser().addActionListener(this);
+        
         new ControllerHead(this.login.getTbHead(), this.login);
+        new ControllerButton(this.login.getbEnter());
+        new ControllerButton(this.login.getbRegister());
+        new ControllerTextField(this.login.getTfUser());
+        new ControllerTextField(this.login.getTfPasswd());
         
         this.login.setVisible(true);
     }
@@ -29,7 +35,9 @@ public class ControllerLogin implements ActionListener{
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        
+        if (e.getSource() == this.login.getbEnter()) {
+            
+        }
     }
     
 }
