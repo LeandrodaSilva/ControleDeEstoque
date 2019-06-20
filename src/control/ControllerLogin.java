@@ -67,17 +67,17 @@ public class ControllerLogin implements ActionListener, MouseListener, Operation
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        
+
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        
+
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        
+
     }
 
     @Override
@@ -119,15 +119,9 @@ public class ControllerLogin implements ActionListener, MouseListener, Operation
     @Override
     public void getFrameElements() {
         if (verifyFrameElements()) {
-            try {
-                this.login.setUserName(this.login.getTfUser().getVerifiedText());
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(
-                        this.login, "Nome de usuário não permitido", 
-                        "Alerta", 
-                        JOptionPane.WARNING_MESSAGE);
-                return;
-            }
+
+            this.login.setUserName(this.login.getTfUser().getText());
+
             this.login.setUserPassword(this.login.getPfPasswd().getText());
         } else {
             System.out.println("Há campos não preenchidos");
@@ -136,12 +130,12 @@ public class ControllerLogin implements ActionListener, MouseListener, Operation
 
     @Override
     public void setFrameElements() {
-        
+
     }
 
     @Override
     public void removeFrameElements() {
-        
+
     }
 
     @Override
@@ -170,7 +164,7 @@ public class ControllerLogin implements ActionListener, MouseListener, Operation
 
     @Override
     public void delete() {
-        
+
     }
 
 }
