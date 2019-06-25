@@ -31,8 +31,8 @@ public class ControllerSettings implements ActionListener, ChangeListener{
         this.settingsUI.getJrBinary().addActionListener(this);
         this.settingsUI.getJrCloud().addActionListener(this);
         
-        new ControllerButton(this.settingsUI.getJbSave());
-        new ControllerHead(this.settingsUI.getHead(), this.settingsUI, 1);
+        new ControllerEfect(this.settingsUI.getJbSave());
+        new ControllerHead(this.settingsUI.getHead(), settingsUI,1);
         
         this.settingsUI.getJrText().addChangeListener(this);
         this.settingsUI.getJrBinary().addChangeListener(this);
@@ -49,9 +49,9 @@ public class ControllerSettings implements ActionListener, ChangeListener{
         this.settingsUI.getJrBinary().addActionListener(this);
         this.settingsUI.getJrCloud().addActionListener(this);
         
-        new ControllerButton(this.settingsUI.getJbSave());
+        new ControllerEfect(this.settingsUI.getJbSave());
         
-        new ControllerHead(this.settingsUI.getHead(), this.settingsUI, this.mainframe, 1);
+        new ControllerHead(this.settingsUI.getHead(), this.settingsUI, this.mainframe, 1, false);
         
         this.settingsUI.getJrText().addChangeListener(this);
         this.settingsUI.getJrBinary().addChangeListener(this);
@@ -73,10 +73,10 @@ public class ControllerSettings implements ActionListener, ChangeListener{
     public void stateChanged(ChangeEvent e) {
         if (getMode() == -1) {
             settingsUI.getJbSave().setEnabled(false);
-            settingsUI.getJbSave().setBorder(settingsUI.getJbSave().borderGrey);
+            settingsUI.getJbSave().setBorder(settingsUI.getJbSave().border.grey);
         }else{
             settingsUI.getJbSave().setEnabled(true);
-            settingsUI.getJbSave().setBorder(settingsUI.getJbSave().borderBlack);
+            settingsUI.getJbSave().setBorder(settingsUI.getJbSave().border.black);
         }
         if (e.getSource() == settingsUI.getJrText()) {
             if (settingsUI.getJrText().isSelected()) {

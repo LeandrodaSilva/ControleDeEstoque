@@ -5,13 +5,6 @@
  */
 package model.businessObject;
 
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.Calendar;
-import java.util.Random;
-import javax.swing.JOptionPane;
 import model.valueObject.User;
 
 /**

@@ -14,19 +14,12 @@ import javax.swing.border.LineBorder;
  * @author ld_si
  */
 public class TextField extends javax.swing.JTextField {
-
-    public LineBorder borderBlack;
-    public LineBorder borderBlue;
-    public LineBorder borderRed;
-
+    
+    public BorderColor border;
+    
     public TextField() {
-        this.borderBlack = new javax.swing.border.LineBorder(
-                new java.awt.Color(0, 0, 0), 2, true);
-        this.borderBlue = new javax.swing.border.LineBorder(
-                new java.awt.Color(51, 153, 255), 2, true);
-        this.borderRed = new javax.swing.border.LineBorder(
-                new java.awt.Color(255, 0, 0), 2, true);
-        setBorder(borderBlack);
+        this.border = new BorderColor();
+        setBorder(border.black);
     }
 
     public String getVerifiedText() throws Exception{

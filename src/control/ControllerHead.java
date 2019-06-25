@@ -24,6 +24,7 @@ public class ControllerHead implements ActionListener, MouseListener, MouseMotio
     private JFrame frame;
     private JFrame mainFrame;
     private int op = 0;
+    private boolean opMove = true;
     
     public ControllerHead(Head head, JFrame frame) {
         this.head = head;
@@ -37,11 +38,12 @@ public class ControllerHead implements ActionListener, MouseListener, MouseMotio
         this.head.addMouseListener(this);
     }
     
-    public ControllerHead(Head head, JFrame frame, JFrame mainFrame, int op) {
+    public ControllerHead(Head head, JFrame frame, JFrame mainFrame, int op, boolean opMove) {
         this.head = head;
         this.frame = frame;
         this.mainFrame = mainFrame;
         this.op = op;
+        this.opMove = opMove;
         this.head.getbClose().addActionListener(this);
         this.head.getbClose().addMouseListener(this);
         this.head.getbMinimize().addActionListener(this);
@@ -115,8 +117,10 @@ public class ControllerHead implements ActionListener, MouseListener, MouseMotio
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        Point p = this.frame.getLocation();
-        this.frame.setLocation(p.x + e.getX() - point.x, p.y + e.getY() - point.y);
+        if (opMove) {
+            Point p = this.frame.getLocation();
+            this.frame.setLocation(p.x + e.getX() - point.x, p.y + e.getY() - point.y);
+        }
     }
 
     @Override

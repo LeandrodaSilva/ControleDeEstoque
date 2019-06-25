@@ -5,13 +5,12 @@
  */
 package view;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import view.basic.Button;
+import view.basic.ComboBox;
 import view.basic.Head;
 import view.basic.TextField;
 
@@ -21,17 +20,19 @@ import view.basic.TextField;
  */
 public class Main extends javax.swing.JFrame{
     private Head head;
-    private JButton jButtonEdit;
-    private JButton jButtonInsert;
-    private JComboBox<String> jComboBoxType;
+    private Button jButtonEdit;
+    private Button jButtonInsert;
+    private ComboBox jComboBoxType;
     private JLabel jLabelBackground;
     private JLabel jLabelSearch;
     private JLabel jLabelShow;
     private JScrollPane jScrollPane1;
     public JTable jTable;
     private TextField jTextFieldSearch;
+    
 
     public Main() {
+        
         this.setTitle("Controle de Estoque");
         this.setResizable(false);
         this.setSize(800, 600);
@@ -43,16 +44,48 @@ public class Main extends javax.swing.JFrame{
         this.head = new Head("Controle de Estoque");
         this.head.setBounds(0, 0, 800, 50);
         this.jButtonEdit = new Button("Editar");
+        this.jButtonEdit.setBounds(360 , 70, 110, 30);
         this.jButtonInsert = new Button("Inserir");
+        this.jButtonInsert.setBounds(250, 70, 100, 30);
         this.jLabelBackground = new JLabel();
+        this.jLabelBackground.setBounds(0, 50, 800, 550);
+        this.jLabelBackground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/back.png")));
         this.jLabelShow = new JLabel("Mostrar");
+        this.jLabelShow.setBounds(10, 70, 60, 16);
         this.jLabelSearch = new JLabel("Pesquisar");
-        this.jComboBoxType = new JComboBox();
+        this.jLabelSearch.setBounds(10, 110, 110, 20);
+        this.jComboBoxType = new ComboBox(new javax.swing.DefaultComboBoxModel<>(
+                new String[] { "Produtos", "Fornecedor" }));
+        this.jComboBoxType.setBounds(120, 70, 110, 30);
+        
+        
         this.jScrollPane1 = new JScrollPane();
         this.jTable = new JTable();
+        this.jTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Código", "Quantidade", "Nome", "Preço"
+            }
+        ));
+        this.jTable.setFocusable(false);
+        this.jTable.setShowVerticalLines(false);
+        this.jScrollPane1.setViewportView(jTable);
+        this.getContentPane().add(jScrollPane1);
+        this.jScrollPane1.setBounds(6, 146, 788, 520);
         this.jTextFieldSearch = new TextField();
+        this.jTextFieldSearch.setBounds(120, 110, 670, 30);
+       
         
         this.add(head);
+        this.add(jButtonInsert);
+        this.add(jButtonEdit);
+        this.add(jTextFieldSearch);
+        this.add(jLabelShow);
+        this.add(jLabelSearch);
+        this.add(jComboBoxType);
+        this.add(jLabelBackground);
         
         
     }
@@ -65,27 +98,27 @@ public class Main extends javax.swing.JFrame{
         this.head = head;
     }
 
-    public JButton getjButtonEdit() {
+    public Button getjButtonEdit() {
         return jButtonEdit;
     }
 
-    public void setjButtonEdit(JButton jButtonEdit) {
+    public void setjButtonEdit(Button jButtonEdit) {
         this.jButtonEdit = jButtonEdit;
     }
 
-    public JButton getjButtonInsert() {
+    public Button getjButtonInsert() {
         return jButtonInsert;
     }
 
-    public void setjButtonInsert(JButton jButtonInsert) {
+    public void setjButtonInsert(Button jButtonInsert) {
         this.jButtonInsert = jButtonInsert;
     }
 
-    public JComboBox<String> getjComboBoxType() {
+    public ComboBox getjComboBoxType() {
         return jComboBoxType;
     }
 
-    public void setjComboBoxType(JComboBox<String> jComboBoxType) {
+    public void setjComboBoxType(ComboBox jComboBoxType) {
         this.jComboBoxType = jComboBoxType;
     }
 

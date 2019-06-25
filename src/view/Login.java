@@ -30,7 +30,7 @@ public class Login extends javax.swing.JFrame {
     private TextField tfUser;
     private PasswordField pfPasswd;
     private Head tbHead;
-    private final JLabel background;
+    private JLabel lbackground;
     private JLabel lUser;
     private JLabel lPasswd;
     private JLabel lErro;
@@ -50,7 +50,7 @@ public class Login extends javax.swing.JFrame {
         this.tfUser = new TextField();
         this.pfPasswd = new PasswordField();
         this.tbHead = new Head("Tela de Login");
-        this.background = new JLabel("back");
+        this.lbackground = new JLabel("back");
         this.lUser = new JLabel("Usuário");
         this.lPasswd = new JLabel("Senha");
         this.lErro = new JLabel("Usuário não cadastrado ou dados incorretos.");
@@ -73,8 +73,8 @@ public class Login extends javax.swing.JFrame {
         this.bConfig.setBorderPainted(false);
         this.bConfig.setPreferredSize(new java.awt.Dimension(35, 35));
         this.bConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/configBlack.png")));
-        this.background.setBounds(0, 50, 800, 550);
-        this.background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/back.png")));
+        this.lbackground.setBounds(0, 50, 800, 550);
+        this.lbackground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/back.png")));
         
         this.add(bEnter);
         this.add(bRegister);
@@ -85,9 +85,17 @@ public class Login extends javax.swing.JFrame {
         this.add(lPasswd);
         this.add(pfPasswd);
         this.add(tbHead);
-        this.add(background);
+        this.add(lbackground);
     }
 
+    public JLabel getLbackground() {
+        return lbackground;
+    }
+
+    public void setLbackground(JLabel lbackground) {
+        this.lbackground = lbackground;
+    }
+    
     public User getUserOnStorage() {
         return userOnStorage;
     }
@@ -185,7 +193,4 @@ public class Login extends javax.swing.JFrame {
     public void setlPasswd(JLabel lPasswd) {
         this.lPasswd = lPasswd;
     }
-
-
-    
 }

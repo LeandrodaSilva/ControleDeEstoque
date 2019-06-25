@@ -12,16 +12,10 @@ import javax.swing.border.LineBorder;
  * @author ld_si
  */
 public class PasswordField extends javax.swing.JPasswordField{
-    public  LineBorder borderBlack;
-    public  LineBorder borderBlue;
-    public  LineBorder borderRed;
+    public BorderColor border;
+    
     public PasswordField() {
-        this.borderBlack = new javax.swing.border.LineBorder(
-                new java.awt.Color(0, 0, 0), 2, true);
-        this.borderBlue = new javax.swing.border.LineBorder(
-                new java.awt.Color(51, 153, 255), 2, true);
-        this.borderRed = new javax.swing.border.LineBorder(
-                new java.awt.Color(255, 0, 0), 2, true);
-        setBorder(borderBlack);
+        this.border = new BorderColor();
+        setBorder(border.black);
     }
 }

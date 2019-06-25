@@ -7,7 +7,6 @@ package control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JFrame;
 import view.Main;
 
 /**
@@ -20,13 +19,16 @@ public class ControllerMain implements ActionListener{
         this.main = main;
         
         new ControllerHead(this.main.getHead(),this.main);
+        new ControllerEfect(this.main.getjButtonInsert());
+        new ControllerEfect(this.main.getjButtonEdit());
+        new ControllerEfect(this.main.getjTextFieldSearch());
+        new ControllerEfect(this.main.getjComboBoxType());
         
         this.main.setVisible(true);
     }
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
-    
 }
