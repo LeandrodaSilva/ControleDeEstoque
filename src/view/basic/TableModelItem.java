@@ -17,7 +17,7 @@ import static view.MainUI.dtmItem;
  * @author ld_si
  */
 public class TableModelItem extends DefaultTableModel {
-    public static ArrayList itemArray;
+    public static ArrayList<Item> itemArray;
     
     public TableModelItem() {
         addColumn("Código");
@@ -36,7 +36,7 @@ public class TableModelItem extends DefaultTableModel {
     public void loadTableModelRowsValues() {
         try {
             String[] lines = new String[5];
-            this.itemArray = (ArrayList<Item>) ItemDAO.readItem();
+            this.itemArray =  ItemDAO.readItem();
             int size = this.itemArray.size();
 
             Item item;
@@ -48,7 +48,7 @@ public class TableModelItem extends DefaultTableModel {
                 lines[2] = item.getItemName();
                 lines[3] = item.getItemDescription();
                 lines[4] = Double.toString(item.getItemPrice());
-                dtmItem.addRow(lines);
+                addRow(lines);
             }
             System.out.println("loadTableModelItemRowsValues - sucess!");
         } catch (IOException ex) {

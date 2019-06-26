@@ -152,7 +152,19 @@ public class InsertUserUI extends javax.swing.JFrame implements Operations {
     }//GEN-LAST:event_formWindowClosing
 
     private void jPasswordFieldCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jPasswordFieldCaretUpdate
-        
+        int tam = jPasswordField.getText().length();
+        if ( tam < 2 && tam > 0) {
+            jProgressBar.setValue(1);
+        }
+        if (tam >= 2 && tam < 3) {
+            jProgressBar.setValue(2);
+        }
+        if (tam>=3) {
+            jProgressBar.setValue(3);
+        }
+        if (tam>=5) {
+            jProgressBar.setValue(4);
+        }
     }//GEN-LAST:event_jPasswordFieldCaretUpdate
    
     /**

@@ -5,20 +5,23 @@
  */
 package view;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import javax.swing.table.DefaultTableModel;
 import view.basic.Button;
 import view.basic.ComboBox;
 import view.basic.Head;
+import view.basic.Table;
 import view.basic.TextField;
 
 /**
  *
  * @author ld_si
  */
-public class Main extends javax.swing.JFrame{
+public class Main extends JFrame{
     private Head head;
     private Button jButtonEdit;
     private Button jButtonInsert;
@@ -27,7 +30,7 @@ public class Main extends javax.swing.JFrame{
     private JLabel jLabelSearch;
     private JLabel jLabelShow;
     private JScrollPane jScrollPane1;
-    public JTable jTable;
+    public Table jTable;
     private TextField jTextFieldSearch;
     
 
@@ -49,19 +52,19 @@ public class Main extends javax.swing.JFrame{
         this.jButtonInsert.setBounds(250, 70, 100, 30);
         this.jLabelBackground = new JLabel();
         this.jLabelBackground.setBounds(0, 50, 800, 550);
-        this.jLabelBackground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/back.png")));
+        this.jLabelBackground.setIcon(new ImageIcon(getClass().getResource("/view/images/back.png")));
         this.jLabelShow = new JLabel("Mostrar");
         this.jLabelShow.setBounds(10, 70, 60, 16);
         this.jLabelSearch = new JLabel("Pesquisar");
         this.jLabelSearch.setBounds(10, 110, 110, 20);
-        this.jComboBoxType = new ComboBox(new javax.swing.DefaultComboBoxModel<>(
+        this.jComboBoxType = new ComboBox(new DefaultComboBoxModel<>(
                 new String[] { "Produtos", "Fornecedor" }));
         this.jComboBoxType.setBounds(120, 70, 110, 30);
         
         
         this.jScrollPane1 = new JScrollPane();
-        this.jTable = new JTable();
-        this.jTable.setModel(new javax.swing.table.DefaultTableModel(
+        this.jTable = new Table();
+        this.jTable.setModel(new DefaultTableModel(
             new Object [][] {
 
             },
@@ -154,11 +157,11 @@ public class Main extends javax.swing.JFrame{
         this.jScrollPane1 = jScrollPane1;
     }
 
-    public JTable getjTable() {
+    public Table getjTable() {
         return jTable;
     }
 
-    public void setjTable(JTable jTable) {
+    public void setjTable(Table jTable) {
         this.jTable = jTable;
     }
 

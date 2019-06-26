@@ -51,7 +51,9 @@ public class ControllerLogin implements ActionListener,
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this.login.getbEnter()) {
-            login();
+            if (verifyFrameElements()) {
+                login();
+            }
         }
         if (e.getSource() == this.login.getbRegister()) {
             InsertUserUI insertUserUI = new InsertUserUI();

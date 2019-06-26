@@ -18,4 +18,10 @@ public class PasswordField extends javax.swing.JPasswordField{
         this.border = new BorderColor();
         setBorder(border.black);
     }
+
+    public PasswordField(String admin) {
+        this.setText(admin);
+        this.border = new BorderColor();
+        setBorder(border.black);
+    }
 }

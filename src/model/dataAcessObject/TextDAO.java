@@ -18,7 +18,7 @@ import java.util.ArrayList;
  *
  * @author ld_si
  */
-public class TextDAO {
+public class TextDAO{
     /**
      *
      * @param content

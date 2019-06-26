@@ -89,29 +89,46 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Adicionar produto");
-        setResizable(false);
         setType(java.awt.Window.Type.UTILITY);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
         });
+        getContentPane().setLayout(null);
 
         jLabelQuantity.setText("Quantidade");
+        getContentPane().add(jLabelQuantity);
+        jLabelQuantity.setBounds(37, 64, 65, 16);
 
         jLabelName.setText("Nome");
+        getContentPane().add(jLabelName);
+        jLabelName.setBounds(37, 106, 33, 16);
 
         jLabelPrice.setText("Preço R$");
+        getContentPane().add(jLabelPrice);
+        jLabelPrice.setBounds(272, 64, 52, 16);
 
         jLabelDescription.setText("Descrição");
+        getContentPane().add(jLabelDescription);
+        jLabelDescription.setBounds(37, 144, 58, 16);
 
         jTextAreaDescription.setColumns(20);
         jTextAreaDescription.setRows(5);
         jScrollPane1.setViewportView(jTextAreaDescription);
 
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(37, 166, 514, 148);
+
         jTextFieldPrice.setText("0.00");
+        getContentPane().add(jTextFieldPrice);
+        jTextFieldPrice.setBounds(342, 60, 209, 24);
+        getContentPane().add(jTextFieldName);
+        jTextFieldName.setBounds(120, 102, 431, 24);
 
         jTextFieldQuantity.setText("0");
+        getContentPane().add(jTextFieldQuantity);
+        jTextFieldQuantity.setBounds(120, 60, 134, 24);
 
         jButtonSave.setText("Salvar");
         jButtonSave.addActionListener(new java.awt.event.ActionListener() {
@@ -119,6 +136,8 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations {
                 jButtonSaveActionPerformed(evt);
             }
         });
+        getContentPane().add(jButtonSave);
+        jButtonSave.setBounds(485, 332, 66, 32);
 
         jButtonClear.setText("Limpar");
         jButtonClear.addActionListener(new java.awt.event.ActionListener() {
@@ -126,6 +145,8 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations {
                 jButtonClearActionPerformed(evt);
             }
         });
+        getContentPane().add(jButtonClear);
+        jButtonClear.setBounds(37, 332, 70, 32);
 
         jButtonDelete.setText("Deletar");
         jButtonDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -133,63 +154,8 @@ public class InsertItemUI extends javax.swing.JFrame implements Operations {
                 jButtonDeleteActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelQuantity)
-                            .addComponent(jLabelName)
-                            .addComponent(jLabelDescription))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextFieldQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabelPrice)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextFieldPrice))
-                            .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(jButtonClear)
-                            .addGap(18, 18, 18)
-                            .addComponent(jButtonDelete)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonSave))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(39, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelQuantity)
-                    .addComponent(jTextFieldQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelPrice)
-                    .addComponent(jTextFieldPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelName)
-                    .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jLabelDescription)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonSave)
-                    .addComponent(jButtonClear)
-                    .addComponent(jButtonDelete))
-                .addContainerGap(55, Short.MAX_VALUE))
-        );
-
+        getContentPane().add(jButtonDelete);
+        jButtonDelete.setBounds(125, 332, 71, 32);
         jButtonDelete.setVisible(false);
 
         getAccessibleContext().setAccessibleParent(this);

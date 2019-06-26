@@ -17,11 +17,14 @@ import java.sql.Statement;
  * @author ld_si
  */
 public class CloudDAO {
-    
     private static Connection connection = null;
     private static Statement stDados = null;
     private static ResultSet rsDados = null;
     
+    /**
+     * 
+     * @return boolean
+     */
     public boolean createConection() {
   
         try {
@@ -42,6 +45,10 @@ public class CloudDAO {
         return true;
     }
     
+    /**
+     * 
+     * @param sql 
+     */
     public void writeCloud(String sql) {
         try {
 
@@ -57,6 +64,11 @@ public class CloudDAO {
         }
     }
     
+    /**
+     * 
+     * @param sql
+     * @return ResultSet
+     */
     public static ResultSet readCloud(String sql){
         try {
             int tipo = ResultSet.TYPE_SCROLL_SENSITIVE;
@@ -76,8 +88,10 @@ public class CloudDAO {
         }
     }
     
-    
-     public void closeConection() {
+    /**
+     * 
+     */
+    public void closeConection() {
         try {
             if (rsDados != null) {
                 rsDados.close();

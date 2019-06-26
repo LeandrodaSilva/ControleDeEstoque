@@ -6,7 +6,9 @@
 package view;
 
 import java.awt.Color;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import view.basic.Head;
 import javax.swing.JLabel;
 import model.valueObject.User;
@@ -18,7 +20,7 @@ import view.basic.TextField;
  *
  * @author Aluno
  */
-public class Login extends javax.swing.JFrame {
+public class Login extends JFrame {
     private User userOnStorage;
     private String userName;
     private String userPassword;
@@ -47,8 +49,8 @@ public class Login extends javax.swing.JFrame {
         this.bEnter = new Button("Logar");
         this.bRegister = new Button("Cadastrar");
         this.bConfig = new JButton("");
-        this.tfUser = new TextField();
-        this.pfPasswd = new PasswordField();
+        this.tfUser = new TextField("admin");
+        this.pfPasswd = new PasswordField("admin");
         this.tbHead = new Head("Tela de Login");
         this.lbackground = new JLabel("back");
         this.lUser = new JLabel("Usuário");
@@ -72,9 +74,9 @@ public class Login extends javax.swing.JFrame {
         this.bConfig.setForeground(Color.WHITE);
         this.bConfig.setBorderPainted(false);
         this.bConfig.setPreferredSize(new java.awt.Dimension(35, 35));
-        this.bConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/configBlack.png")));
+        this.bConfig.setIcon(new ImageIcon(getClass().getResource("/view/images/configBlack.png")));
         this.lbackground.setBounds(0, 50, 800, 550);
-        this.lbackground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/back.png")));
+        this.lbackground.setIcon(new ImageIcon(getClass().getResource("/view/images/back.png")));
         
         this.add(bEnter);
         this.add(bRegister);

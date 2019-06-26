@@ -7,6 +7,7 @@ package control;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import view.basic.Button;
@@ -18,7 +19,8 @@ import view.basic.TextField;
  *
  * @author ld_si
  */
-public class ControllerEfect implements FocusListener, MouseListener{
+public class ControllerEfect implements FocusListener, MouseListener {
+
     private Button button;
     private TextField tf;
     private PasswordField pf;
@@ -36,17 +38,14 @@ public class ControllerEfect implements FocusListener, MouseListener{
 
     public ControllerEfect(Button button) {
         this.button = button;
-        this.button.addMouseListener(this);
+        this.button.addMouseListener(this); 
     }
 
     public ControllerEfect(ComboBox comboBox) {
         this.comboBox = comboBox;
         this.comboBox.addFocusListener(this);
     }
-    
-    
-    
-    
+
     @Override
     public void focusGained(FocusEvent e) {
         if (e.getSource() == this.tf) {
@@ -75,17 +74,17 @@ public class ControllerEfect implements FocusListener, MouseListener{
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        
+
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        
+
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        
+
     }
 
     @Override
@@ -101,5 +100,4 @@ public class ControllerEfect implements FocusListener, MouseListener{
             this.button.setBorder(this.button.border.black);
         }
     }
-    
 }

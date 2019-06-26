@@ -22,6 +22,12 @@ public class TextField extends javax.swing.JTextField {
         setBorder(border.black);
     }
 
+    public TextField(String admin) {
+        this.setText(admin);
+        this.border = new BorderColor();
+        setBorder(border.black);
+    }
+
     public String getVerifiedText() throws Exception{
         if (this.getText() != null && this.getText().length() > 0) {
             String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";

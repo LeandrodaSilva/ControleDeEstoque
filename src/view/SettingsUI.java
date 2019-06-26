@@ -6,10 +6,11 @@
 package view;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import view.basic.Button;
 import view.basic.Head;
 import view.basic.RoundIcon;
@@ -18,7 +19,7 @@ import view.basic.RoundIcon;
  *
  * @author ld_si
  */
-public class SettingsUI extends javax.swing.JFrame {
+public class SettingsUI extends JFrame {
 
     private JLabel jlMode;
     private JRadioButton jrText;
@@ -28,7 +29,7 @@ public class SettingsUI extends javax.swing.JFrame {
     private final JLabel background;
     private Head head;
     
-    public final RoundIcon iconBlue = new RoundIcon(new java.awt.Color(51, 153, 255));
+    public final RoundIcon iconBlue = new RoundIcon(new Color(51, 153, 255));
     public final RoundIcon iconBlack = new RoundIcon(Color.BLACK);
     
     public SettingsUI() {
@@ -72,7 +73,7 @@ public class SettingsUI extends javax.swing.JFrame {
         this.jbSave.setBounds(150, 240, 100, 25);
 
         this.background.setBounds(0, 0, 400, 300);
-        this.background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/back.png")));
+        this.background.setIcon(new ImageIcon(getClass().getResource("/view/images/back.png")));
 
         this.head.setBounds(0, 0, 400, 50);
 

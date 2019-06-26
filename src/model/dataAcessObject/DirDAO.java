@@ -19,6 +19,10 @@ public abstract class DirDAO {
 
     public static Dir dir;
 
+    /**
+     * 
+     * @param dir 
+     */
     public DirDAO(Dir dir) {
         this.dir = dir;
         write();

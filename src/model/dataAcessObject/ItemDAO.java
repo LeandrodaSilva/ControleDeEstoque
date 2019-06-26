@@ -39,6 +39,12 @@ public class ItemDAO extends DirDAO {
 
     }
 
+    
+    /**
+     * 
+     * @param itens
+     * @throws IOException 
+     */
     public static void writeItem(ArrayList<Item> itens) throws IOException {
         switch (SettingsDAO.readSettings().getMode()) {
             case 1:

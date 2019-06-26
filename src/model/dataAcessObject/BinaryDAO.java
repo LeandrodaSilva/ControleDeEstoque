@@ -18,7 +18,12 @@ import java.io.ObjectOutputStream;
  * @author ld_si
  */
 public class BinaryDAO {
-
+    /**
+     * 
+     * @param dir
+     * @param obj
+     * @param append 
+     */
     public static void writeBinary(
             String dir,
             Object obj,
@@ -34,9 +39,7 @@ public class BinaryDAO {
 
                 oos = new ObjectOutputStream(fos) {
                     @Override
-                    protected void writeStreamHeader() {
-                        // do not write a header
-                    }
+                    protected void writeStreamHeader() {}
                 };
             } else {
 
@@ -56,7 +59,10 @@ public class BinaryDAO {
      * @param dir
      * @return Object
      */
-    public static Object readBinary(String dir) throws FileNotFoundException, IOException, ClassNotFoundException {
+    public static Object readBinary(String dir) 
+            throws FileNotFoundException, 
+            IOException, ClassNotFoundException 
+    {
 
         File arq = new File(dir);
         FileInputStream fis = new FileInputStream(arq);
