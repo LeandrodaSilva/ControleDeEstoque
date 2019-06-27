@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import model.businessObject.Security;
 import model.dataAcessObject.SettingsDAO;
 import model.dataAcessObject.UserDAO;
+import model.interfaces.Controller;
 import model.interfaces.LoginOperation;
 import view.InsertUserUI;
 import view.Login;
@@ -24,8 +25,7 @@ import view.SettingsUI;
  *
  * @author Aluno
  */
-public class ControllerLogin implements ActionListener, 
-    MouseListener, LoginOperation 
+public class ControllerLogin extends Controller implements LoginOperation 
 {
 
     private final Login login;
@@ -68,21 +68,6 @@ public class ControllerLogin implements ActionListener,
             this.login.setEnabled(false);
             settingsUI.setVisible(true);
         }
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
     }
 
     @Override
