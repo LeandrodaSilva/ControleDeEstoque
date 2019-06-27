@@ -9,12 +9,7 @@ package model.interfaces;
  *
  * @author ld_si
  */
-public interface BasicOperation {
-    public boolean verifyFrameElements();
-    
-    public void getFrameElements();
-    
-    public void setFrameElements();
-    
-    public void removeFrameElements();
+public interface InsertUserOperation {
+    public void create();
+    public void clean();
 }

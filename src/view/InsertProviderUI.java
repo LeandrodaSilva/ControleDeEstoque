@@ -82,16 +82,30 @@ public class InsertProviderUI extends javax.swing.JFrame implements Operations {
                 formWindowClosing(evt);
             }
         });
+        getContentPane().setLayout(null);
 
         jLabelName.setText("Nome");
+        getContentPane().add(jLabelName);
+        jLabelName.setBounds(37, 64, 33, 16);
 
         jLabelPrice.setText("CNPJ");
+        getContentPane().add(jLabelPrice);
+        jLabelPrice.setBounds(37, 102, 31, 16);
 
         jLabelDescription.setText("Endereço");
+        getContentPane().add(jLabelDescription);
+        jLabelDescription.setBounds(37, 144, 54, 16);
 
         jTextAreaAdress.setColumns(20);
         jTextAreaAdress.setRows(5);
         jScrollPane1.setViewportView(jTextAreaAdress);
+
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(37, 166, 514, 83);
+        getContentPane().add(jTextFieldCnpj);
+        jTextFieldCnpj.setBounds(94, 98, 209, 24);
+        getContentPane().add(jTextFieldName);
+        jTextFieldName.setBounds(94, 60, 431, 24);
 
         jButtonSave.setText("Salvar");
         jButtonSave.addActionListener(new java.awt.event.ActionListener() {
@@ -99,6 +113,8 @@ public class InsertProviderUI extends javax.swing.JFrame implements Operations {
                 jButtonSaveActionPerformed(evt);
             }
         });
+        getContentPane().add(jButtonSave);
+        jButtonSave.setBounds(485, 332, 66, 32);
 
         jButtonClear.setText("Limpar");
         jButtonClear.addActionListener(new java.awt.event.ActionListener() {
@@ -106,6 +122,8 @@ public class InsertProviderUI extends javax.swing.JFrame implements Operations {
                 jButtonClearActionPerformed(evt);
             }
         });
+        getContentPane().add(jButtonClear);
+        jButtonClear.setBounds(37, 332, 70, 32);
 
         jButtonDelete.setText("Deletar");
         jButtonDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -113,54 +131,8 @@ public class InsertProviderUI extends javax.swing.JFrame implements Operations {
                 jButtonDeleteActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabelDescription)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButtonClear)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonDelete)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonSave))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelName)
-                            .addComponent(jLabelPrice))
-                        .addGap(24, 24, 24)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(39, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelName)
-                    .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(14, 14, 14)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelPrice)
-                    .addComponent(jTextFieldCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
-                .addComponent(jLabelDescription)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(83, 83, 83)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonSave)
-                    .addComponent(jButtonClear)
-                    .addComponent(jButtonDelete))
-                .addContainerGap(19, Short.MAX_VALUE))
-        );
+        getContentPane().add(jButtonDelete);
+        jButtonDelete.setBounds(113, 332, 71, 32);
 
         getAccessibleContext().setAccessibleParent(this);
 

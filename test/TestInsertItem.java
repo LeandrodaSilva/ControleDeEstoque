@@ -1,5 +1,5 @@
 
-import control.ControllerInsert;
+import control.ControllerInsertItem;
 import view.InsertItem;
 
 /*
@@ -16,6 +16,6 @@ public class TestInsertItem {
     public static void main(String[] args) {
         InsertItem insert = new InsertItem();
         insert.setVisible(true);
-        new ControllerInsert(insert, null);
+        new ControllerInsertItem(insert, null);
     }
 }

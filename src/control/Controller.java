@@ -6,10 +6,7 @@
 package control;
 
 import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import view.basic.Button;
 import view.basic.ComboBox;
 import view.basic.PasswordField;
@@ -19,31 +16,85 @@ import view.basic.TextField;
  *
  * @author ld_si
  */
-public class ControllerEfect implements FocusListener, MouseListener {
+public class Controller extends ControllerBasic{
 
     private Button button;
     private TextField tf;
     private PasswordField pf;
     private ComboBox comboBox;
-
-    public ControllerEfect(TextField textField) {
+    
+    /**
+     * 
+     */
+    public Controller() {
+    }
+    
+    /**
+     * 
+     * @param textField 
+     */
+    public Controller(TextField textField) {
         this.tf = textField;
         this.tf.addFocusListener(this);
     }
-
-    public ControllerEfect(PasswordField pf) {
+    
+    /**
+     * 
+     * @param pf 
+     */
+    public Controller(PasswordField pf) {
         this.pf = pf;
         this.pf.addFocusListener(this);
     }
-
-    public ControllerEfect(Button button) {
+    
+    /**
+     * 
+     * @param button 
+     */
+    public Controller(Button button) {
         this.button = button;
         this.button.addMouseListener(this); 
     }
-
-    public ControllerEfect(ComboBox comboBox) {
+    
+    /**
+     * 
+     * @param comboBox 
+     */
+    public Controller(ComboBox comboBox) {
         this.comboBox = comboBox;
         this.comboBox.addFocusListener(this);
+    }
+    
+    /**
+     * 
+     * @param button 
+     */
+    protected void add(Button button){
+        new Controller(button);
+    }
+    
+    /**
+     * 
+     * @param pf 
+     */
+    protected void add(PasswordField pf){
+        new Controller(pf);
+    }
+    
+    /**
+     * 
+     * @param tf 
+     */
+    protected void add(TextField tf){
+        new Controller(tf);
+    }
+    
+    /**
+     * 
+     * @param comboBox 
+     */
+    protected void add(ComboBox comboBox){
+        new Controller(comboBox);
     }
 
     @Override
@@ -70,21 +121,6 @@ public class ControllerEfect implements FocusListener, MouseListener {
         if (e.getSource() == this.comboBox) {
             this.comboBox.setBorder(this.comboBox.border.black);
         }
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
     }
 
     @Override

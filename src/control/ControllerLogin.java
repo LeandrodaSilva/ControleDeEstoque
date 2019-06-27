@@ -6,17 +6,14 @@
 package control;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import model.businessObject.Security;
 import model.dataAcessObject.SettingsDAO;
 import model.dataAcessObject.UserDAO;
-import model.interfaces.Controller;
 import model.interfaces.LoginOperation;
-import view.InsertUserUI;
+import view.InsertUser;
 import view.Login;
 import view.Main;
 import view.SettingsUI;
@@ -33,19 +30,19 @@ public class ControllerLogin extends Controller implements LoginOperation
     public ControllerLogin(Login login) {
         this.login = login;
 
-        this.login.getbEnter().addActionListener(this);
-        this.login.getbRegister().addActionListener(this);
-        this.login.getTfUser().addActionListener(this);
-        this.login.getbConfig().addActionListener(this);
-        this.login.getbConfig().addMouseListener(this);
+        login.getbEnter().addActionListener(this);
+        login.getbRegister().addActionListener(this);
+        login.getTfUser().addActionListener(this);
+        login.getbConfig().addActionListener(this);
+        login.getbConfig().addMouseListener(this);
 
-        new ControllerHead(this.login.getTbHead(), this.login);
-        new ControllerEfect(this.login.getbEnter());
-        new ControllerEfect(this.login.getbRegister());
-        new ControllerEfect(this.login.getTfUser());
-        new ControllerEfect(this.login.getPfPasswd());
+        ControllerHead.add(login.getTbHead(), login);
+        add(login.getbEnter());
+        add(login.getbRegister());
+        add(login.getTfUser());
+        add(login.getPfPasswd());
 
-        this.login.setVisible(true);
+        login.setVisible(true);
     }
 
     @Override
@@ -56,9 +53,9 @@ public class ControllerLogin extends Controller implements LoginOperation
             }
         }
         if (e.getSource() == this.login.getbRegister()) {
-            InsertUserUI insertUserUI = new InsertUserUI();
-            insertUserUI.setVisible(true);
-            insertUserUI.loginUI = this.login;
+            InsertUser insertUser = new InsertUser();
+            insertUser.setVisible(true);
+            new ControllerInsertUser(insertUser, this.login);
             this.login.setEnabled(false);
         }
         if (e.getSource() == this.login.getbConfig()) {
@@ -119,16 +116,6 @@ public class ControllerLogin extends Controller implements LoginOperation
     }
 
     @Override
-    public void setFrameElements() {
-
-    }
-
-    @Override
-    public void removeFrameElements() {
-
-    }
-
-    @Override
     public void login() {
         getFrameElements();
         try {
@@ -142,9 +129,6 @@ public class ControllerLogin extends Controller implements LoginOperation
                     && this.login.getUserOnStorage() != null) {
                 System.out.println("Login autorizado");
                 this.login.setVisible(false);
-//                MainUI mainUI = new MainUI();
-//                //mainUI.start();
-//                mainUI.setVisible(true);
                   new ControllerMain(new Main());
             } else {
                 this.login.getlErro().setVisible(true);

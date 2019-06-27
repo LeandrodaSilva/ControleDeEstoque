@@ -5,6 +5,7 @@
  */
 package view;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -31,14 +32,19 @@ public class InsertItem extends JFrame{
     private TextField jTextFieldPrice;
     private TextField jTextFieldQuantity;
     private Head head;
+    private JLabel lbackground;
+    
     
     public InsertItem() {
-        setTitle("Adicionar produto");
         setResizable(false);
         setSize(600,400);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setUndecorated(true);
+        
+        lbackground = new JLabel("back");
+        lbackground.setBounds(0, 50, 800, 550);
+        lbackground.setIcon(new ImageIcon(getClass().getResource("/view/images/back.png")));
         
         jButtonClear = new Button("Limpar");
         jButtonDelete = new Button("Deletar");
@@ -65,18 +71,18 @@ public class InsertItem extends JFrame{
         jTextFieldName.setBounds(120, 102, 431, 24);
         jTextFieldPrice.setBounds(342, 60, 209, 24);
         jTextFieldQuantity.setBounds(120, 60, 134, 24);
-//        jScrollPane1.setBounds(37, 186, 514, 148);
-//        jScrollPane1.setLayout(null);
-//        jScrollPane1.setViewportView(jTextAreaDescription);
         jTextAreaDescription.setColumns(20);
-        jTextAreaDescription.setRows(5);
+        jTextAreaDescription.setRows(3);
+        jScrollPane1.setViewportView(jTextAreaDescription);
+        jScrollPane1.setBounds(37, 186, 514, 120);
         jLabelDescription.setBounds(37, 144, 58, 16);
         jLabelPrice.setBounds(272, 64, 52, 16);
         jLabelName.setBounds(37, 106, 33, 16);
         jLabelQuantity.setBounds(37, 60, 80, 16);
         
-        add(head);
-        add(jTextAreaDescription);
+        
+ 
+        
         add(jButtonClear);
         add(jButtonDelete);
         add(jButtonSave);
@@ -87,9 +93,9 @@ public class InsertItem extends JFrame{
         add(jLabelName);
         add(jLabelPrice);
         add(jLabelQuantity);
-        
-        
-        
+        add(jScrollPane1);
+        add(head);
+        add(lbackground);
     }
 
     public Head getHead() {

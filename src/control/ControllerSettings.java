@@ -6,10 +6,8 @@
 package control;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import model.dataAcessObject.SettingsDAO;
 import model.valueObject.Settings;
 import view.SettingsUI;
@@ -18,7 +16,7 @@ import view.SettingsUI;
  *
  * @author ld_si
  */
-public class ControllerSettings implements ActionListener, ChangeListener{
+public class ControllerSettings extends Controller{
     private SettingsUI settingsUI;
     private JFrame mainframe;
 
@@ -31,8 +29,9 @@ public class ControllerSettings implements ActionListener, ChangeListener{
         this.settingsUI.getJrBinary().addActionListener(this);
         this.settingsUI.getJrCloud().addActionListener(this);
         
-        new ControllerEfect(this.settingsUI.getJbSave());
-        new ControllerHead(this.settingsUI.getHead(), settingsUI,1);
+        add(settingsUI.getJbSave());
+        
+        ControllerHead.add(this.settingsUI.getHead(), settingsUI,1);
         
         this.settingsUI.getJrText().addChangeListener(this);
         this.settingsUI.getJrBinary().addChangeListener(this);
@@ -49,9 +48,9 @@ public class ControllerSettings implements ActionListener, ChangeListener{
         this.settingsUI.getJrBinary().addActionListener(this);
         this.settingsUI.getJrCloud().addActionListener(this);
         
-        new ControllerEfect(this.settingsUI.getJbSave());
+        add(this.settingsUI.getJbSave());
         
-        new ControllerHead(this.settingsUI.getHead(), this.settingsUI, this.mainframe, 1, false);
+        ControllerHead.add(this.settingsUI.getHead(), this.settingsUI, this.mainframe, 1, false);
         
         this.settingsUI.getJrText().addChangeListener(this);
         this.settingsUI.getJrBinary().addChangeListener(this);

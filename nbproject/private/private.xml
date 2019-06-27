@@ -3,20 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/C:/Users/ld_si/ControledeEstoque/test/TestInsertItem.java</file>
-            <file>file:/C:/Users/ld_si/ControledeEstoque/src/control/ControllerMain.java</file>
             <file>file:/C:/Users/ld_si/ControledeEstoque/src/control/ControllerInsert.java</file>
             <file>file:/C:/Users/ld_si/ControledeEstoque/src/view/InsertItem.java</file>
-            <file>file:/C:/Users/ld_si/ControledeEstoque/src/view/Login.java</file>
-=======
-            <file>file:/C:/Users/Aluno/Desktop/ControledeEstoque/src/control/ControllerEfect.java</file>
-            <file>file:/C:/Users/Aluno/Desktop/ControledeEstoque/src/control/ControllerHead.java</file>
-            <file>file:/C:/Users/Aluno/Desktop/ControledeEstoque/src/control/ControllerLogin.java</file>
-            <file>file:/C:/Users/Aluno/Desktop/ControledeEstoque/src/model/interfaces/BasicOperation.java</file>
-            <file>file:/C:/Users/Aluno/Desktop/ControledeEstoque/src/model/interfaces/Controller.java</file>
-            <file>file:/C:/Users/Aluno/Desktop/ControledeEstoque/src/view/Login.java</file>
->>>>>>> 2a7512a1d3db5002807997e3f38df9c7dbf15851
+            <file>file:/C:/Users/ld_si/ControledeEstoque/src/view/InsertItemUI.java</file>
         </group>
     </open-files>
 </project-private>

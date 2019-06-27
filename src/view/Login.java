@@ -38,7 +38,6 @@ public class Login extends JFrame {
     private JLabel lErro;
 
     public Login() {
-        this.setTitle("Login");
         this.setResizable(false);
         this.setSize(800, 600);
         this.setLayout(null);

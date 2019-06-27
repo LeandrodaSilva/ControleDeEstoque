@@ -7,10 +7,7 @@ package control;
 
 import java.awt.Point;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import javax.swing.JFrame;
 import view.basic.Head;
 
@@ -18,7 +15,7 @@ import view.basic.Head;
  *
  * @author Aluno
  */
-public class ControllerHead implements ActionListener, MouseListener, MouseMotionListener{
+public class ControllerHead extends Controller{
     private Head head;
     private Point point = new Point();
     private JFrame frame;
@@ -38,6 +35,10 @@ public class ControllerHead implements ActionListener, MouseListener, MouseMotio
         this.head.addMouseListener(this);
     }
     
+    public static void add(Head head, JFrame frame){
+        new ControllerHead(head, frame);
+    }
+    
     public ControllerHead(Head head, JFrame frame, JFrame mainFrame, int op, boolean opMove) {
         this.head = head;
         this.frame = frame;
@@ -52,6 +53,10 @@ public class ControllerHead implements ActionListener, MouseListener, MouseMotio
         this.head.addMouseListener(this);
     }
     
+    public static void add(Head head, JFrame frame, JFrame mainFrame, int op, boolean opMove){
+        new ControllerHead(head, frame, mainFrame, op, opMove);
+    }
+    
     public ControllerHead(Head head, JFrame frame, int op) {
         this.head = head;
         this.frame = frame;
@@ -62,6 +67,11 @@ public class ControllerHead implements ActionListener, MouseListener, MouseMotio
         this.head.getbMinimize().addMouseListener(this);
         this.head.addMouseMotionListener(this);
         this.head.addMouseListener(this);
+    }
+    
+    
+    public static void add(Head head, JFrame frame, int op){
+        new ControllerHead(head, frame, op);
     }
 
     @Override
@@ -80,19 +90,9 @@ public class ControllerHead implements ActionListener, MouseListener, MouseMotio
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-        
-    }
-
-    @Override
     public void mousePressed(MouseEvent e) {
         point.x = e.getX();
         point.y = e.getY();
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        
     }
 
     @Override
@@ -121,12 +121,5 @@ public class ControllerHead implements ActionListener, MouseListener, MouseMotio
             Point p = this.frame.getLocation();
             this.frame.setLocation(p.x + e.getX() - point.x, p.y + e.getY() - point.y);
         }
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        
-    }
-
-    
+    } 
 }

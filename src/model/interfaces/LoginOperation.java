@@ -9,6 +9,11 @@ package model.interfaces;
  *
  * @author ld_si
  */
-public interface LoginOperation extends BasicOperation{
+public interface LoginOperation{
     public void login();
+    
+    public boolean verifyFrameElements();
+    
+    public void getFrameElements();
+    
 }

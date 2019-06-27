@@ -8,7 +8,6 @@ package control;
 import java.util.regex.PatternSyntaxException;
 import javax.swing.RowFilter;
 import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import view.basic.Table;
@@ -18,7 +17,7 @@ import view.basic.TextField;
  *
  * @author ld_si
  */
-public class ControllerSearch implements CaretListener{
+public class ControllerSearch extends Controller{
     private TextField tfSearch;
     private Table table;
     

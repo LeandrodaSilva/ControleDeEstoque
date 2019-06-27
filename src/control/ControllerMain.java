@@ -6,12 +6,13 @@
 package control;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import javax.swing.event.CaretEvent;
 import view.InsertItem;
+import view.InsertProvider;
 import view.Main;
 import view.basic.TableModelItem;
 import view.basic.TableModelProvider;
@@ -20,7 +21,7 @@ import view.basic.TableModelProvider;
  *
  * @author ld_si
  */
-public class ControllerMain implements ActionListener {
+public class ControllerMain extends Controller{
 
     private Main main;
     private TableModelItem tmItem;
@@ -49,12 +50,13 @@ public class ControllerMain implements ActionListener {
             }
         });
 
-        new ControllerHead(this.main.getHead(), this.main);
-        new ControllerEfect(this.main.getjButtonInsert());
-        new ControllerEfect(this.main.getjButtonEdit());
-        new ControllerEfect(this.main.getjTextFieldSearch());
-        new ControllerEfect(this.main.getjComboBoxType());
-        new ControllerSearch(this.main.getjTextFieldSearch(),
+        ControllerHead.add(this.main.getHead(), this.main);
+        add(main.getjButtonInsert());
+        add(main.getjButtonEdit());
+        add(main.getjTextFieldSearch());
+        add(main.getjComboBoxType());
+        
+        new ControllerSearch(main.getjTextFieldSearch(),
                 this.main.getjTable());
 
         this.main.getjTable().setModel(tmItem);
@@ -79,11 +81,21 @@ public class ControllerMain implements ActionListener {
 
         if (e.getSource() == this.main.getjButtonInsert()) {
             System.out.println("Insert");
-            InsertItem insert = new InsertItem();
-            insert.getHead().getbMinimize().setEnabled(false);
-            new ControllerInsert(insert, this.main);
-            this.main.setEnabled(false);
-            insert.setVisible(true);
+            switch(this.main.getjComboBoxType().getSelectedItem().toString()){
+                case "Produtos":
+                    InsertItem insert = new InsertItem();
+                    insert.getHead().getbMinimize().setEnabled(false);
+                    new ControllerInsertItem(insert, this.main);
+                    this.main.setEnabled(false);
+                    insert.setVisible(true);
+                    break;
+                case "Fornecedor":
+                    InsertProvider insertProvider = new InsertProvider();
+                    insertProvider.setVisible(true);
+                    new ControllerInsertProvider(insertProvider, this.main);
+                    this.main.setEnabled(false);
+                    break;
+            }
         }
 
         if (e.getSource() == this.main.getjButtonEdit()) {
@@ -109,4 +121,6 @@ public class ControllerMain implements ActionListener {
             this.main.getjComboBoxType().setSelectedIndex(1);
         }
     }
+    
+   
 }
