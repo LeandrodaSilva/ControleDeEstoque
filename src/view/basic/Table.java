@@ -29,5 +29,19 @@ public class Table extends javax.swing.JTable{
                 break;
         }
     }
+   
+    
+    public void refresh(TableModelItem tmItem){
+        tmItem = new TableModelItem();
+        tmItem.loadTableModelRowsValues();
+        hideColumn("Descrição");
+        setModel(tmItem);       
+    }
+    
+    public void refresh(TableModelProvider tmProvider){
+        tmProvider = new TableModelProvider();
+        tmProvider.loadTableModelRowsValues();
+        setModel(tmProvider);       
+    }
     
 }

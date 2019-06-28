@@ -47,6 +47,11 @@ public class ItemDAO extends DirDAO {
      */
     public static void writeItem(ArrayList<Item> itens) throws IOException {
         switch (SettingsDAO.readSettings().getMode()) {
+            case 0:
+                for (Item item:itens) {
+                    writeItem(item);
+                }
+                break;
             case 1:
                 BinaryDAO.writeBinary(dir.getDir() + dir.getDirItemBinary(), itens, false);
                 break;

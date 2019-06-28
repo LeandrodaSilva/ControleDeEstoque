@@ -22,11 +22,10 @@ public class RoundIcon implements Icon {
         color = c;
     }
 
-    public void paintIcon(Component c, Graphics g,
-            int x, int y) {
+    public void paintIcon(Component c, Graphics g, int x, int y) {
         g.setColor(color);
         g.fillOval(
-                x, y, getIconWidth(), getIconHeight());
+        x, y, getIconWidth(), getIconHeight());
     }
 
     public int getIconWidth() {

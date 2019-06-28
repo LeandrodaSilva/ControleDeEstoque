@@ -24,8 +24,8 @@ import view.basic.TableModelProvider;
 public class ControllerMain extends Controller{
 
     private Main main;
-    private TableModelItem tmItem;
-    private TableModelProvider tmProvider;
+    protected TableModelItem tmItem;
+    protected TableModelProvider tmProvider;
     private int selected;
 
     public ControllerMain(Main main) {
@@ -85,7 +85,7 @@ public class ControllerMain extends Controller{
                 case "Produtos":
                     InsertItem insert = new InsertItem();
                     insert.getHead().getbMinimize().setEnabled(false);
-                    new ControllerInsertItem(insert, this.main);
+                    new ControllerInsertItem(insert, this.main, this);
                     this.main.setEnabled(false);
                     insert.setVisible(true);
                     break;
