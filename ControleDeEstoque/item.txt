@@ -1,6 +1,9 @@
-83327309,0,b,n,0.0;
+83327309,13,Banana,Banana nânica,0.58;
 510248298,23,Pera,pera importada,1.9;
 346730016,55,Melancia,melancia barata,1.5;
-19935686,20,Suco tang,asasas,0.4;
-1550994073,2,Caju,,0.0;
-1511364936,5,Refri,,7.0;
+954044719,500,Barra de chocolate,Nestle,4.99;
+64120513,33,Café,Dom,5.6;
+1999993088,1,Bolacha,a,1.0;
+1200487825,1,a,a,1.0;
+1168938415,1,a,a,1.0;
+1300907288,1,a,aaaa,1.0;

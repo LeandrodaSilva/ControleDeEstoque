@@ -10,7 +10,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import javax.swing.event.CaretEvent;
+import java.io.IOException;
+import java.util.ArrayList;
+import model.dataAcessObject.ItemDAO;
+import model.valueObject.Item;
 import view.InsertItem;
 import view.InsertProvider;
 import view.Main;
@@ -26,30 +29,39 @@ public class ControllerMain extends Controller{
     private Main main;
     protected TableModelItem tmItem;
     protected TableModelProvider tmProvider;
-    private int selected;
+    protected int selected;
+    protected ArrayList<Item> itens;
 
     public ControllerMain(Main main) {
         this.main = main;
 
-        this.tmItem = new TableModelItem();
-        this.tmItem.loadTableModelRowsValues();
-
-        this.tmProvider = new TableModelProvider();
-        this.tmProvider.loadTableModelRowsValues();
-
-        this.main.getjComboBoxType().addActionListener(this);
-        this.main.getjComboBoxType().addMouseWheelListener(new MouseWheelListener() {
+        tmItem = new TableModelItem();
+        tmItem.loadTableModelRowsValues();
+        tmProvider = new TableModelProvider();
+        tmProvider.loadTableModelRowsValues();
+        
+        try {
+            itens = ItemDAO.readItem();
+        } catch (IOException ex) {
+            System.out.println("Erro controllerMain - "+ex.getMessage());
+        }
+        
+        main.getjComboBoxType().addActionListener(this);
+        main.getjComboBoxType().addMouseWheelListener(new MouseWheelListener() {
             public void mouseWheelMoved(MouseWheelEvent evt) {
                 jComboBoxTypeMouseWheelMoved(evt);
             }
         });
-        this.main.getjButtonInsert().addActionListener(this);
+        main.getjButtonInsert().addActionListener(this);
         this.main.getjTable().addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
                 tableMouseClicked(evt);
             }
         });
-
+        
+        main.getjButtonEdit().addActionListener(this);
+        main.getjButtonRelatorio().addActionListener(this);
+        
         ControllerHead.add(this.main.getHead(), this.main);
         add(main.getjButtonInsert());
         add(main.getjButtonEdit());
@@ -60,7 +72,7 @@ public class ControllerMain extends Controller{
                 this.main.getjTable());
 
         this.main.getjTable().setModel(tmItem);
-        this.main.getjTable().hideColumn("Descrição");
+        //this.main.getjTable().hideColumn("Descrição");
 
         this.main.setVisible(true);
     }
@@ -71,7 +83,7 @@ public class ControllerMain extends Controller{
             switch (this.main.getjComboBoxType().getSelectedItem().toString()) {
                 case "Produtos":
                     this.main.getjTable().setModel(tmItem);
-                    this.main.getjTable().hideColumn("Descrição");
+                    //this.main.getjTable().hideColumn("Descrição");
                     break;
                 case "Fornecedor":
                     this.main.getjTable().setModel(tmProvider);
@@ -85,7 +97,9 @@ public class ControllerMain extends Controller{
                 case "Produtos":
                     InsertItem insert = new InsertItem();
                     insert.getHead().getbMinimize().setEnabled(false);
-                    new ControllerInsertItem(insert, this.main, this);
+                    insert.getjButtonDelete().setEnabled(false);
+                    insert.getjButtonDelete().setBorder(insert.getjButtonDelete().border.grey);
+                    new ControllerInsertItem(insert, this.main, this, ControllerInsertItem.NEW);
                     this.main.setEnabled(false);
                     insert.setVisible(true);
                     break;
@@ -100,6 +114,25 @@ public class ControllerMain extends Controller{
 
         if (e.getSource() == this.main.getjButtonEdit()) {
             System.out.println("Edit");
+            switch(this.main.getjComboBoxType().getSelectedItem().toString()){
+                case "Produtos":
+                    InsertItem insert = new InsertItem();
+                    insert.getHead().getbMinimize().setEnabled(false);
+                    new ControllerInsertItem(insert, this.main, this, ControllerInsertItem.EDIT);
+                    this.main.setEnabled(false);
+                    insert.setVisible(true);
+                    break;
+                case "Fornecedor":
+                    InsertProvider insertProvider = new InsertProvider();
+                    insertProvider.setVisible(true);
+                    new ControllerInsertProvider(insertProvider, this.main);
+                    this.main.setEnabled(false);
+                    break;
+            }
+        }
+        
+        if (e.getSource() == this.main.getjButtonRelatorio()) {
+            
         }
     }
 

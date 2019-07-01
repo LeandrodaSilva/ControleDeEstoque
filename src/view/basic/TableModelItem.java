@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import model.dataAcessObject.ItemDAO;
 import model.valueObject.Item;
-import static view.MainUI.dtmItem;
 
 /**
  *
@@ -37,6 +36,9 @@ public class TableModelItem extends DefaultTableModel {
         try {
             String[] lines = new String[5];
             this.itemArray =  ItemDAO.readItem();
+            if (itemArray == null) {
+                return;
+            }
             int size = this.itemArray.size();
 
             Item item;

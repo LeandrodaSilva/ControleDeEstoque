@@ -28,13 +28,16 @@ public class BorderColor{
         this.margin = new EmptyBorder(0, 0, 0, 0);
         this.black = new CompoundBorder(line, margin);
         
-        this.line = new LineBorder(new java.awt.Color(51, 153, 255), 4, true);
+//        this.line = new LineBorder(new java.awt.Color(51, 153, 255), 4, true);
+//        this.blue = new CompoundBorder(line, margin);
+        
+        this.line = new LineBorder(new java.awt.Color(181 , 230, 29), 2, true);
         this.blue = new CompoundBorder(line, margin);
         
-        this.line = new LineBorder(new java.awt.Color(255, 0, 0), 4, true);
+        this.line = new LineBorder(new java.awt.Color(255, 0, 0), 3, true);
         this.red = new CompoundBorder(line, margin);
         
-        this.line = new LineBorder(new java.awt.Color(153, 153, 153), 4, true);
+        this.line = new LineBorder(new java.awt.Color(153, 153, 153), 2, true);
         this.grey = new CompoundBorder(line, margin);
     }
     

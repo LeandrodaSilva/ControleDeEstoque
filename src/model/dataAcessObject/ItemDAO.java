@@ -39,20 +39,25 @@ public class ItemDAO extends DirDAO {
 
     }
 
-    
     /**
-     * 
+     *
      * @param itens
-     * @throws IOException 
+     * @throws IOException
      */
     public static void writeItem(ArrayList<Item> itens) throws IOException {
         switch (SettingsDAO.readSettings().getMode()) {
             case 0:
-                for (Item item:itens) {
-                    writeItem(item);
+                for (Item item : itens) {
+                    TextDAO.writeText(item.getItemCode() + ","
+                            + item.getItemQuantity() + ","
+                            + item.getItemName() + ","
+                            + item.getItemDescription() + ","
+                            + item.getItemPrice() + ";" + System.getProperty("line.separator"),
+                            dir.getDir(), dir.getDirItem(), true);
                 }
                 break;
             case 1:
+                System.out.println("Tentando gravar binario");
                 BinaryDAO.writeBinary(dir.getDir() + dir.getDirItemBinary(), itens, false);
                 break;
             case 2:
@@ -113,7 +118,7 @@ public class ItemDAO extends DirDAO {
                     return (ArrayList) BinaryDAO.readBinary(dir.getDir() + dir.getDirItemBinary());
                 } catch (ClassNotFoundException ex) {
                     System.out.println("Erro: " + ex.getMessage() + " retornado null");
-                    return null;
+                    return new ArrayList<Item>();
                 }
             case 2:
                 CloudDAO cdao = new CloudDAO();
@@ -127,26 +132,72 @@ public class ItemDAO extends DirDAO {
                         + "FROM public.item;");
 
                 if (rs == null) {
-                    return null;
+                    System.out.println("rs nulo retornado array vazio");
+                    return new ArrayList<Item>();
                 }
                 try {
 
                     System.out.println("ResultSet item: " + rs.getObject(1).toString());
-                    while (rs.next()) {
+                    do {
                         itens.add(new Item(Integer.parseInt(rs.getString(1)),
                                 Integer.parseInt(rs.getString(2)),
                                 rs.getString(3),
                                 rs.getString(4),
                                 Double.parseDouble(rs.getString(5))));
-                    }
-                    System.out.println("Cloud - provider recuperado: ");
+                    } while (rs.next());
+                    System.out.println("Cloud - item recuperado: ");
                     return itens;
                 } catch (SQLException ex) {
-                    System.out.println("ResultSet Erro - provider: " + ex.getMessage());
+                    System.out.println("ResultSet Erro - item: " + ex.getMessage());
                 }
 
             default:
                 return null;
+        }
+    }
+
+    /**
+     *
+     * @param item
+     * @param index
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public static void editItem(Item item, int index)
+            throws FileNotFoundException, IOException {
+        ArrayList<Item> itens = ItemDAO.readItem();
+        itens.set(index, item);
+        if (SettingsDAO.readSettings().getMode() != 2) {
+            DirDAO.deleteItemDir();
+            ItemDAO.writeItem(itens);
+        } else {
+            CloudDAO cdao = new CloudDAO();
+            cdao.createConection();
+
+            cdao.writeCloud("UPDATE public.item SET itemquantity= " + item.getItemQuantity() + " , "
+                    + "itemname = '" + item.getItemName() + "', "
+                    + "itemdescription = '" + item.getItemDescription() + "', "
+                    + "itemprice=" + item.getItemPrice() + " "
+                    + "WHERE public.item.itemcode = " + item.getItemCode() + ";");
+
+            cdao.closeConection();
+        }
+    }
+    
+    
+    public static void deleteItem(Item item, int index) throws IOException{
+        ArrayList<Item> itens = ItemDAO.readItem();
+        if (SettingsDAO.readSettings().getMode() != 2) {
+            DirDAO.deleteItemDir();
+            itens.remove(index);
+            ItemDAO.writeItem(itens);
+        } else {
+            CloudDAO cdao = new CloudDAO();
+            cdao.createConection();
+
+            cdao.writeCloud("DELETE FROM public.item WHERE public.item.itemcode = "+item.getItemCode()+";");
+
+            cdao.closeConection();
         }
     }
 }

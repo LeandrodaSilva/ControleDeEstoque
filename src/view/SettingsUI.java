@@ -29,7 +29,7 @@ public class SettingsUI extends JFrame {
     private final JLabel background;
     private Head head;
     
-    public final RoundIcon iconBlue = new RoundIcon(new Color(51, 153, 255));
+    public final RoundIcon iconBlue = new RoundIcon(new Color(181 , 230, 29));
     public final RoundIcon iconBlack = new RoundIcon(Color.BLACK);
     
     public SettingsUI() {

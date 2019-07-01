@@ -16,6 +16,6 @@ public class TestInsertItem {
     public static void main(String[] args) {
         InsertItem insert = new InsertItem();
         insert.setVisible(true);
-        new ControllerInsertItem(insert, null,null);
+        new ControllerInsertItem(insert, null,null,0);
     }
 }

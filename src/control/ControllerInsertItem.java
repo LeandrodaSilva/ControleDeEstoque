@@ -5,14 +5,11 @@
  */
 package control;
 
-
 import java.awt.event.ActionEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import model.businessObject.RandomValue;
 import model.dataAcessObject.DirDAO;
 import model.dataAcessObject.ItemDAO;
@@ -21,46 +18,72 @@ import model.interfaces.Operations;
 import model.valueObject.Item;
 import view.InsertItem;
 import view.Main;
+import view.basic.TableModelItem;
 
 /**
  *
  * @author ld_si
  */
-public class ControllerInsertItem extends Controller implements Operations{
-    
+public class ControllerInsertItem extends Controller implements Operations {
+
     private InsertItem insert;
     private Main root;
     public Item item;
     private static ArrayList<Item> itens;
-    public String option = "new";
+    public static final int NEW = 0;
+    public static final int EDIT = 1;
+    private int option = -1;
     private ControllerMain controllerMain;
-    
-    public ControllerInsertItem(InsertItem insert, Main root, ControllerMain controllerMain) {
+
+    public ControllerInsertItem(InsertItem insert, Main root, ControllerMain controllerMain, int option) {
         this.insert = insert;
         this.root = root;
         this.controllerMain = controllerMain;
-        
+        this.option = option;
+
+        if (option == EDIT) {
+            add(insert.getjButtonDelete());
+            try {
+                this.itens = ItemDAO.readItem();
+                this.item = itens.get(controllerMain.selected);
+                setFrameElements();
+            } catch (IOException ex) {
+                System.out.println("Erro - " + ex.getMessage());
+            }
+        }
+
         insert.getjButtonSave().addActionListener(this);
-        
+        insert.getjButtonDelete().addActionListener(this);
+        insert.getjButtonClear().addActionListener(this);
+
         insert.getHead().getbMinimize().setEnabled(false);
         ControllerHead.add(insert.getHead(), insert, root, 1, true);
         add(insert.getjButtonClear());
-        add(insert.getjButtonDelete());
         add(insert.getjButtonSave());
         add(insert.getjTextFieldName());
         add(insert.getjTextFieldPrice());
         add(insert.getjTextFieldQuantity());
     }
-    
-    
-    
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this.insert.getjButtonSave()) {
-            save();
+            if (!verifyFrameElements()) {
+                System.out.println("Erro - Campos incompletos");
+                return;
+            }
+            if (option == EDIT) {
+                edit();
+            } else {
+                save();
+            }
         }
-        
+        if (e.getSource() == this.insert.getjButtonDelete()) {
+            delete();
+        }
+        if (e.getSource() == this.insert.getjButtonClear()) {
+            removeFrameElements();
+        }
     }
 
     @Override
@@ -73,85 +96,61 @@ public class ControllerInsertItem extends Controller implements Operations{
 
     @Override
     public void delete() {
-//        if (JOptionPane.showConfirmDialog(this.insert,
-//                "Deseja realmente excluir?", "Confirmação",
-//                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.NO_OPTION) {
-//            return;
-//        }
-//        try {
-//            getFrameElements();
-//
-//            int index = 0;
-//            for (int i = 0; i < itens.size(); i++) {
-//                if (itens.get(i).getItemCode() == item.getItemCode()) {
-//                    index = i;
-//                    itens.remove(index);
-//                    break;
-//                }
-//            }
-//
-//            if (itens.isEmpty()) {
-//                switch (SettingsDAO.readSettings().getMode()) {
-//                    case 0:
-//                        DirDAO.delete(DirDAO.dir.getDirItem());
-//                        break;
-//                    case 1:
-//                        DirDAO.delete(DirDAO.dir.getDirItemBinary());
-//                        break;
-//                }
-//
-//                DefaultTableModel dtm = (DefaultTableModel) root.getjTable().getModel();
-//                dtm.removeRow(index);
-//            } else {
-//                switch (SettingsDAO.readSettings().getMode()) {
-//                    case 0:
-//                        DirDAO.delete(DirDAO.dir.getDirItem());
-//                        for (int i = 0; i < itens.size(); i++) {
-//                            ItemDAO.writeItem(itens.get(i));
-//                        }
-//                        break;
-//                    case 1:
-//                        DirDAO.delete(DirDAO.dir.getDirItemBinary());
-//                        ItemDAO.writeItem(itens);
-//                        break;
-//                }
-//
-//                root.reloadTableItem();
-//            }
-//
-//            root.setEnabled(true);
-//            JOptionPane.showMessageDialog(rootPane, "Item deletado com sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
-//            this.dispose();
-//        } catch (IOException ex) {
-//            System.out.println("Erro na remoção");
-//            JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-//        }
+        if (JOptionPane.showConfirmDialog(this.insert,
+                "Deseja realmente excluir?", "Confirmação",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.NO_OPTION) {
+            return;
+        }
+        try {
+
+            itens.remove(controllerMain.selected);
+
+            if (itens.isEmpty()) {
+                if (SettingsDAO.readSettings().getMode() != 2){
+                    DirDAO.deleteItemDir();
+                }else{
+                    ItemDAO.deleteItem(item, controllerMain.selected) ;
+                }
+                
+
+                controllerMain.tmItem.removeRow(controllerMain.selected);
+            } else {
+
+                ItemDAO.deleteItem(item, controllerMain.selected) ;
+
+                controllerMain.tmItem.removeRow(controllerMain.selected);
+            }
+
+            root.setEnabled(true);
+            JOptionPane.showMessageDialog(insert, "Item deletado com sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+            this.insert.dispose();
+        } catch (IOException ex) {
+            System.out.println("Erro na remoção");
+            JOptionPane.showMessageDialog(this.insert, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     @Override
     public void save() {
         this.item = new Item();
-        if (!verifyFrameElements()) {
-            System.out.println("Erro - Campos incompletos");
-            return;
-        }
         try {
             ArrayList<Item> itens = ItemDAO.readItem();
+        
             getFrameElements();
-
-            if (option.equals("edit")) {
-                edit();
-                return;
-            }
-
-            setDataCode();
+ 
+            setDataCode(this.item);
 
             itens.add(item);
-            DirDAO.delete(DirDAO.dir.getDirItem());
-            ItemDAO.writeItem(itens);
 
-            root.getjTable().refresh(controllerMain.tmItem);
-            root.getjTable().repaint();
+            
+            ItemDAO.deleteItem(item, controllerMain.selected);
+            
+            ItemDAO.writeItem(itens);
+            
+            controllerMain.tmItem = new TableModelItem();
+            controllerMain.tmItem.loadTableModelRowsValues();
+            root.jTable.setModel(controllerMain.tmItem);
+
             root.setEnabled(true);
 
             JOptionPane.showMessageDialog(this.insert, "Item cadastrado com sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
@@ -163,7 +162,7 @@ public class ControllerInsertItem extends Controller implements Operations{
         }
     }
 
-    public void setDataCode() {
+    public void setDataCode(Item item) {
         RandomValue rv = new RandomValue();
         item.setItemCode(rv.getRandomCode());
     }
@@ -208,39 +207,27 @@ public class ControllerInsertItem extends Controller implements Operations{
     }
 
     public void edit() {
-//        try {
-//            int index = 0;
-//            for (int i = 0; i < itens.size(); i++) {
-//                if (itens.get(i).getItemCode() == item.getItemCode()) {
-//                    index = i;
-//                    itens.set(index, item);
-//                    break;
-//                }
-//            }
-//            switch (SettingsDAO.readSettings().getMode()) {
-//                case 0:
-//                    DirDAO.delete(DirDAO.dir.getDirItem());
-//                    for (int i = 0; i < itens.size(); i++) {
-//                        ItemDAO.writeItem(itens.get(i));
-//                    }
-//                    break;
-//                default:
-//                    DirDAO.delete(DirDAO.dir.getDirItemBinary());
-//                    ItemDAO.writeItem(itens);
-//            }
-//            root.reloadTableItem();
-//            root.setEnabled(true);
-//
-//            JOptionPane.showMessageDialog(rootPane, "Item cadastrado com sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
-//
-//            this.dispose();
-//
-//        } catch (FileNotFoundException ex) {
-//            System.out.println("edit - Erro: "+ex.getMessage());
-//        } catch (IOException ex) {
-//            System.out.println("edit - Erro: "+ex.getMessage());
-//        }
+        try {
+            getFrameElements();
+            
+            ItemDAO.editItem(item, controllerMain.selected);
+            
+
+            controllerMain.tmItem = new TableModelItem();
+            controllerMain.tmItem.loadTableModelRowsValues();
+            root.jTable.setModel(controllerMain.tmItem);
+            root.setEnabled(true);
+
+            JOptionPane.showMessageDialog(this.insert, "Item editado com sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+
+            this.insert.dispose();
+
+        } catch (FileNotFoundException ex) {
+            System.out.println("edit - Erro: " + ex.getMessage());
+        } catch (IOException ex) {
+            System.out.println("edit - Erro: " + ex.getMessage());
+        }
 
     }
-    
+
 }

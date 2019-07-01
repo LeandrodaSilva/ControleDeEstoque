@@ -25,6 +25,7 @@ public class Main extends JFrame{
     private Head head;
     private Button jButtonEdit;
     private Button jButtonInsert;
+    private Button jButtonRelatorio;
     private ComboBox jComboBoxType;
     private JLabel jLabelBackground;
     private JLabel jLabelSearch;
@@ -48,6 +49,8 @@ public class Main extends JFrame{
         this.head.setBounds(0, 0, 800, 50);
         this.jButtonEdit = new Button("Editar");
         this.jButtonEdit.setBounds(360 , 70, 110, 30);
+        this.jButtonRelatorio = new Button("Relatório");
+        this.jButtonRelatorio.setBounds(480 , 70, 110, 30);
         this.jButtonInsert = new Button("Inserir");
         this.jButtonInsert.setBounds(250, 70, 100, 30);
         this.jLabelBackground = new JLabel();
@@ -84,6 +87,7 @@ public class Main extends JFrame{
         this.add(head);
         this.add(jButtonInsert);
         this.add(jButtonEdit);
+        this.add(jButtonRelatorio);
         this.add(jTextFieldSearch);
         this.add(jLabelShow);
         this.add(jLabelSearch);
@@ -93,6 +97,15 @@ public class Main extends JFrame{
         
     }
 
+    public Button getjButtonRelatorio() {
+        return jButtonRelatorio;
+    }
+
+    public void setjButtonRelatorio(Button jButtonRelatorio) {
+        this.jButtonRelatorio = jButtonRelatorio;
+    }
+    
+    
     public Head getHead() {
         return head;
     }

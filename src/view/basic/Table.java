@@ -32,9 +32,10 @@ public class Table extends javax.swing.JTable{
    
     
     public void refresh(TableModelItem tmItem){
-        tmItem = new TableModelItem();
-        tmItem.loadTableModelRowsValues();
-        hideColumn("Descrição");
+        TableModelItem reload = new TableModelItem();
+        reload.loadTableModelRowsValues();
+        tmItem = reload;
+        //hideColumn("Descrição");
         setModel(tmItem);       
     }
     

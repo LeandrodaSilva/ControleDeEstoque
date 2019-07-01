@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import model.dataAcessObject.ProviderDAO;
 import model.valueObject.Provider;
-import static view.MainUI.dtmProvider;
 
 /**
  *

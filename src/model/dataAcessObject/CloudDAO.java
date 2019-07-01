@@ -17,9 +17,11 @@ import java.sql.Statement;
  * @author ld_si
  */
 public class CloudDAO {
-    private static Connection connection = null;
+    public static Connection connection = null;
     private static Statement stDados = null;
     private static ResultSet rsDados = null;
+    
+    
     
     /**
      * 

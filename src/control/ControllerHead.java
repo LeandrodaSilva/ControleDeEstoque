@@ -48,7 +48,7 @@ public class ControllerHead extends Controller{
         this.head.getbClose().addActionListener(this);
         this.head.getbClose().addMouseListener(this);
         this.head.getbMinimize().addActionListener(this);
-        this.head.getbMinimize().addMouseListener(this);
+        //this.head.getbMinimize().addMouseListener(this);
         this.head.addMouseMotionListener(this);
         this.head.addMouseListener(this);
     }

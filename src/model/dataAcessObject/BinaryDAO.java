@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
 /**
  *
@@ -65,6 +66,9 @@ public class BinaryDAO {
     {
 
         File arq = new File(dir);
+        if (!arq.exists()) {
+            return new ArrayList();
+        }
         FileInputStream fis = new FileInputStream(arq);
         ObjectInputStream ois = new ObjectInputStream(fis);
 
