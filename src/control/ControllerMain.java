@@ -17,6 +17,7 @@ import model.valueObject.Item;
 import view.InsertItem;
 import view.InsertProvider;
 import view.Main;
+import view.basic.Relatorio;
 import view.basic.TableModelItem;
 import view.basic.TableModelProvider;
 
@@ -132,7 +133,9 @@ public class ControllerMain extends Controller{
         }
         
         if (e.getSource() == this.main.getjButtonRelatorio()) {
-            
+            Relatorio frame = new Relatorio();
+            frame.setVisible(true);
+            new ControllerRelatorio(frame, this.main);
         }
     }
 

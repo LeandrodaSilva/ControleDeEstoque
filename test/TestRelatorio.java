@@ -16,6 +16,6 @@ public class TestRelatorio {
     public static void main(String[] args) {
         Relatorio frame = new Relatorio();
         frame.setVisible(true);
-        new ControllerRelatorio(frame);
+        new ControllerRelatorio(frame, null);
     }
 }

@@ -13,6 +13,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
+import view.Main;
 import view.basic.Relatorio;
 
 /**
@@ -26,12 +27,11 @@ public class ControllerRelatorio extends Controller {
     public static final String relatorioProduto = System.getProperty("user.dir") + "/src/view/Produtos.jasper";
     public static final String relatorioFornecedores = System.getProperty("user.dir") + "/src/view/Produtos.jasper";
 
-    public ControllerRelatorio(Relatorio frame) {
+    public ControllerRelatorio(Relatorio frame, Main main) {
         this.frame = frame;
 
         frame.getHead().getbMinimize().setEnabled(false);
-        //ControllerHead.add(frame.getHead(), frame, null, 1, true);
-        ControllerHead.add(frame.getHead(), frame);
+        ControllerHead.add(frame.getHead(), frame, main, 1, true);
         add(frame.getjButtonUsuario());
         add(frame.getjButtonUsuarioPdf());
         add(frame.getjButtonProduto());
