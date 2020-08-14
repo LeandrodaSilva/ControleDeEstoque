@@ -1,0 +1,13 @@
+version: '3.7'
+services:
+  controle-de-estoque-db:
+    image: postgres
+    container_name: controle-de-estoque-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./inicializar:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: utfpr
+      POSTGRES_DB: controle
