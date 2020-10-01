@@ -66,7 +66,7 @@ public class ControllerInsertUser extends Controller implements InsertUserOperat
             JOptionPane.showMessageDialog(this.insertUser, "Usuário criado com sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
             root.setEnabled(true);
             this.insertUser.dispose();
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             System.out.println("Erro na criação do usuário");
             JOptionPane.showMessageDialog(this.insertUser, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
