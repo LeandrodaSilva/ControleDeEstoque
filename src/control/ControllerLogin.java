@@ -8,7 +8,8 @@ package control;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import javax.swing.JOptionPane;
+import javax.swing.*;
+
 import model.businessObject.Security;
 import model.dataAcessObject.SettingsDAO;
 import model.dataAcessObject.UserDAO;
@@ -131,7 +132,9 @@ public class ControllerLogin extends Controller implements LoginOperation
                 this.login.setVisible(false);
                   new ControllerMain(new Main());
             } else {
-                this.login.getlErro().setVisible(true);
+                JLabel lErro = this.login.getlErro();
+                lErro.setText("Usuário não cadastrado ou dados incorretos.");
+                lErro.setVisible(true);
             }
         } catch (IOException ex) {
             this.login.getlErro().setVisible(true);
@@ -140,6 +143,8 @@ public class ControllerLogin extends Controller implements LoginOperation
                     "Cadastre um usuário",
                     "Alerta",
                     JOptionPane.WARNING_MESSAGE);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

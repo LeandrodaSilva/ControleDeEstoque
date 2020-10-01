@@ -58,7 +58,7 @@ public class UserDAO extends DirDAO {
      * @return @throws FileNotFoundException
      * @throws IOException
      */
-    public static User readUser(String username) throws FileNotFoundException, IOException {
+    public static User readUser(String username) throws Exception {
         User userOnStorage;
         switch (SettingsDAO.readSettings().getMode()) {
             case 0:

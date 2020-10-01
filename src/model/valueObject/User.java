@@ -16,8 +16,8 @@ public class User implements Serializable{
     private String salt;
     private String hash;
 
-    public User(String userName, String salt, String hash) {
-        this.userName = userName;
+    public User(String userName, String salt, String hash) throws Exception {
+        this.setUserName(userName);
         this.salt = salt;
         this.hash = hash;
     }
@@ -41,8 +41,10 @@ public class User implements Serializable{
         return userName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserName(String userName) throws Exception {
+        if (!(this.userName = userName.replaceAll("[^a-zA-Z0-9]", "")).equals(userName)) {
+            throw new Exception("caracteres especiais não permitidos no nome de usuário.");
+        }
     }
 
     public String getSalt() {
