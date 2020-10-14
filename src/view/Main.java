@@ -26,6 +26,7 @@ public class Main extends JFrame{
     private Button jButtonEdit;
     private Button jButtonInsert;
     private Button jButtonRelatorio;
+    private Button jButtonSair;
     private ComboBox jComboBoxType;
     private JLabel jLabelBackground;
     private JLabel jLabelSearch;
@@ -47,25 +48,36 @@ public class Main extends JFrame{
         
         this.head = new Head("Controle de Estoque");
         this.head.setBounds(0, 0, 800, 50);
+
         this.jButtonEdit = new Button("Editar");
         this.jButtonEdit.setBounds(360 , 70, 110, 30);
+
         this.jButtonRelatorio = new Button("Relatório");
         this.jButtonRelatorio.setBounds(480 , 70, 110, 30);
+
         this.jButtonInsert = new Button("Inserir");
         this.jButtonInsert.setBounds(250, 70, 100, 30);
+
+        this.jButtonSair = new Button("Sair");
+        this.jButtonSair.setBounds(680, 70, 100, 30);
+
         this.jLabelBackground = new JLabel();
         this.jLabelBackground.setBounds(0, 50, 800, 550);
         this.jLabelBackground.setIcon(new ImageIcon(getClass().getResource("/view/images/back.png")));
+
         this.jLabelShow = new JLabel("Mostrar");
         this.jLabelShow.setBounds(10, 70, 60, 16);
+
         this.jLabelSearch = new JLabel("Pesquisar");
         this.jLabelSearch.setBounds(10, 110, 110, 20);
+
         this.jComboBoxType = new ComboBox(new DefaultComboBoxModel<>(
                 new String[] { "Produtos", "Fornecedor" }));
         this.jComboBoxType.setBounds(120, 70, 110, 30);
         
         
         this.jScrollPane1 = new JScrollPane();
+
         this.jTable = new Table();
         this.jTable.setModel(new DefaultTableModel(
             new Object [][] {
@@ -77,9 +89,11 @@ public class Main extends JFrame{
         ));
         this.jTable.setFocusable(false);
         this.jTable.setShowVerticalLines(false);
+
         this.jScrollPane1.setViewportView(jTable);
         this.getContentPane().add(jScrollPane1);
         this.jScrollPane1.setBounds(6, 146, 788, 520);
+
         this.jTextFieldSearch = new TextField();
         this.jTextFieldSearch.setBounds(120, 110, 670, 30);
        
@@ -88,6 +102,7 @@ public class Main extends JFrame{
         this.add(jButtonInsert);
         this.add(jButtonEdit);
         this.add(jButtonRelatorio);
+        this.add(jButtonSair);
         this.add(jTextFieldSearch);
         this.add(jLabelShow);
         this.add(jLabelSearch);
@@ -185,6 +200,12 @@ public class Main extends JFrame{
     public void setjTextFieldSearch(TextField jTextFieldSearch) {
         this.jTextFieldSearch = jTextFieldSearch;
     }
-    
-    
+
+    public Button getjButtonSair() {
+        return jButtonSair;
+    }
+
+    public void setjButtonSair(Button jButtonSair) {
+        this.jButtonSair = jButtonSair;
+    }
 }
