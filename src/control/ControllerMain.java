@@ -16,10 +16,13 @@ import model.dataAcessObject.ItemDAO;
 import model.valueObject.Item;
 import view.InsertItem;
 import view.InsertProvider;
+import view.Login;
 import view.Main;
 import view.basic.Relatorio;
 import view.basic.TableModelItem;
 import view.basic.TableModelProvider;
+
+import javax.swing.*;
 
 /**
  *
@@ -62,13 +65,16 @@ public class ControllerMain extends Controller{
         
         main.getjButtonEdit().addActionListener(this);
         main.getjButtonRelatorio().addActionListener(this);
+        main.getjButtonSair().addActionListener(this);
         
         ControllerHead.add(this.main.getHead(), this.main);
         add(main.getjButtonInsert());
         add(main.getjButtonEdit());
         add(main.getjTextFieldSearch());
         add(main.getjComboBoxType());
-        
+        add(main.getjButtonRelatorio());
+        add(main.getjButtonSair());
+
         new ControllerSearch(main.getjTextFieldSearch(),
                 this.main.getjTable());
 
@@ -130,6 +136,17 @@ public class ControllerMain extends Controller{
                     this.main.setEnabled(false);
                     break;
             }
+        }
+
+        if (e.getSource() == this.main.getjButtonSair()) {
+            System.out.println("Sair");
+            if (JOptionPane.showConfirmDialog(this.main,
+                    "Deseja realmente sair e ir para a tela de login?", "Confirmação",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.NO_OPTION) {
+                return;
+            }
+            this.main.dispose();
+            new ControllerLogin(new Login());
         }
         
         if (e.getSource() == this.main.getjButtonRelatorio()) {
