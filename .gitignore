@@ -1,0 +1,15 @@
+/out/
+/.idea/.gitignore
+/.idea/compiler.xml
+/.idea/libraries/Controle_de_Estoque.xml
+/ControleDeEstoque.iml
+/.idea/dataSources.xml
+/.idea/libraries/jar.xml
+/.idea/libraries/lib.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/my.db
+/my.db-journal
+/.idea/sqldialects.xml
+/.idea/uiDesigner.xml
+/.idea/vcs.xml
