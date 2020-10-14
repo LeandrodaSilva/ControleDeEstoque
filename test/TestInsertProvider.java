@@ -16,6 +16,6 @@ public class TestInsertProvider {
     public static void main(String[] args) {
         InsertProvider insert = new InsertProvider();
         insert.setVisible(true);
-        new ControllerInsertProvider(insert, null);
+        new ControllerInsertProvider(insert, null, null, 0);
     }
 }

@@ -12,6 +12,8 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import groovy.util.logging.Log;
 import model.dataAcessObject.ItemDAO;
 import model.valueObject.Item;
 import view.InsertItem;
@@ -113,7 +115,7 @@ public class ControllerMain extends Controller{
                 case "Fornecedor":
                     InsertProvider insertProvider = new InsertProvider();
                     insertProvider.setVisible(true);
-                    new ControllerInsertProvider(insertProvider, this.main);
+                    new ControllerInsertProvider(insertProvider, this.main, this, ControllerInsertProvider.NEW);
                     this.main.setEnabled(false);
                     break;
             }
@@ -132,7 +134,7 @@ public class ControllerMain extends Controller{
                 case "Fornecedor":
                     InsertProvider insertProvider = new InsertProvider();
                     insertProvider.setVisible(true);
-                    new ControllerInsertProvider(insertProvider, this.main);
+                    new ControllerInsertProvider(insertProvider, this.main, this, ControllerInsertProvider.EDIT);
                     this.main.setEnabled(false);
                     break;
             }

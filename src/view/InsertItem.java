@@ -75,10 +75,10 @@ public class InsertItem extends JFrame{
         jTextAreaDescription.setRows(3);
         jScrollPane1.setViewportView(jTextAreaDescription);
         jScrollPane1.setBounds(37, 186, 514, 120);
-        jLabelDescription.setBounds(37, 144, 58, 16);
+        jLabelDescription.setBounds(37, 144, 90, 16);
         jLabelPrice.setBounds(272, 64, 52, 16);
-        jLabelName.setBounds(37, 106, 33, 16);
-        jLabelQuantity.setBounds(37, 60, 80, 16);
+        jLabelName.setBounds(37, 106, 60, 16);
+        jLabelQuantity.setBounds(37, 60, 100, 16);
         
         
  

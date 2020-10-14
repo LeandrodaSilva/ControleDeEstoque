@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="9e1c484e-3c4e-4ef6-94c8-2e45b2ae71d3" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ControleDeEstoque/user.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ControleDeEstoque/user.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/control/ControllerInsertProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/control/ControllerInsertProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/control/ControllerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/control/ControllerMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/TestInsertProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/TestInsertProvider.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1it3G3CMmfxTXqpDDyPQYuKZMjR" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+  </component>
+  <component name="RunManager">
+    <configuration name="Run" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Run" />
+      <module name="ControleDeEstoque" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Run" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9e1c484e-3c4e-4ef6-94c8-2e45b2ae71d3" name="Default Changelist" comment="" />
+      <created>1602712962519</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1602712962519</updated>
+      <workItem from="1602712963878" duration="3575000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="166" y="0" width="1024" height="768" key="#Project_Structure" timestamp="1602713051510">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="166" y="0" width="1024" height="768" key="#Project_Structure/0.0.1366.768@0.0.1366.768" timestamp="1602713051510" />
+    <state x="491" y="91" width="374" height="592" key="#com.intellij.ide.util.MemberChooser" timestamp="1602716210288">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="491" y="91" width="374" height="592" key="#com.intellij.ide.util.MemberChooser/0.0.1366.768@0.0.1366.768" timestamp="1602716210288" />
+    <state x="461" y="142" width="424" height="491" key="FileChooserDialogImpl" timestamp="1602713037929">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="461" y="142" width="424" height="491" key="FileChooserDialogImpl/0.0.1366.768@0.0.1366.768" timestamp="1602713037929" />
+    <state width="1320" height="181" key="GridCell.Tab.0.bottom" timestamp="1602716347930">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1320" height="181" key="GridCell.Tab.0.bottom/0.0.1366.768@0.0.1366.768" timestamp="1602716347930" />
+    <state width="1320" height="181" key="GridCell.Tab.0.center" timestamp="1602716347929">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1320" height="181" key="GridCell.Tab.0.center/0.0.1366.768@0.0.1366.768" timestamp="1602716347929" />
+    <state width="1320" height="181" key="GridCell.Tab.0.left" timestamp="1602716347929">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1320" height="181" key="GridCell.Tab.0.left/0.0.1366.768@0.0.1366.768" timestamp="1602716347929" />
+    <state width="1320" height="181" key="GridCell.Tab.0.right" timestamp="1602716347930">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1320" height="181" key="GridCell.Tab.0.right/0.0.1366.768@0.0.1366.768" timestamp="1602716347930" />
+    <state x="0" y="0" width="935" height="768" key="find.popup" timestamp="1602713982130">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="0" y="0" width="935" height="768" key="find.popup/0.0.1366.768@0.0.1366.768" timestamp="1602713982130" />
+  </component>
+</project>
