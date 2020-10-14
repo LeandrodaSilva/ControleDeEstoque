@@ -5,10 +5,7 @@
  */
 package view.basic;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.*;
 
 /**
  *
@@ -49,10 +46,16 @@ public class Relatorio extends JFrame{
         jButtonUsuario.setBounds(173, 127, 170, 32);
         jButtonProduto.setBounds(173, 177, 170, 32);
         jButtonFornecedor.setBounds(173, 227, 170, 32);
+
         jButtonUsuarioPdf.setBounds(371, 177, 52, 32);
+        jButtonUsuarioPdf.setEnabled(false);
+
         jButtonProdutoPdf.setBounds(371, 227, 52, 32);
+        jButtonProdutoPdf.setEnabled(false);
+
         jButtonFornecedorPdf.setBounds(371, 127, 52, 32);
-        
+        jButtonFornecedorPdf.setEnabled(false);
+
         lbackground.setBounds(0, 50, 800, 550);
         
         head.setBounds(0, 0, 600, 50);

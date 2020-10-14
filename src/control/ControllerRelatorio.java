@@ -50,55 +50,38 @@ public class ControllerRelatorio extends Controller {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == this.frame.getjButtonUsuario()) {
-            JasperPrint impressao;
-            try {
-                CloudDAO cdao = new CloudDAO();
-                cdao.createConection();
+        try {
+            JasperPrint impressao = null;
+            CloudDAO cdao = new CloudDAO();
+            cdao.createConection();
 
+            if (e.getSource() == this.frame.getjButtonUsuario()) {
                 impressao = JasperFillManager.fillReport(
                         relatorioUsuario,
                         constroiParametros(),
                         cdao.connection);
 
-                JasperViewer.viewReport(impressao);
-            } catch (JRException ex) {
-                ex.printStackTrace();
             }
-        }
-        if (e.getSource() == this.frame.getjButtonProduto()) {
-            JasperPrint impressao;
-            try {
-                CloudDAO cdao = new CloudDAO();
-                cdao.createConection();
-
+            if (e.getSource() == this.frame.getjButtonProduto()) {
                 impressao = JasperFillManager.fillReport(
                         relatorioProduto,
                         constroiParametros(),
                         cdao.connection);
-
-                JasperViewer.viewReport(impressao);
-            } catch (JRException ex) {
-                ex.printStackTrace();
             }
-        }
-        
-        if (e.getSource() == this.frame.getjButtonFornecedor()) {
-             JasperPrint impressao;
-            try {
-                CloudDAO cdao = new CloudDAO();
-                cdao.createConection();
 
+            if (e.getSource() == this.frame.getjButtonFornecedor()) {
                 impressao = JasperFillManager.fillReport(
                         relatorioFornecedores,
                         constroiParametros(),
                         cdao.connection);
-
-                JasperViewer.viewReport(impressao);
-            } catch (JRException ex) {
-                ex.printStackTrace();
             }
+
+            if (impressao != null) JasperViewer.viewReport(impressao, false);
+
+        } catch (JRException ex) {
+            ex.printStackTrace();
         }
+
     }
 
     private Map constroiParametros() {
