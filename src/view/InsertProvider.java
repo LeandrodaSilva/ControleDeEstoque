@@ -52,11 +52,9 @@ public class InsertProvider extends JFrame{
         head = new Head("Cadastrar Fornecedor");
         lbackground = new JLabel();
 
-       
-        
-        jLabelName.setBounds(37, 64, 33, 16);
-        jLabelPrice.setBounds(37, 102, 31, 16);
-        jLabelEnde.setBounds(37, 144, 54, 16);
+        jLabelName.setBounds(37, 64, 60, 16);
+        jLabelPrice.setBounds(37, 102, 60, 16);
+        jLabelEnde.setBounds(37, 144, 90, 16);
         jTextAreaAdress.setColumns(20);
         jTextAreaAdress.setRows(5);
         jScrollPane1.setViewportView(jTextAreaAdress);
