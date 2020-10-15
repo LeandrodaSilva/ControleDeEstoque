@@ -42,12 +42,12 @@ public class SettingsUI extends JFrame {
         this.setLocationRelativeTo(null);
         this.setUndecorated(true);
 
-        this.jlMode = new JLabel("Selecione o modo");
+        this.jlMode = new JLabel("Selecione o modo de armazenamento");
         
         
-        this.jrText = new JRadioButton("Texto");
-        this.jrBinary = new JRadioButton("Binário");
-        this.jrCloud = new JRadioButton("Banco de Dados");
+        this.jrText = new JRadioButton("Salvar em Texto");
+        this.jrBinary = new JRadioButton("Salvar em Binário");
+        this.jrCloud = new JRadioButton("Salvar em Banco de Dados");
 
         this.jbSave = new Button("Salvar");
 
@@ -55,17 +55,17 @@ public class SettingsUI extends JFrame {
 
         this.head = new Head("Configurações");
 
-        this.jlMode.setBounds(150, 65, 150, 25);
+        this.jlMode.setBounds(50, 65, 300, 25);
 
-        this.jrText.setBounds(150, 100, 200, 25);
+        this.jrText.setBounds(100, 100, 300, 25);
         this.jrText.setIcon(iconBlack);
         this.jrText.setContentAreaFilled(false);
         this.jrText.setFocusable(false);
-        this.jrBinary.setBounds(150, 130, 200, 25);
+        this.jrBinary.setBounds(100, 130, 300, 25);
         this.jrBinary.setIcon(iconBlack);
         this.jrBinary.setContentAreaFilled(false);
         this.jrBinary.setFocusable(false);
-        this.jrCloud.setBounds(150, 160, 200, 25);
+        this.jrCloud.setBounds(100, 160, 300, 25);
         this.jrCloud.setIcon(iconBlack);
         this.jrCloud.setContentAreaFilled(false);
         this.jrCloud.setFocusable(false);
