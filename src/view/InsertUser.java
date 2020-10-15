@@ -45,8 +45,8 @@ public class InsertUser extends JFrame{
         lbackground = new JLabel();
         
         
-        jLabelPasswd.setBounds(120, 170, 69, 16);
-        jLabelName.setBounds(120, 130, 96, 16);
+        jLabelPasswd.setBounds(80, 170, 69, 16);
+        jLabelName.setBounds(80, 130, 120, 16);
         jButtonSave.setBounds(460, 340, 58, 32);
         jButtonClear.setBounds(70, 340, 60, 32);
         jPasswordField.setBounds(230, 170, 200, 22);
