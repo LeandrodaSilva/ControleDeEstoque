@@ -1,6 +1,6 @@
 
-import control.ControllerInsertProvider;
-import view.InsertProvider;
+import controllers.ProviderController;
+import views.ProviderView;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -14,8 +14,8 @@ import view.InsertProvider;
  */
 public class TestInsertProvider {
     public static void main(String[] args) {
-        InsertProvider insert = new InsertProvider();
+        ProviderView insert = new ProviderView();
         insert.setVisible(true);
-        new ControllerInsertProvider(insert, null, null, 0);
+        new ProviderController(insert, null, null, 0);
     }
 }

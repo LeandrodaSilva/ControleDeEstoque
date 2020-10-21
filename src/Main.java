@@ -4,10 +4,10 @@
  * and open the template in the editor.
  */
 
-import control.ControllerLogin;
-import model.dataAcessObject.SettingsDAO;
-import model.valueObject.Dir;
-import view.Login;
+import controllers.LoginController;
+import models.dataAcessObject.SettingsDAO;
+import models.valueObject.DirectoryVO;
+import views.LoginView;
 
 /**
  *
@@ -16,7 +16,7 @@ import view.Login;
 public class Main {
 
     public static void main(String[] args) {
-        new SettingsDAO(new Dir());
-        new ControllerLogin(new Login());
+        new SettingsDAO(new DirectoryVO());
+        new LoginController(new LoginView());
     }
 }

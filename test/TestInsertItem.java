@@ -1,6 +1,6 @@
 
-import control.ControllerInsertItem;
-import view.InsertItem;
+import controllers.ItemController;
+import views.ItemView;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -14,8 +14,8 @@ import view.InsertItem;
  */
 public class TestInsertItem {
     public static void main(String[] args) {
-        InsertItem insert = new InsertItem();
+        ItemView insert = new ItemView();
         insert.setVisible(true);
-        new ControllerInsertItem(insert, null,null,0);
+        new ItemController(insert, null,null,0);
     }
 }

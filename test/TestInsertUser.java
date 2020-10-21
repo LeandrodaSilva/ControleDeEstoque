@@ -1,7 +1,6 @@
 
-import control.ControllerInsertUser;
-import javax.swing.JFrame;
-import view.InsertUser;
+import controllers.UserController;
+import views.UserView;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -15,9 +14,9 @@ import view.InsertUser;
  */
 public class TestInsertUser {
     public static void main(String[] args) {
-        InsertUser insert = new InsertUser();
+        UserView insert = new UserView();
         insert.setVisible(true);
-        new ControllerInsertUser(insert, null);
+        new UserController(insert, null);
         
     }
 }
