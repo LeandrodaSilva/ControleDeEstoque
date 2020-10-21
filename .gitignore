@@ -23,3 +23,5 @@
 /build/
 /dist/
 /data/
+*.tar
+*.tar.gz
