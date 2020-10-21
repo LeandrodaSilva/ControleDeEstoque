@@ -13,3 +13,9 @@
 /.idea/sqldialects.xml
 /.idea/uiDesigner.xml
 /.idea/vcs.xml
+/.idea/
+/dist/ControleDeEstoque/conf.txt
+/dist/ControleDeEstoque/item.obj
+/dist/ControleDeEstoque/provider.txt
+/dist/ControleDeEstoque/user.obj
+/dist/ControleDeEstoque/user.txt
