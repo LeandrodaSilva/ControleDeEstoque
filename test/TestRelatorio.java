@@ -1,6 +1,6 @@
 
-import controllers.ReportController;
-import views.ReportView;
+import control.ControllerRelatorio;
+import view.basic.Relatorio;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -14,8 +14,8 @@ import views.ReportView;
  */
 public class TestRelatorio {
     public static void main(String[] args) {
-        ReportView frame = new ReportView();
+        Relatorio frame = new Relatorio();
         frame.setVisible(true);
-        new ReportController(frame, null);
+        new ControllerRelatorio(frame, null);
     }
 }

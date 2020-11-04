@@ -1,6 +1,6 @@
 
-import controllers.LoginController;
-import views.LoginView;
+import control.ControllerLogin;
+import view.Login;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -14,7 +14,7 @@ import views.LoginView;
  */
 public class TestLogin {
     public static void main(String[] args) {
-        LoginView login = new LoginView();
-        new LoginController(login);
+        Login login = new Login();
+        new ControllerLogin(login);
     }
 }

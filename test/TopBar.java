@@ -37,13 +37,13 @@ public class TopBar extends javax.swing.JPanel {
         lTittle.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         lTittle.setText("Tittle");
 
-        bClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/views/images/closeB.png"))); // NOI18N
+        bClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/closeB.png"))); // NOI18N
         bClose.setBorder(null);
         bClose.setBorderPainted(false);
         bClose.setContentAreaFilled(false);
         bClose.setPreferredSize(new java.awt.Dimension(30, 10));
 
-        bMinimize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/views/images/minimizeB.png"))); // NOI18N
+        bMinimize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/minimizeB.png"))); // NOI18N
         bMinimize.setBorder(null);
         bMinimize.setBorderPainted(false);
         bMinimize.setContentAreaFilled(false);
