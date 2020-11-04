@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import model.valueObject.Dir;
 
 import model.valueObject.Item;
+import model.valueObject.Settings;
 
 /**
  *
@@ -30,13 +31,7 @@ public class ItemDAO extends DirDAO {
      * @throws IOException
      */
     public static void writeItem(Item item) throws IOException {
-        TextDAO.writeText(item.getItemCode() + ","
-                + item.getItemQuantity() + ","
-                + item.getItemName() + ","
-                + item.getItemDescription() + ","
-                + item.getItemPrice() + ";" + System.getProperty("line.separator"),
-                dir.getDir(), dir.getDirItem(), true);
-
+        TextDAO.writeText(item.toString(), dir.getDir(), dir.getDirItem(), true);
     }
 
     /**
@@ -46,22 +41,17 @@ public class ItemDAO extends DirDAO {
      */
     public static void writeItem(ArrayList<Item> itens) throws IOException {
         switch (SettingsDAO.readSettings().getMode()) {
-            case 0:
+            case Settings.TEXT_MODE:
                 for (Item item : itens) {
-                    TextDAO.writeText(item.getItemCode() + ","
-                            + item.getItemQuantity() + ","
-                            + item.getItemName() + ","
-                            + item.getItemDescription() + ","
-                            + item.getItemPrice() + ";" + System.getProperty("line.separator"),
-                            dir.getDir(), dir.getDirItem(), true);
+                    TextDAO.writeText(item.toString(), dir.getDir(), dir.getDirItem(), true);
                 }
                 break;
-            case 1:
+            case Settings.BINARY_MODE:
                 System.out.println("Tentando gravar binario");
                 BinaryDAO.writeBinary(dir.getDir() + dir.getDirItemBinary(), itens, false);
                 break;
-            case 2:
-                CloudDAO cdao = new CloudDAO();
+            case Settings.DATABASE_MODE:
+                ConnectionDAO cdao = new ConnectionDAO();
                 cdao.createConection();
 
                 for (int i = 0; i < itens.size(); i++) {
@@ -85,17 +75,11 @@ public class ItemDAO extends DirDAO {
             throws FileNotFoundException, IOException {
         ArrayList<Item> itens = new ArrayList<Item>();
         switch (SettingsDAO.readSettings().getMode()) {
-            case 0:
+            case Settings.TEXT_MODE:
                 ArrayList<String> lido = TextDAO.readText(dir.getDir() + dir.getDirItem());
 
-                int code = 0,
-                 qtd = 0,
-                 v1,
-                 v2,
-                 v3,
-                 v4;
-                String name = "",
-                 description = "";
+                int code = 0, qtd = 0, v1, v2, v3, v4;
+                String name = "", description = "";
                 double price = 0.0;
 
                 for (String line : lido) {
@@ -113,15 +97,15 @@ public class ItemDAO extends DirDAO {
                 }
 
                 return itens;
-            case 1:
+            case Settings.BINARY_MODE:
                 try {
                     return (ArrayList) BinaryDAO.readBinary(dir.getDir() + dir.getDirItemBinary());
                 } catch (ClassNotFoundException ex) {
                     System.out.println("Erro: " + ex.getMessage() + " retornado null");
                     return new ArrayList<Item>();
                 }
-            case 2:
-                CloudDAO cdao = new CloudDAO();
+            case Settings.DATABASE_MODE:
+                ConnectionDAO cdao = new ConnectionDAO();
                 cdao.createConection();
 
                 ResultSet rs = cdao.readCloud("SELECT itemcode, "
@@ -167,11 +151,11 @@ public class ItemDAO extends DirDAO {
             throws FileNotFoundException, IOException {
         ArrayList<Item> itens = ItemDAO.readItem();
         itens.set(index, item);
-        if (SettingsDAO.readSettings().getMode() != 2) {
+        if (SettingsDAO.readSettings().getMode() != Settings.DATABASE_MODE) {
             DirDAO.deleteItemDir();
             ItemDAO.writeItem(itens);
         } else {
-            CloudDAO cdao = new CloudDAO();
+            ConnectionDAO cdao = new ConnectionDAO();
             cdao.createConection();
 
             cdao.writeCloud("UPDATE public.item SET itemquantity= " + item.getItemQuantity() + " , "
@@ -187,12 +171,12 @@ public class ItemDAO extends DirDAO {
     
     public static void deleteItem(Item item, int index) throws IOException{
         ArrayList<Item> itens = ItemDAO.readItem();
-        if (SettingsDAO.readSettings().getMode() != 2) {
-            DirDAO.deleteItemDir();
+        if (SettingsDAO.readSettings().getMode() != Settings.DATABASE_MODE) {
+//            DirDAO.deleteItemDir();
             itens.remove(index);
             ItemDAO.writeItem(itens);
         } else {
-            CloudDAO cdao = new CloudDAO();
+            ConnectionDAO cdao = new ConnectionDAO();
             cdao.createConection();
 
             cdao.writeCloud("DELETE FROM public.item WHERE public.item.itemcode = "+item.getItemCode()+";");

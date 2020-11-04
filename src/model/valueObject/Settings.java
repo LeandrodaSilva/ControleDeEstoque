@@ -11,6 +11,9 @@ package model.valueObject;
  */
 public class Settings {
     private int mode;
+    public static final int TEXT_MODE = 0;
+    public static final int BINARY_MODE = 1;
+    public static final int DATABASE_MODE = 2;
 
     public Settings(int mode) {
         

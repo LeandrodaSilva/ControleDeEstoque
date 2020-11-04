@@ -148,10 +148,10 @@ public abstract class DirDAO {
      */
     public static void deleteItemDir() throws FileNotFoundException {
         switch (SettingsDAO.readSettings().getMode()) {
-            case 0:
+            case Settings.TEXT_MODE:
                 DirDAO.delete(DirDAO.dir.getDirItem());
                 break;
-            case 1:
+            case Settings.BINARY_MODE:
                 DirDAO.delete(DirDAO.dir.getDirItemBinary());
                 break;
         }
@@ -162,13 +162,18 @@ public abstract class DirDAO {
      * @throws FileNotFoundException 
      */
     public static void deleteProviderDir() throws FileNotFoundException {
-        switch (SettingsDAO.readSettings().getMode()) {
-            case 0:
-                DirDAO.delete(DirDAO.dir.getDirProvider());
-                break;
-            case 1:
-                DirDAO.delete(DirDAO.dir.getDirProviderBinary());
-                break;
+        try {
+            switch (SettingsDAO.readSettings().getMode()) {
+                case Settings.TEXT_MODE:
+                    DirDAO.delete(DirDAO.dir.getDirProvider());
+                    break;
+                case Settings.BINARY_MODE:
+                    DirDAO.delete(DirDAO.dir.getDirProviderBinary());
+                    break;
+            }
+              
+        } catch (Exception err) {
+            System.out.println(err.getMessage());
         }
     }
 

@@ -50,9 +50,6 @@ public class Item implements Serializable{
         this.itemDescription = itemDescription;
     }
 
-    /**
-     *@see Inicializa com 0 ou ""
-     */
     public Item() {
         this.itemName = "";
         this.itemCode = 0;
@@ -138,6 +135,14 @@ public class Item implements Serializable{
      */
     public void setItemDescription(String itemDescription) {
         this.itemDescription = itemDescription;
+    }
+
+    public String toString() {
+        return this.getItemCode() + ","
+                + this.getItemQuantity() + ","
+                + this.getItemName() + ","
+                + this.getItemDescription() + ","
+                + this.getItemPrice() + ";" + System.getProperty("line.separator");
     }
 
 }

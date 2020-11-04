@@ -16,6 +16,7 @@ import model.dataAcessObject.ItemDAO;
 import model.dataAcessObject.SettingsDAO;
 import model.interfaces.Operations;
 import model.valueObject.Item;
+import model.valueObject.Settings;
 import view.InsertItem;
 import view.Main;
 import view.basic.TableModelItem;
@@ -124,7 +125,7 @@ public class ControllerInsertItem extends Controller implements Operations {
             root.setEnabled(true);
             JOptionPane.showMessageDialog(insert, "Item deletado com sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
             this.insert.dispose();
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             System.out.println("Erro na remoção");
             JOptionPane.showMessageDialog(this.insert, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -132,21 +133,30 @@ public class ControllerInsertItem extends Controller implements Operations {
 
     @Override
     public void save() {
-        this.item = new Item();
+
         try {
             ArrayList<Item> itens = ItemDAO.readItem();
-        
-            getFrameElements();
- 
+
+//            getFrameElements();
+            this.item = new Item();
+            this.item.setItemQuantity(Integer.parseInt(this.insert.getjTextFieldQuantity().getText()));
+            this.item.setItemName(this.insert.getjTextFieldName().getText());
+            this.item.setItemDescription(this.insert.getjTextAreaDescription().getText());
+            this.item.setItemPrice(Double.parseDouble(this.insert.getjTextFieldPrice().getText()));
+
             setDataCode(this.item);
 
             itens.add(item);
 
-            
-            ItemDAO.deleteItem(item, controllerMain.selected);
-            
-            ItemDAO.writeItem(itens);
-            
+            if (SettingsDAO.readSettings().getMode() != Settings.DATABASE_MODE) {
+                ItemDAO.deleteItem(item, controllerMain.selected);
+                ItemDAO.writeItem(itens);
+            } else {
+                itens = new ArrayList<Item>();
+                itens.add(item);
+                ItemDAO.writeItem(itens);
+            }
+
             controllerMain.tmItem = new TableModelItem();
             controllerMain.tmItem.loadTableModelRowsValues();
             root.jTable.setModel(controllerMain.tmItem);

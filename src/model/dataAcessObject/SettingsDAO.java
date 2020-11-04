@@ -15,7 +15,6 @@ import model.valueObject.Settings;
  * @author ld_si
  */
 public class SettingsDAO extends DirDAO{
-
     public SettingsDAO(Dir dir) {
         super(dir);
     }

@@ -8,7 +8,7 @@ package control;
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import java.util.Map;
-import model.dataAcessObject.CloudDAO;
+import model.dataAcessObject.ConnectionDAO;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -52,7 +52,7 @@ public class ControllerRelatorio extends Controller {
     public void actionPerformed(ActionEvent e) {
         try {
             JasperPrint impressao = null;
-            CloudDAO cdao = new CloudDAO();
+            ConnectionDAO cdao = new ConnectionDAO();
             cdao.createConection();
 
             if (e.getSource() == this.frame.getjButtonUsuario()) {

@@ -23,16 +23,22 @@ import view.basic.TextField;
  */
 public class Main extends JFrame{
     private Head head;
+
     private Button jButtonEdit;
     private Button jButtonInsert;
     private Button jButtonRelatorio;
     private Button jButtonSair;
+
     private ComboBox jComboBoxType;
+
     private JLabel jLabelBackground;
     private JLabel jLabelSearch;
     private JLabel jLabelShow;
+
     private JScrollPane jScrollPane1;
+
     public Table jTable;
+
     private TextField jTextFieldSearch;
     
 
@@ -71,8 +77,7 @@ public class Main extends JFrame{
         this.jLabelSearch = new JLabel("Pesquisar");
         this.jLabelSearch.setBounds(10, 110, 110, 20);
 
-        this.jComboBoxType = new ComboBox(new DefaultComboBoxModel<>(
-                new String[] { "Produtos", "Fornecedor" }));
+        this.jComboBoxType = new ComboBox(new DefaultComboBoxModel<>(new String[] { "Produtos", "Fornecedor" }));
         this.jComboBoxType.setBounds(120, 70, 110, 30);
         
         

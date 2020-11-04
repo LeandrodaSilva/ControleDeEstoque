@@ -5,7 +5,6 @@
  */
 package model.dataAcessObject;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -42,7 +41,7 @@ public class ProviderDAO extends DirDAO {
                         provider, false);
                 break;
             case 2:
-                CloudDAO cdao = new CloudDAO();
+                ConnectionDAO cdao = new ConnectionDAO();
                 cdao.createConection();
                 cdao.writeCloud("INSERT INTO public.\"provider\"(\n"
                         + " name, cnpj, adress)\n"
@@ -88,7 +87,7 @@ public class ProviderDAO extends DirDAO {
                         System.out.println("Erro: " + ex.getMessage());
                     }
                 case 2:
-                    CloudDAO cdao = new CloudDAO();
+                    ConnectionDAO cdao = new ConnectionDAO();
                     cdao.createConection();
                     
                     ResultSet rs = cdao.readCloud("SELECT name, cnpj, adress FROM public.provider;");

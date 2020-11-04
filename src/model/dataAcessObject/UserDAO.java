@@ -5,7 +5,6 @@
  */
 package model.dataAcessObject;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -40,7 +39,7 @@ public class UserDAO extends DirDAO {
                 BinaryDAO.writeBinary(dir.getDir() + dir.getDirUserBinary(), user, false);
                 break;
             case 2:
-                CloudDAO cdao = new CloudDAO();
+                ConnectionDAO cdao = new ConnectionDAO();
                 cdao.createConection();
                 cdao.writeCloud("INSERT INTO public.\"user\"(\n"
                         + " username, salt, hash)\n"
@@ -85,7 +84,7 @@ public class UserDAO extends DirDAO {
                 }
             }
             case 2:
-                CloudDAO cdao = new CloudDAO();
+                ConnectionDAO cdao = new ConnectionDAO();
                 cdao.createConection();
 
                 ResultSet rs = cdao.readCloud("SELECT * FROM public.\"user\" "
